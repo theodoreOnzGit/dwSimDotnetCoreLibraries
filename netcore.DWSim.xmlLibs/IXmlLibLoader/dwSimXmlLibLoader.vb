@@ -16,6 +16,9 @@ Implements IXmlLibLoader
     Public Sub New()
 
 	    ' the default option is the dwsim library
+	    ' this implementation does NOT work
+	    ' because the binary file will look for the relative
+	    ' filepath compared to the bin folder
 	    Me.filepath = "../DWSIM.Thermodynamics/Assets/Databases/dwsim.xml"
 
     End Sub
@@ -27,7 +30,7 @@ Implements IXmlLibLoader
 
 	    Dim xmlDoc as XmlDocument
 	    xmlDoc = new XmlDocument
-	    xmlDoc.LoadXml(Me.filepath)
+	    xmlDoc.Load(Me.filepath)
 
 	    return xmlDoc
 
