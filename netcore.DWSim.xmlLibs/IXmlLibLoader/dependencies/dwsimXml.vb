@@ -11,13 +11,10 @@ Implements IXmlData
     Public Sub New()
 
 		Me.loadXDoc()
-		'Me.loadXmlDoc()
 
 	End Sub
 
 'properties
-
-    Public Property xmlDoc As XmlDocument Implements IXmlData.xmlDoc
 
 	Public Property xDoc As XDocument Implements IXmlData.xDoc
 
@@ -26,7 +23,6 @@ Implements IXmlData
     Public Sub Dispose() Implements IDisposable.Dispose
 
 		Me.xDoc = Nothing
-		Me.xmlDoc = Nothing
 
 	End Sub
 
@@ -2199,19 +2195,6 @@ Implements IXmlData
 
     End Sub
 
-
-	Public Sub loadXmlDoc() Implements IXmlData.loadXmlDoc
-
-		'' copied from:
-		' https://stackoverflow.com/questions/1508572/converting-xdocument-to-xmldocument-and-vice-versa
-
-		Dim xmlReader as XmlReader
-		xmlReader = Me.xDoc.CreateReader()
-		Me.xmlDoc.Load(xmlReader)
-		xmlReader.Dispose()
-		xmlReader = Nothing
-
-	End Sub
 
 
 End Class

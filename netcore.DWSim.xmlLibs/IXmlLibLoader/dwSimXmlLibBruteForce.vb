@@ -24,7 +24,6 @@ Implements IXmlLibLoader
 
     End Sub
 
-
 	Public Sub New(Byval xmlDataObj As IXmlData)
 
 		'this overloaded constructor allows for dependency
@@ -38,11 +37,24 @@ Implements IXmlLibLoader
 
     Public Function getXmlDoc() As XmlDocument Implements IXmlLibLoader.getXmlDoc
 
-		Dim xmlDoc As XmlDocument
+		'copied from:
+		'https://stackoverflow.com/questions/1508572/converting-xdocument-to-xmldocument-and-vice-versa
+		Dim xDoc As XDocument
+		xDoc = Me.getXDoc()
+	
+		Dim xmlReaderObj As XmlReader
+		xmlReaderObj = xDoc.CreateReader()
 
-		xmlDoc = Me._xmlDataObj.xmlDoc
+		'' now we make the xmldocument
 
-	    return xmlDoc
+		Dim xmlDocument As XmlDocument
+		xmlDocument = new XmlDocument
+		xmlDocument.Load(xmlReaderObj)
+
+		' then some cleanup now, we dispose of reader obj
+		xmlReaderObj.Dispose()
+
+		return xmlDocument
 
 
     End Function

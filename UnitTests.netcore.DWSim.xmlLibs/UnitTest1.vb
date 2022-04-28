@@ -64,14 +64,30 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 			'dwSimComponentXmlData implementation test
 
 			xmlDataObj = new dwSimComponentXmlData
-
-			'xmlDataObj.loadXmlDoc()
 			xmlDataObj.loadXDoc()
-
-			'Console.WriteLine(xmlDataObj.xmlDoc)
 			Console.WriteLine(xmlDataObj.xDoc)
-
 			xmlDataObj.Dispose()
+			
+
+		End Sub
+
+		<Fact>
+		Sub IXmlLibLoaderMethodsTest
+			' just want to check if the methods are working 
+			' properly
+			'
+
+			Dim xmlLibLoaderObj As IXmlLibLoader
+			Dim xDoc As XDocument
+			Dim xmlDoc As xmlDocument
+			
+			xmlLibLoaderObj = new dwSimXmlLibBruteForce
+
+			xDoc = xmlLibLoaderObj.getXDoc()
+			Console.WriteLine(xDoc)
+
+			xmlDoc = xmlLibLoaderObj.getXmlDoc()
+			Console.WriteLine(xmlDoc)
 
 		End Sub
 
