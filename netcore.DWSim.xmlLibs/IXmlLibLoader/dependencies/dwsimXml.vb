@@ -12,6 +12,8 @@ Implements IDisposable
 
 	Private Property xmlString As String
 
+	Private Property xDoc As XDocument
+
 'Methods
 
     'Public Sub getXmlDoc() As XmlDocument
@@ -26,8 +28,8 @@ Implements IDisposable
 
     Public Sub Dispose() Implements IDisposable.Dispose
 
-		My.xmlString = Nothing
-		My.xmlDoc = Nothing
+		Me.xmlString = Nothing
+		Me.xmlDoc = Nothing
 
 	End Sub
 
@@ -35,7 +37,7 @@ Implements IDisposable
 
     Public Sub loadXmlString()
 
-		My.xmlString='
+		Me.xDoc='
 <?xml version="1.0" encoding="utf-8"?>
 <components>
   <component>
