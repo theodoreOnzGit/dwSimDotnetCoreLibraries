@@ -31,5 +31,16 @@ Implements IXmlFilePathString
 
 	End Function
 
+	Public Sub Dispose() Implements IDisposable.Dispose
+
+		' this first part disposes the object
+		' if there are any objects called in this class that need disposing
+		' this second part tells the garbage collector (GC) that the object
+		' is disposed
+
+		' this is optional:
+		' GC.Collect
+
+	End Sub
 
 End Class
