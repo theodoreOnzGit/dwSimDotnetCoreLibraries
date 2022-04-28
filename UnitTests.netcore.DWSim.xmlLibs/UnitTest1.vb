@@ -56,6 +56,25 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 
 		End Sub
 
+		<Fact>
+		Sub IXmlDataMethodsTest
+
+			Dim xmlDataObj As IXmlData
+
+			'dwSimComponentXmlData implementation test
+
+			xmlDataObj = new dwSimComponentXmlData
+
+			'xmlDataObj.loadXmlDoc()
+			xmlDataObj.loadXDoc()
+
+			'Console.WriteLine(xmlDataObj.xmlDoc)
+			Console.WriteLine(xmlDataObj.xDoc)
+
+			xmlDataObj.Dispose()
+
+		End Sub
+
     End Class
 
 End Namespace

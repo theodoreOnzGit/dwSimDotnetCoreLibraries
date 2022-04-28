@@ -11,7 +11,7 @@ Implements IXmlData
     Public Sub New()
 
 		Me.loadXDoc()
-		Me.loadXmlDoc()
+		'Me.loadXmlDoc()
 
 	End Sub
 
@@ -36,7 +36,7 @@ Implements IXmlData
 
     Public Sub loadXDoc() Implements IXmlData.loadXDoc
 
-		Me.xDoc='
+		Me.xDoc= new XDocument('
 <?xml version="1.0" encoding="utf-8"?>
 <components>
   <component>
@@ -2194,6 +2194,7 @@ Implements IXmlData
     <COSMODBName>METHYL-ETHYL-KETONE</COSMODBName>
   </component>
 </components>'
+    )
 
 
     End Sub
