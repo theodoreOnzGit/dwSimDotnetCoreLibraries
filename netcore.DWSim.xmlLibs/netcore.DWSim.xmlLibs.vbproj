@@ -3,10 +3,10 @@
   <PropertyGroup>
     <RootNamespace>netcore.DWSim.xmlLibs</RootNamespace>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageId>theoOng.netcore.DWSim.xmlLibs</PackageId>
+    <Version>0.0.1</Version>
+    <Authors>theoOng</Authors>
+    <Company>NA</Company>
   </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="xunit" Version="2.4.1" />
-  </ItemGroup>
 
 </Project>
