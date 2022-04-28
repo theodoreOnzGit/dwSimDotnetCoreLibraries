@@ -89,6 +89,8 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 			xmlDoc = xmlLibLoaderObj.getXmlDoc()
 			Console.WriteLine(xmlDoc)
 
+			xmlLibLoaderObj.Dispose()
+
 		End Sub
 
     End Class
