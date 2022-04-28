@@ -9,7 +9,7 @@ Implements IXmlLibLoader
 
 ' properties
 
-    Private Property filepath as String Implements IXmlLibLoader.filepath
+    Private Property filepath as String 
 
 ' constructors
 
