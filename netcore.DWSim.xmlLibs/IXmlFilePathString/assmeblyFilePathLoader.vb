@@ -1,5 +1,5 @@
 Imports System
-Imports System.Reflections
+Imports System.Reflection
 
 Public Class assemblyFilePathLoader
 
@@ -24,13 +24,9 @@ Implements IXmlFilePathString
 		typeMe = Me.GetType
 
 		Dim assem As System.Reflection.Assembly
+		assem = Assembly.GetAssembly(typeMe)
 
-
-		assem = System.Reflection.Assembly.GetAssembly(typeMe)
-
-		return assem.GetExecutingAssembly().Location
-
-		
+		return assem.Location
 
 
 	End Function
