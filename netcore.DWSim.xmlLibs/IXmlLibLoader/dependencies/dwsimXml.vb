@@ -4,38 +4,37 @@ Imports System.Xml.Linq
 Public Class dwSimComponentXmlData
 
 'Implementations
-Implements IDisposable
+Implements IXmlData
+
+'Constructor
+
+    Public Sub New()
+
+		Me.loadXDoc()
+		Me.loadXmlDoc()
+
+	End Sub
 
 'properties
 
-    Private Property xmlDoc As XmlDocument
+    Public Property xmlDoc As XmlDocument Implements IXmlData.xmlDoc
 
-	Private Property xmlString As String
-
-	Private Property xDoc As XDocument
-
-'Methods
-
-    'Public Sub getXmlDoc() As XmlDocument
-
-		'My.loadXmlString()
-		'My.xmlDoc.LoadXml(My.xmlString)
-		'return My.xmlDoc
-	
-	'End Sub
+	Public Property xDoc As XDocument Implements IXmlData.xDoc
 
 'Disposal methods
 
     Public Sub Dispose() Implements IDisposable.Dispose
 
-		Me.xmlString = Nothing
+		Me.xDoc = Nothing
 		Me.xmlDoc = Nothing
 
 	End Sub
 
+
+
 'String data encapsulated in a method
 
-    Public Sub loadXmlString()
+    Public Sub loadXDoc() Implements IXmlData.loadXDoc
 
 		Me.xDoc='
 <?xml version="1.0" encoding="utf-8"?>
@@ -2195,7 +2194,23 @@ Implements IDisposable
     <COSMODBName>METHYL-ETHYL-KETONE</COSMODBName>
   </component>
 </components>'
+
+
     End Sub
+
+
+	Public Sub loadXmlDoc() Implements IXmlData.loadXmlDoc
+
+		'' copied from:
+		' https://stackoverflow.com/questions/1508572/converting-xdocument-to-xmldocument-and-vice-versa
+
+		Dim xmlReader as XmlReader
+		xmlReader = Me.xDoc.CreateReader()
+		Me.xmlDoc.Load(xmlReader)
+		xmlReader.Dispose()
+		xmlReader = Nothing
+
+	End Sub
 
 
 End Class
