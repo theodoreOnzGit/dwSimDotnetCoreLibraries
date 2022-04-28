@@ -44,4 +44,12 @@ Implements IXmlLibLoader
 
     End Function
 
+    'disposable (not implemented)
+    
+    Public Sub Dispose() Implements IDisposable.Dispose
+
+	    throw new NotImplementedException()
+
+    End Sub
+
 End Class
