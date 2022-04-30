@@ -13,11 +13,58 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
         <Fact>
         Sub TestSub()
 
+		End Sub
+
+        <Fact>
+        Sub TestXElementMethods()
+
+			' first we setup the reference
+			Dim refString As String
+			Dim resultString As String
+
+			refString = "Water"
+
+			' second we setup the interfaces for IXmlLibLoader
+			Dim xmlLibLoaderObj As IXmlLibLoader
+			Dim xDoc As XDocument
+			Dim xmlDoc As xmlDocument
+			
+			xmlLibLoaderObj = new dwSimXmlLibBruteForce
+
+			xDoc = xmlLibLoaderObj.getXDoc()
+			'Console.WriteLine(xDoc)
+
+
+
+			For Each element As XElement in xDoc.Elements()
+				Console.WriteLine(element)
+			Next
+
+			For Each element As XElement in xDoc.Elements().Elements().Elements("Name")
+				Console.WriteLine(element.Name)
+				Console.WriteLine(element.Value)
+			Next
+
+			' lastly we assert equal to test
+
+			For Each element As XElement in xDoc.Elements().Elements().Elements("Name")
+				If element.Value="Water"
+
+					resultString = element.Value
+				ElseIf element.Value="water"
+					
+					resultString = element.Value
+
+				End If
+			Next
+
+
+			Assert.Equal(refString,resultString)
 
         End Sub
 
 
-		<Fact>
+		'<Fact>
 		Sub TestXmlFileString()
 
 			'' the first part tries the fileSystemFilePath Implementation
@@ -56,7 +103,7 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 
 		End Sub
 
-		<Fact>
+		'<Fact>
 		Sub IXmlDataMethodsTest
 
 			Dim xmlDataObj As IXmlData
@@ -71,7 +118,7 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 
 		End Sub
 
-		<Fact>
+		'<Fact>
 		Sub IXmlLibLoaderMethodsTest
 			' just want to check if the methods are working 
 			' properly
