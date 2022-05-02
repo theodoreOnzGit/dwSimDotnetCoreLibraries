@@ -15,6 +15,45 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 
 		End Sub
 
+
+
+        <Fact>
+        Sub TestIXmlLibLoader_loadWaterString()
+
+			Dim refString As String
+			refString = "water"
+
+			'' then we do our code here
+			Dim resultString As String
+
+			' first we get our XDocument
+
+			Dim xmlData as XDocument
+
+			Dim xmlLibLoader as IXmlLibLoader
+			'' please declare new object later
+			' xmlLibLoader = new Classname
+
+			xmlData = xmlLibLoader.getXDoc()
+
+			Dim XelementList as IEnumerable
+
+			xElementList = xmlData.Elements()
+
+
+			For Each item As XElement in xElementList
+
+				Console.WriteLine(item)
+
+			Next
+
+
+			'' test if equal
+
+			Assert.Equal(refString,resultString)
+
+		End Sub
+
         <Fact>
         Sub TestXElementMethods()
 
