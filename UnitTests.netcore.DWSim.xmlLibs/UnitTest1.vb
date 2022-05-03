@@ -17,6 +17,25 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 		End Sub
 
 
+        <Fact>
+        Sub TestIXmlLibLoader_loadWaterBoilingPoint()
+
+			'' Arrange Test, ie perform setup, declare objects etc
+			Dim refTemperature As Double
+
+			' boiling point of water is in kelvin
+			' 100C + 273.15K = 373.15K, as we can see from database
+			refTemperature = 373.15
+
+			Dim resultTemperature As Double
+
+			'' Act test
+			' ie use declareed object to return result
+
+
+			Assert.Equal(refTemperature,resultTemperature)
+
+		End Sub
 
         <Fact>
         Sub TestIXmlLibLoader_loadWaterString()
