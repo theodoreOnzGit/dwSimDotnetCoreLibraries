@@ -16,7 +16,6 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 
 		End Sub
 
-
         <Fact>
         Sub TestIXmlLibLoader_loadWaterBoilingPoint()
 
@@ -29,11 +28,80 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 
 			Dim resultTemperature As Double
 
+			Dim xmlLibLoader as IXmlLibLoader
+			'' please declare new object later
+			xmlLibLoader = new dwSimXmlLibBruteForce
+
+			Dim xmlData As XDocument
+			xmlData = xmlLibLoader.getXDoc()
+
+
+			Dim xElementList as IEnumerable(Of XElement)
+
+			xElementList = xmlData.Elements().Elements()
+
+
+			Dim waterComponentXElement As IEnumerable(Of XElement)
+
+			waterComponentXElement = From el In xElementList
+									Where el.Element("Name") = "Water"
+									Select el
+
+
+
+
+
+
+
 			'' Act test
 			' ie use declareed object to return result
 
 
 			Assert.Equal(refTemperature,resultTemperature)
+
+		End Sub
+
+        <Fact>
+        Sub TestIXmlLibLoader_loadWaterXElement()
+
+			'' Arrange Test, ie perform setup, declare objects etc
+			Dim refTemperature As Double
+
+			' boiling point of water is in kelvin
+			' 100C + 273.15K = 373.15K, as we can see from database
+			refTemperature = 373.15
+
+			Dim resultTemperature As Double
+
+			Dim xmlLibLoader as IXmlLibLoader
+			'' please declare new object later
+			xmlLibLoader = new dwSimXmlLibBruteForce
+
+			Dim xmlData As XDocument
+			xmlData = xmlLibLoader.getXDoc()
+
+
+			'https://docs.microsoft.com/en-us/dotnet/standard/linq/find-element-specific-child-element
+			'copied from ms documentation
+
+			Dim xElementList as IEnumerable(Of XElement)
+
+			xElementList = xmlData.Elements().Elements()
+
+
+			Dim waterComponentXElement As IEnumerable(Of XElement)
+
+			waterComponentXElement = From el In xElementList
+									Where el.Element("Name") = "Water"
+									Select el
+
+
+			For Each element As XElement in waterComponentXElement
+
+				Console.WriteLine(element)
+			Next
+
+
 
 		End Sub
 
