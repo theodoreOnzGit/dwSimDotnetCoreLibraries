@@ -16,6 +16,67 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 
 		End Sub
 
+
+		<Theory>
+		<InlineData(373.15,"Water")>
+		<InlineData(77.344,"Nitrogen")>
+		<InlineData(353.3,"Benzene")>
+		Sub TestIXmlLibLoader_loadBoilingPoints(ByVal refTemperature As Double,
+			ByVal componentName As String)
+
+			
+			'This test takes in a reference temperature (boiling Point)
+			'of a said component as a double
+			'and the component name 
+			' And then performs a comparison test (Assert)
+
+			Dim resultTemperature As Double
+
+			Dim xmlLibLoader as IXmlLibLoader
+			'' please declare new object later
+			xmlLibLoader = new dwSimXmlLibBruteForce
+
+			Dim xmlData As XDocument
+			xmlData = xmlLibLoader.getXDoc()
+
+
+			Dim xElementList as IEnumerable(Of XElement)
+
+			xElementList = xmlData.Elements().Elements()
+
+
+			Dim waterComponentXElement As IEnumerable(Of XElement)
+
+			waterComponentXElement = From el In xElementList
+									Where el.Element("Name") = componentName 
+									Select el
+
+
+			Dim boilingPoint As String
+
+			boilingPoint = "0"
+
+
+			'' Act test, use the function to return the value
+			For Each el in waterComponentXElement.Elements()
+				If el.Name = "Normal_Boiling_Point"
+					boilingPoint = el.Value
+				End If
+			Next
+
+
+
+			resultTemperature = Convert.ToDouble(boilingPoint)
+
+
+			'' Assert test
+
+
+			Assert.Equal(refTemperature,resultTemperature)
+
+		End Sub
+
+
         <Fact>
         Sub TestIXmlLibLoader_loadWaterBoilingPoint()
 
@@ -52,6 +113,9 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 
 			boilingPoint = "0"
 
+			' here 
+
+			'' Act test, use the function to return the value
 			For Each el in waterComponentXElement.Elements()
 				'' i used Console Writeline to debug and see
 				' if the code was selecting the right element
@@ -71,8 +135,7 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 
 
 
-			'' Act test
-			' ie use declareed object to return result
+			'' Assert test
 
 
 			Assert.Equal(refTemperature,resultTemperature)
