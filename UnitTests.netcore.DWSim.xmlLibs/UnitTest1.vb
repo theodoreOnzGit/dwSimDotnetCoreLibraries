@@ -49,7 +49,11 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 
 
 
+			boilingPointElement = waterComponentXElement.Element("Normal_Boiling_Point")
 
+
+
+			resultTemeprature = boilingPointElement.Value.ToDouble()
 
 
 
