@@ -10,8 +10,47 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 
     Public Class UnitTestIXmlLibraryList
 
+
         <Fact>
         Sub TestSub()
+
+		End Sub
+
+
+
+        <Fact>
+        Sub TestIXmlLibraryListShouldGenerateCorrectList()
+
+			'' setup
+			Dim tuple As (libraryName As String, xmlLibLoader As IXmlLibLoader)
+
+			Dim refList As List(Of (libraryName As String, xmlLibLoader As IXmlLibLoader))
+			
+			Dim resultList As List(Of (libraryName As String, xmlLibLoader As IXmlLibLoader))
+
+			tuple.libraryName = "dwsim"
+			tuple.xmlLibLoader = new dwSimXmlLibBruteForce
+			refList = new List(Of (libraryName As String, xmlLibLoader As IXmlLibLoader))
+
+			refList.Add(tuple)
+			Console.WriteLine(refList)
+
+
+			Dim xmlLibListObj As IXmlLibraryList
+			
+			' new class declared here
+			xmlLibListObj = new XmlLibraryList_May2022
+
+									
+			
+			'' Act
+
+			resultList = xmlLibListObj.returnXmlLibraryList()
+
+			'' Assert
+
+			Assert.Equal(reflist.GetType,resultList.GetType)
+			
 
 		End Sub
 
