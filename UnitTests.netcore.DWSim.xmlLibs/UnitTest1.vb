@@ -16,13 +16,19 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 
 		End Sub
 
-        '<Fact>
-        Sub youtubeTest()
+        <Theory>
+		<InlineData("Benzene",353.3)>
+		<InlineData("Water",373.15)>
+		<InlineData("Nitrogen",77.344)>
+        Sub youtubeTest(ByVal componentName As String, ByVal refBoilingPoint As Double)
+
+			'' setup
 
 			Dim xmlLibLoader as IXmlLibLoader
 			'' please declare new object later
 			xmlLibLoader = new dwSimXmlLibBruteForce
 
+			'' Act
 			Dim xmlData As XDocument
 			xmlData = xmlLibLoader.getXDoc()
 
@@ -32,29 +38,32 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 			xElementList = xmlData.Elements().Elements()
 
 
-			Dim waterXElementList As IEnumerable (Of XElement)
+			Dim componentXElementList As IEnumerable (Of XElement)
 
-			waterXElementList = From el in xElementList 
-			Where el.Element("Name") = "Water"
+			componentXElementList = From el in xElementList 
+			Where el.Element("Name") = componentName
 			Select el
 
 
-			For Each xElement in waterXElementList
-				Console.WriteLine(xElement.Element("Normal_Boiling_Point"))
+			Dim boilingPointComponent As Double
+			For Each xElement in componentXElementList
+				'Console.WriteLine(xElement.Element("Normal_Boiling_Point"))
 				Dim boilingPointXElement As XElement
 				boilingPointXElement = xElement.Element("Normal_Boiling_Point")
-				Console.WriteLine(boilingPointXElement.Name)
-				Console.WriteLine(boilingPointXElement.Value)
-				Console.WriteLine(boilingPointXElement.Name.GetType)
-				Console.WriteLine(boilingPointXElement.Value.GetType)
+				'Console.WriteLine(boilingPointXElement.Name)
+				'Console.WriteLine(boilingPointXElement.Value)
+				'Console.WriteLine(boilingPointXElement.Name.GetType)
+				'Console.WriteLine(boilingPointXElement.Value.GetType)
 
-				Dim boilingPointWater As Double
-				boilingPointWater = Convert.ToDouble(boilingPointXElement.Value)
-				Console.WriteLine(boilingPointWater)
-				Console.WriteLine(boilingPointWater.GetType)
+				boilingPointComponent = Convert.ToDouble(boilingPointXElement.Value)
+				'Console.WriteLine(boilingPointComponent)
+				'Console.WriteLine(boilingPointComponent.GetType)
 			Next
 
 
+			'' Assert
+
+			Assert.Equal(refBoilingPoint, boilingPointComponent)
 		End Sub
 
 
