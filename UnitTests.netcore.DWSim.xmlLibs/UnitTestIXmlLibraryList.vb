@@ -1,6 +1,6 @@
 Imports System
 Imports Xunit
-Imports netcore.DWSim.xmlLibs
+Imports theoOng.netcore.DWSim.xmlLibs
 
 Imports System.Xml
 Imports System.Xml.Linq
@@ -17,6 +17,26 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 		End Sub
 
 
+		'<Fact>
+		Sub TestIXmlLibraryList_ShouldIterateCorrectly()
+
+			Dim resultList As List(Of (libraryName As String, xmlLibLoader As IXmlLibLoader))
+			Dim xmlLibListObj As IXmlLibraryList
+			
+			' new class declared here
+			xmlLibListObj = new XmlLibraryList_May2022
+			
+			'' Act
+
+			resultList = xmlLibListObj.returnXmlLibraryList()
+
+			For Each tuple in resultList
+				Console.WriteLine(tuple)
+				Console.WriteLine(tuple.libraryName)
+				Console.WriteLine(tuple.xmlLibLoader)
+			Next
+
+		End Sub
 
         <Fact>
         Sub TestIXmlLibraryListShouldGenerateCorrectList()
