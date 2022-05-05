@@ -33,7 +33,7 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 			refList = new List(Of (libraryName As String, xmlLibLoader As IXmlLibLoader))
 
 			refList.Add(tuple)
-			Console.WriteLine(refList)
+			'Console.WriteLine(refList)
 
 
 			Dim xmlLibListObj As IXmlLibraryList
@@ -51,6 +51,7 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 
 			Assert.Equal(reflist.GetType,resultList.GetType)
 			
+			xmlLibListObj.Dispose()
 
 		End Sub
 

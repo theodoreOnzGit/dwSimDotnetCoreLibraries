@@ -22,7 +22,7 @@ Implements IXmlLibraryList
 	Public Sub AddLibrary(ByVal libraryName As String, ByVal xmlLibLoader As IXmlLibLoader)
 
 		Dim tuple As (libraryName As String, xmlLibLoader As IXmlLibLoader)
-		tuple.LibraryName = libraryName
+		tuple.libraryName = libraryName
 		tuple.xmlLibLoader = xmlLibLoader 
 		Me.xmlLibraryList.Add(tuple)
 
