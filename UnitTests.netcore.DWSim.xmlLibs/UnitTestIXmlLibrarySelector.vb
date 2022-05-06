@@ -7,8 +7,42 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
     Public Class UnitTestIXmlLibrarySelector
 
 
+	    <Fact>
+		Sub IXmlLibrarySelector_executeMoreThanOnceTest()
+
+			
+			Dim resultLib As IXmlLibLoader
+
+
+			Dim xmlLibrarySelector As IXmlLibrarySelector
+			xmlLibrarySelector = new XmlLibSelector_may2022
+
+			resultLib = xmlLibrarySelector.getXmlLibLoader("dwsIm")
+			resultLib = xmlLibrarySelector.getXmlLibLoader("dwsIm")
+			resultLib = xmlLibrarySelector.getXmlLibLoader("dwsIm")
+
+			xmlLibrarySelector = Nothing
+
+		End Sub
+
+
+	    <Fact> 
+		Sub IXmlLibrarySelector_ExceptionTest()
+		
+			'' Setup
+
+			Dim xmlLibrarySelector As IXmlLibrarySelector
+			xmlLibrarySelector = new XmlLibSelector_may2022
+
+			'' Act
+			'' Assert
+			' credit to: https://groups.google.com/g/nunit-discuss/c/STiMNTVxoPE
+			Assert.Throws(Of IndexOutOfRangeException)(Sub() xmlLibrarySelector.getXmlLibLoader("gibberish"))
+
+	    End Sub
+
         <Fact>
-        Sub TestSub()
+        Sub IXmlLibrarySelector_ShouldLoadDWSimLibrary()
 
 			'' Setup
 
