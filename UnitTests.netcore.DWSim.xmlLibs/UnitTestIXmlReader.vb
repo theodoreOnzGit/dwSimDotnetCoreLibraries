@@ -78,6 +78,35 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 			Console.WriteLine(quantity.Unit)
 			Console.WriteLine(quantity.ToString())
 
+			' can you do math with unknown units? yes
+			' but you cannot do Console writeline
+			' until you convert it to a double manually
+			Dim quantity2 As UnknownUnit
+			quantity2 = quantity*quantity
+			quantity2 = quantity+quantity
+			Console.WriteLine(" ")
+			Console.WriteLine(quantity2.ToString())
+			Console.WriteLine(quantity2.GetType)
+
+			'' i get exceptions if i print UnknownUnit types directly
+			' that is a norm
+			Try 
+			    Console.WriteLine(quantity2)
+			Catch ex As exception
+				Console.WriteLine("this is that happens if you try to print
+				Unknown Quantities")
+			    Console.WriteLine(ex.Message)
+				Console.WriteLine()
+			End Try
+			
+			'' perhaps the correct way to typecast is this:
+			Dim quantity3 As SpecificEnergy
+			quantity3 = quantity2 + heatValue
+			Console.WriteLine(quantity3)
+			Console.WriteLine(quantity3.GetType)
+
+			'' during the typecast, all the checks will be performed
+
 			' to get the value, use the As command and specify the units
 			' you want to use
 			' you will just get a double
