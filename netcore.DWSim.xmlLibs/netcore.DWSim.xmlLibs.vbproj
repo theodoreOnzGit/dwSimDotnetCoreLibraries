@@ -10,4 +10,8 @@
     <PackageLicenseExpression>GPL-3.0-only</PackageLicenseExpression>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="EngineeringUnits" Version="1.1.550" />
+  </ItemGroup>
+
 </Project>
