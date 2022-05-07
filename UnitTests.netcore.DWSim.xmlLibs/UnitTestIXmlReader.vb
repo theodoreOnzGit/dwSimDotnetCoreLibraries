@@ -29,6 +29,8 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 
 			Console.WriteLine(freezingPointWater)
 			Console.WriteLine(freezingPointWater.ToString())
+			Console.WriteLIne(freezingPointWater.ToUnit(TemperatureUnit.DegreeRankine))
+			Console.WriteLine(freezingPointWater)
 			
 			'' more complicated example, ideal gas heat capacity
 			''Cp = A + B*T + C*T^2 + D*T^3 + E*T^4 where Cp in kJ/kg-mol*K , T in K
@@ -70,8 +72,127 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 			D = new BaseUnit(5,Cp.unit/(TemperatureUnit.SI.pow(3)))
 			Console.WriteLine(D)
 
+			Cp = Nothing
+			Console.WriteLIne(Cp)
+
+			'' now we can start calculating
+			'
+			Dim T1 As Temperature
+			T1 = new Temperature(373, TemperatureUnit.SI)
+			Console.WriteLine(T1)
+
+			Cp = A + B*T1 +C*T1.pow(2) + D*T1.pow(3) + E*T1.pow(4)
+
+			Console.WriteLine(Cp)
+
+
+			'' purposely try wrong units
+
+			Try
+				Cp = A + B*T1 +C*T1.pow(1) + D*T1.pow(3) + E*T1.pow(4)
+			Catch ex As Exception
+			    Console.WriteLine(ex.Message)
+			End Try
+
+			'' trying to work with unknown units
+			Dim Cp2 As Object
+			Cp2 = A+B*T1
+			Console.WriteLine(Cp2.GetType)
+			
+			Dim Cp3 As Object
+			Cp3 = Cp2 + Cp2
+			Cp3 = Cp2*3
+			Console.WriteLine(Cp3)
+			Console.WriteLine(Cp3.GetType)
+
+			'' you can check units with unknown units
+			BaseUnit.UnitCheck(Cp3,Cp)
+
+			Try 
+			    BaseUnit.UnitCheck(Cp3,T1)
+			Catch ex As Exception
+				Console.WriteLine(ex.Message)
+			End Try
+
+
+			'' testing unknown units with combined units
+			Dim heatValue As SpecificEnergy
+			heatValue = new SpecificEnergy(100,SpecificEnergyUnit.SI)
+			Console.WriteLine(heatValue)
+
+			Dim cp4 As Object
+
+			cp4 = heatValue/T1
+			Console.WriteLine(cp4)
+			Console.WriteLine(cp4.GetType)
+			Console.WriteLine(cp4.unit)
+			Console.WriteLine(cp4.unit.GetType)
+			Console.WriteLine(cp4.Value)
+			Console.WriteLine(cp4.Value.GetType)
+
+			Dim cp4Value As Double
+			cp4Value = cp4.Value
+
+			Dim cp4Unit As UnitSystem
+			cp4Unit = cp4.unit
+
+
+			'''''''''''''''''''''''''''''''''''''''''''''''
+			'' this is a code block to help typecast unknown units to
+			' known units
+			'' check units
+			Dim unit4 As SpecificHeat
+			unit4 = new SpecificHeat(0,SpecificEntropyUnit.SI)
+
+			BaseUnit.UnitCheck(cp4,unit4)
+
+
+			'' converting unknown unit types to BaseUnit/CombinedUnit
+
+			'' use existing SpecificEntropyUnit when working with Specific Entropy
+			' using base units here will result in error!
+			Dim unit5 As BaseUnit
+			unit5 = new SpecificHeat(cp4Value,SpecificEntropyUnit.JoulePerKilogramKelvin) 
+			
+			'' use a new UnitSystem when working with BaseUnit
+			' using some combined units here may result in error
+			Dim unit5Unit As UnitSystem
+			unit5Unit = EnergyUnit.SI/MassUnit.SI/TemperatureUnit.SI
+
+			unit5 = new BaseUnit(cp4Value,unit5Unit)
+
+			Console.WriteLine(unit5)
+			Console.WriteLine(unit5.GetType)
+
+			'' we test the function to help us typecast a base unit
+
+			Dim testUnitObj As BaseUnit
+			testUnitObj = Me.typeCastUnknownUnit(cp4,unit5Unit)
+			Console.WriteLine(testUnitObj)
+			Console.WriteLine(testUnitObj)
+
+
+
 
 		End Sub
+
+
+		Public Function typeCastUnknownUnit(x As UnknownUnit,desiredUnits As UnitSystem) As BaseUnit
+
+			'' check whether unknownUnit x has the same units as the desired Units
+			Dim unitCheckObject As BaseUnit
+			unitCheckObject = new BaseUnit(0,desiredUnits)
+			BaseUnit.UnitCheck(unitCheckObject, x)
+
+			' if this checks out, i mean units check out
+			' i will then make a new baseunit object
+			' use UnkownUnit.SI to extract the decimal value
+			dim xValue As Double
+			xValue = x.SI
+
+			return new BaseUnit(xValue,desiredUnits)
+
+		End Function
 
 
 		'<Theory>
