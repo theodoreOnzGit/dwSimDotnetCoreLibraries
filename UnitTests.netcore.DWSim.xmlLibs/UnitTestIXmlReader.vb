@@ -161,6 +161,7 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 
 			unit5 = new BaseUnit(cp4Value,unit5Unit)
 
+
 			Console.WriteLine(unit5)
 			Console.WriteLine(unit5.GetType)
 
@@ -170,6 +171,31 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 			testUnitObj = Me.typeCastUnknownUnit(cp4,unit5Unit)
 			Console.WriteLine(testUnitObj)
 			Console.WriteLine(testUnitObj)
+
+			'' It is better to work with base units
+			' rather than typecast an object as an unknown unit and try
+			' typecasting it to a base unit
+
+
+			Console.WriteLine(cp4.GetType)
+			Console.WriteLine(unit5.GetType)
+
+			' this is okay
+			' meaning assign the calculated value to a base unit straightaway
+			unit5 = heatValue/T1
+			cp4 = heatValue/T1
+
+			'' this is not okay
+			' meaning if a type is already an unknown unit object
+			' casting it to a base unit is problematic
+
+			Try
+			    unit5 =cp4
+
+			Catch ex As Exception
+				Console.WriteLine(ex.Message)
+
+			End Try
 
 
 
