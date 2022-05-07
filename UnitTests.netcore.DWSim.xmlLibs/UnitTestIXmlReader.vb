@@ -198,6 +198,21 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 			End Try
 
 
+			'' i want to check if assigning a known unit as base unit is ok
+			
+			unit5 = T1
+			Console.WriteLine(unit5.GetType)
+			Console.WriteLine(unit5)
+
+			Dim unitbase6 As BaseUnit
+
+			'' this does not even compile right
+			'' 
+			''unitbase6 = new BaseUnit(10, TemperatureUnit.SI)
+			' however, if the base unit is some new quantity, this is OK
+			unitbase6 = new BaseUnit(10, TemperatureUnit.SI.pow(4))
+
+
 
 
 		End Sub
