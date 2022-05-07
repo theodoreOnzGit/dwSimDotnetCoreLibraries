@@ -9,7 +9,72 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 
     Public Class UnitTestIXmlReader
 
-		<Theory>
+
+	    <Theory>
+		<InlineData()>
+		Sub youtubeDemo_engineeringUnits()
+			Dim freezingPointWater As Temperature
+
+			freezingPointWater = new Temperature(0,TemperatureUnit.DegreeCelsius)
+			freezingPointWater = new Temperature(273.15, TemperatureUnit.SI)
+			freezingPointWater = new Temperature(273.15, TemperatureUnit.Kelvin)
+
+			Console.WriteLine(freezingPointWater)
+
+			Dim freezingPointF As Double
+			freezingPointF = freezingPointWater.As(TemperatureUnit.DegreeFahrenheit)
+			Console.WriteLine(freezingPointF)
+
+			freezingPointWater = new Temperature(freezingPointF, TemperatureUnit.DegreeFahrenheit)
+
+			Console.WriteLine(freezingPointWater)
+			Console.WriteLine(freezingPointWater.ToString())
+			
+			'' more complicated example, ideal gas heat capacity
+			''Cp = A + B*T + C*T^2 + D*T^3 + E*T^4 where Cp in kJ/kg-mol*K , T in K
+
+
+			Dim cpUnit As UnitSystem
+			cpUnit = (EnergyUnit.Kilojoule/AmountOfSubstanceUnit.Kilomole/TemperatureUnit.SI)
+			Console.WriteLine(cpUnit)
+			cpUnit = (EnergyUnit.SI/AmountOfSubstanceUnit.SI/TemperatureUnit.SI)
+			Console.WriteLine(cpUnit)
+			Console.WriteLine(EnergyUnit.SI)
+			Console.WriteLine(EnergyUnit.Kilojoule)
+
+			'' molar heat capacity with units
+			' J/mol/K
+			Dim Cp As BaseUnit
+			Cp = new BaseUnit(200,cpUnit)
+			Console.WriteLine(Cp)
+			Console.WriteLine(Cp.unit)
+
+			Dim A As BaseUnit
+			A = new BaseUnit(10,cpUnit)
+			Console.WriteLine(A)
+
+			Dim B As BaseUnit
+			B = new BaseUnit(30,Cp.unit/TemperatureUnit.SI)
+			Console.WriteLine(B)
+
+			Dim E As BaseUnit
+			E = new BaseUnit(50,Cp.unit/(TemperatureUnit.SI.pow(4)))
+			Console.WriteLine(E)
+
+
+			Dim C As BaseUnit
+			C = new BaseUnit(-4,Cp.unit/(TemperatureUnit.SI.pow(2)))
+			Console.WriteLine(C)
+
+			Dim D As BaseUnit
+			D = new BaseUnit(5,Cp.unit/(TemperatureUnit.SI.pow(3)))
+			Console.WriteLine(D)
+
+
+		End Sub
+
+
+		'<Theory>
 		<InlineData()>
 		Sub TestIXmlReader_ManualEngineeringUnitsTest()
 
