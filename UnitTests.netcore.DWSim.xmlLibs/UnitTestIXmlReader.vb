@@ -77,9 +77,26 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 
 			' now we have our refList ready
 			' we can then start working with our interface
+
+			Dim xmlReader As IXmlReader
+			' please declare new object here, and do proper Dependency Injection
+
+			' here are our dependencies
+			Dim xmlLibrarySelector As IXmlLibrarySelector
+			xmlLibrarySelector = new XmlLibSelector_may2022
+
+			' now we instantiate class with proper dependency injection
+			xmlReader = new DWSimXmlReader(xmlLibrarySelector)
+
+			Dim resultEnumerable As IEnumerable (Of BaseUnit)
 			'' Act
-			'
+			resultEnumerable = xmlReader.getQuantityList("nitrogen","heatCapacityConstants")
 			'' Assert
+
+			Dim AreEnumerablesEqual As Boolean
+			AreEnumerablesEqual = Enumerable.SequenceEqual(refEnumerable,resultEnumerable)
+
+			Assert.True(AreEnumerablesEqual)
 		End Sub
 
 
