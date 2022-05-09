@@ -11,7 +11,7 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 
 
 
-	    <Theory>
+	    '<Theory>
 		<InlineData()>
 		Sub IXmlReader_IEnumerableTest()
 
