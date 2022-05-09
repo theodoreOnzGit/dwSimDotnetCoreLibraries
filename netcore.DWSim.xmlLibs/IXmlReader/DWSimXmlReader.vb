@@ -4,7 +4,7 @@ Imports EngineeringUnits.Units
 
 Public Class DWSimXmlReader
 
-Implements IXmlReader
+'Implements IXmlReader
 
 
     Private Property _xmlLibrarySelector As IXmlLibrarySelector
@@ -21,7 +21,7 @@ Implements IXmlReader
 
 
 
-	Public Function getQuantityList(ByVal fluidType As String, desiredQuantityList As String) As IEnumerable (Of UnknownUnit) Implements IXmlReader.getQuantityList
+	Public Function getQuantityList(ByVal fluidType As String, desiredQuantityList As String) As IEnumerable (Of UnknownUnit) 'Implements IXmlReader.getQuantityList
 
 
 	End Function

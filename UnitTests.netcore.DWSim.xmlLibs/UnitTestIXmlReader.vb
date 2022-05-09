@@ -10,7 +10,97 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
     Public Class UnitTestIXmlReader
 
 
+
 	    <Theory>
+		<InlineData()>
+		Sub IXmlReader_IEnumerableTest()
+
+			' Description:
+			' In this test, i will make an IEnumerable Of BaseUnits Manually
+			' First by making a List of Base Units
+			' then manually fitting them into the IEnumerable
+			' First i need to know how to compare two base unit types
+			'
+			' In the BaseUnit_ComparisonTest, i have seen that 
+			' comparing two differently instantiated objects of temperature
+			' using Assert.Equal is ok!
+			'
+			'
+			' So okay, i want to make a comparison of the heat capacity constants
+			' of air and their units
+			'
+			' Well closest thing is nitrogen, 
+			' so let me get nitrogen
+			'
+			'the units are as follows:
+			''Cp = A + B*T + C*T^2 + D*T^3 + E*T^4 where Cp in kJ/kg-mol*K , T in K
+			'
+			
+			'' Setup
+			Dim Ideal_Gas_Heat_Capacity_Const_A As BaseUnit
+			Dim Ideal_Gas_Heat_Capacity_Const_B As BaseUnit
+			Dim Ideal_Gas_Heat_Capacity_Const_C As BaseUnit
+			Dim Ideal_Gas_Heat_Capacity_Const_D As BaseUnit
+			Dim Ideal_Gas_Heat_Capacity_Const_E As BaseUnit
+
+			Dim cpUnit As UnitSystem
+			cpUnit = (EnergyUnit.SI/AmountOfSubstanceUnit.SI/TemperatureUnit.SI)
+
+			Ideal_Gas_Heat_Capacity_Const_A = new BaseUnit(2.98E+01,cpUnit)
+			Ideal_Gas_Heat_Capacity_Const_B = new BaseUnit(-7.01E-03,cpUnit/TemperatureUnit.SI)
+			Ideal_Gas_Heat_Capacity_Const_C = new BaseUnit(1.74E-05,cpUnit/(TemperatureUnit.SI.pow(2)))
+			Ideal_Gas_Heat_Capacity_Const_D = new BaseUnit(-8.48E-09,cpUnit/(TemperatureUnit.SI.pow(3)))
+			Ideal_Gas_Heat_Capacity_Const_E = new BaseUnit(9.34E-13,cpUnit/(TemperatureUnit.SI.pow(4)))
+
+			' here i create a refEnumerable, which is my eventual return type
+			Dim refEnumerable As IEnumerable (Of BaseUnit)
+
+			' however, when creating IEnumerables, it is almost always
+			' easier to have a list
+			' so here is a reference list of BaseUnits,
+			' which i will then pass back to refEnumerable when done
+			' and Console.WriteLine that
+			Dim refList As List (Of BaseUnit)
+			refList = new List (Of BaseUnit)
+
+			refList.Add(Ideal_Gas_Heat_Capacity_Const_A)
+			refList.Add(Ideal_Gas_Heat_Capacity_Const_B)
+			refList.Add(Ideal_Gas_Heat_Capacity_Const_C)
+			refList.Add(Ideal_Gas_Heat_Capacity_Const_D)
+			refList.Add(Ideal_Gas_Heat_Capacity_Const_E)
+
+			refEnumerable = refList
+
+			For Each quantity in refEnumerable
+				Console.WriteLine(quantity)
+			Next
+
+			' now we have our refList ready
+			' we can then start working with our interface
+			'' Act
+			'
+			'' Assert
+		End Sub
+
+
+		<Theory>
+		<InlineData()>
+		Sub BaseUnit_ComparisonTest()
+
+			'' this test checks if two base unit types can be 
+			' compared to each other using Assert.Equal
+			Dim t1 As BaseUnit
+			Dim t2 As BaseUnit
+
+			t1 = new Temperature(0,TemperatureUnit.DegreeCelsius)
+			t2  = new Temperature(0,TemperatureUnit.DegreeCelsius)
+
+			Assert.Equal(t1,t2)
+
+			'' this seems to work well!
+		End Sub
+
+	    '<Theory>
 		<InlineData()>
 		Sub youtubeDemo_engineeringUnits()
 			Dim freezingPointWater As Temperature
@@ -393,39 +483,12 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 
 	    '<Fact> 
 		Sub IXmlLibrarySelector_ExceptionTest()
-		
-			'' Setup
-
-			Dim xmlLibrarySelector As IXmlLibrarySelector
-			xmlLibrarySelector = new XmlLibSelector_may2022
-
-			'' Act
-			'' Assert
-			' credit to: https://groups.google.com/g/nunit-discuss/c/STiMNTVxoPE
-			Assert.Throws(Of IndexOutOfRangeException)(Sub() xmlLibrarySelector.getXmlLibLoader("gibberish"))
 
 	    End Sub
 
         '<Fact>
         Sub IXmlLibrarySelector_ShouldLoadDWSimLibrary()
 
-			'' Setup
-
-			Dim refLib As IXmlLibLoader
-			refLib = new dwSimXmlLibBruteForce
-
-			Dim xmlLibrarySelector As IXmlLibrarySelector
-			xmlLibrarySelector = new XmlLibSelector_may2022
-
-			Dim resultLib As IXmlLibLoader
-			'' Act
-
-			resultLib = xmlLibrarySelector.getXmlLibLoader("dwsIm")
-			'' Assert
-			'
-			'Console.WriteLine(refLib)
-			'Console.WriteLine(resultLib)
-			Assert.Equal(refLib.GetType,resultLib.GetType)
 		End Sub
 
 
