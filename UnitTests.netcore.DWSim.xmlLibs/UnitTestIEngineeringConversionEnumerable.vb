@@ -9,6 +9,42 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 
     Public Class UnitTestIEngineeringConversionEnumerable
 
+
+		<Fact>
+		Function TestIEngineeringConversionEnumerable_ShouldImplementIEnumerable() As IEnumerable (Of Double)
+
+			' this test is here to see if the IEnumerable (Of Double) type can be returned
+
+
+			Dim A As Double
+			Dim B As Double
+			Dim C As Double
+			Dim D As Double
+			Dim E As Double
+
+			A = 2.98E+01
+			B = -7.01E-03
+			C = 1.74E-05
+			D = -8.48E-09
+			E = 9.34E-13
+
+			Dim engineeringConvEnumerable As IEngineeringConversionEnumerable
+			engineeringConvEnumerable = new EngineeringConversionList()
+
+			engineeringConvEnumerable.Add(A)
+			engineeringConvEnumerable.Add(B)
+			engineeringConvEnumerable.Add(C)
+			engineeringConvEnumerable.Add(D)
+			engineeringConvEnumerable.Add(E)
+
+			Dim engineeringEnumerable As IEnumerable
+			engineeringEnumerable = engineeringConvEnumerable
+
+			return engineeringConvEnumerable
+
+		End Function
+
+
 		<Theory>
 		<InlineData()>
 		Sub TestIEngineeringConversionEnumerable_ShouldConvert_setDelegate()
