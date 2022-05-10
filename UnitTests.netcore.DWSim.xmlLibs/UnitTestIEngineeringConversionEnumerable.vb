@@ -9,6 +9,105 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 
     Public Class UnitTestIEngineeringConversionEnumerable
 
+		<Theory>
+		<InlineData()>
+		Sub TestIEngineeringConversionEnumerable_ShouldConvert_setDelegate()
+
+			' Description:
+			' In this test, i will make an IEnumerable Of BaseUnits Manually
+			' First by making a List of Base Units
+			'the units are as follows:
+			''Cp = A + B*T + C*T^2 + D*T^3 + E*T^4 where Cp in kJ/kg-mol*K , T in K
+			'
+			
+			'' Setup
+			Dim Ideal_Gas_Heat_Capacity_Const_A As BaseUnit
+			Dim Ideal_Gas_Heat_Capacity_Const_B As BaseUnit
+			Dim Ideal_Gas_Heat_Capacity_Const_C As BaseUnit
+			Dim Ideal_Gas_Heat_Capacity_Const_D As BaseUnit
+			Dim Ideal_Gas_Heat_Capacity_Const_E As BaseUnit
+
+			Dim cpUnit As UnitSystem
+			cpUnit = (EnergyUnit.SI/AmountOfSubstanceUnit.SI/TemperatureUnit.SI)
+
+			Ideal_Gas_Heat_Capacity_Const_A = new BaseUnit(2.98E+01,cpUnit)
+			Ideal_Gas_Heat_Capacity_Const_B = new BaseUnit(-7.01E-03,cpUnit/TemperatureUnit.SI)
+			Ideal_Gas_Heat_Capacity_Const_C = new BaseUnit(1.74E-05,cpUnit/(TemperatureUnit.SI.pow(2)))
+			Ideal_Gas_Heat_Capacity_Const_D = new BaseUnit(-8.48E-09,cpUnit/(TemperatureUnit.SI.pow(3)))
+			Ideal_Gas_Heat_Capacity_Const_E = new BaseUnit(9.34E-13,cpUnit/(TemperatureUnit.SI.pow(4)))
+
+			' here i create a refEnumerable, which is my eventual return type
+			Dim refEnumerable As IEnumerable (Of BaseUnit)
+
+			' however, when creating IEnumerables, it is almost always
+			' easier to have a list
+			' so here is a reference list of BaseUnits,
+			' which i will then pass back to refEnumerable when done
+			' and Console.WriteLine that
+			Dim refList As List (Of BaseUnit)
+			refList = new List (Of BaseUnit)
+
+			refList.Add(Ideal_Gas_Heat_Capacity_Const_A)
+			refList.Add(Ideal_Gas_Heat_Capacity_Const_B)
+			refList.Add(Ideal_Gas_Heat_Capacity_Const_C)
+			refList.Add(Ideal_Gas_Heat_Capacity_Const_D)
+			refList.Add(Ideal_Gas_Heat_Capacity_Const_E)
+
+			refEnumerable = refList
+
+			Dim A As Double
+			Dim B As Double
+			Dim C As Double
+			Dim D As Double
+			Dim E As Double
+
+			A = 2.98E+01
+			B = -7.01E-03
+			C = 1.74E-05
+			D = -8.48E-09
+			E = 9.34E-13
+			' now we have our refList ready
+			' we can then start working with our interface
+
+			' for this i have constructor injection
+			' i inject the convertCp function inside this class
+			' to set the delegate there
+
+			Dim engConvDelegate As EngineeringConversion
+			engConvDelegate = new EngineeringConversion(AddressOf Me.convertCp)
+
+			Dim engineeringConvEnumerable As IEngineeringConversionEnumerable
+			Dim engineeringConvList As EngineeringConversionList
+			engineeringConvList = new EngineeringConversionList()
+			engineeringConvList.setDelegate(engConvDelegate)
+
+			'' now we have instantiated the list
+
+			engineeringConvList.Add(A)
+			engineeringConvList.Add(B)
+			engineeringConvList.Add(C)
+			engineeringConvList.Add(D)
+			engineeringConvList.Add(E)
+
+			engineeringConvEnumerable = engineeringConvList
+
+			Dim resultEnumerable As IEnumerable (Of BaseUnit)
+			'' Act
+			'
+			resultEnumerable = engineeringConvEnumerable.getEnumerable()
+			'' Assert
+
+			Dim AreEnumerablesEqual As Boolean
+			AreEnumerablesEqual = Enumerable.SequenceEqual(refEnumerable,resultEnumerable)
+
+			Assert.True(AreEnumerablesEqual)
+
+		End Sub
+
+
+		'' this test is to see if the user injects a null value into the
+		'setDelegate method
+		' an  exception will be thrown if this happens
 	    <Theory>
 		<InlineData()>
 		Sub TestIEngineeringConversionEnumerable_exceptionSetDelegate()
@@ -52,6 +151,11 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 
 		End Sub
 
+		' this next test is to check for the exception error message
+		' if the user doesn't set the delegate and tries to convert the enumerable
+		' a default exception is thrown
+		' complaining that the user should use the setDelegate method
+		' to set the conversion delegate before starting the conversion procedure
 	    <Theory>
 		<InlineData()>
 		Sub TestIEngineeringConversionEnumerable_exceptionConstructorTest()
@@ -149,7 +253,7 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 
 		<Theory>
 		<InlineData()>
-		Sub TestIEngineeringConversionEnumerable_ShouldConvert()
+		Sub TestIEngineeringConversionEnumerable_ShouldConvert_constructorInjection()
 
 			' Description:
 			' In this test, i will make an IEnumerable Of BaseUnits Manually
@@ -192,6 +296,52 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 			refList.Add(Ideal_Gas_Heat_Capacity_Const_E)
 
 			refEnumerable = refList
+
+			Dim A As Double
+			Dim B As Double
+			Dim C As Double
+			Dim D As Double
+			Dim E As Double
+
+			A = 2.98E+01
+			B = -7.01E-03
+			C = 1.74E-05
+			D = -8.48E-09
+			E = 9.34E-13
+			' now we have our refList ready
+			' we can then start working with our interface
+
+			' for this i have constructor injection
+			' i inject the convertCp function inside this class
+			' to set the delegate there
+
+			Dim engConvDelegate As EngineeringConversion
+			engConvDelegate = new EngineeringConversion(AddressOf Me.convertCp)
+
+			Dim engineeringConvEnumerable As IEngineeringConversionEnumerable
+			Dim engineeringConvList As EngineeringConversionList
+			engineeringConvList = new EngineeringConversionList(engConvDelegate)
+
+			'' now we have instantiated the list
+
+			engineeringConvList.Add(A)
+			engineeringConvList.Add(B)
+			engineeringConvList.Add(C)
+			engineeringConvList.Add(D)
+			engineeringConvList.Add(E)
+
+			engineeringConvEnumerable = engineeringConvList
+
+			Dim resultEnumerable As IEnumerable (Of BaseUnit)
+			'' Act
+			'
+			resultEnumerable = engineeringConvEnumerable.getEnumerable()
+			'' Assert
+
+			Dim AreEnumerablesEqual As Boolean
+			AreEnumerablesEqual = Enumerable.SequenceEqual(refEnumerable,resultEnumerable)
+
+			Assert.True(AreEnumerablesEqual)
 
 		End Sub
 
