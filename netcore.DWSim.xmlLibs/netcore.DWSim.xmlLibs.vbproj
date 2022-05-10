@@ -4,10 +4,14 @@
     <RootNamespace>theoOng.netcore.DWSim.xmlLibs</RootNamespace>
     <TargetFramework>netstandard2.0</TargetFramework>
     <PackageId>theoOng.netcore.DWSim.xmlLibs</PackageId>
-    <Version>0.0.3</Version>
+    <Version>0.0.4</Version>
     <Authors>theoOng</Authors>
     <Company>NA</Company>
     <PackageLicenseExpression>GPL-3.0-only</PackageLicenseExpression>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="EngineeringUnits" Version="1.1.550" />
+  </ItemGroup>
 
 </Project>

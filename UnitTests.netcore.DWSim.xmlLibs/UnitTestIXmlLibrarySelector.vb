@@ -10,7 +10,7 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 		<InlineData(373.15,"Water","dwSIM")>
 		<InlineData(77.344,"Nitrogen","dwsim")>
 		<InlineData(353.3,"Benzene","DWSIM")>
-		Sub TestIXmlLibLoader_loadBoilingPoints(ByVal refTemperature As Double,
+		Sub TestIXmlLibrarySelector_loadBoilingPoints(ByVal refTemperature As Double,
 			ByVal componentName As String, ByVal libraryName As String)
 
 			
