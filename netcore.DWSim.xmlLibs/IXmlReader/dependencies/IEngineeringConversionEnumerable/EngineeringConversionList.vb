@@ -37,6 +37,53 @@ Implements IEnumerable
 		return resultEnumerable
 
 	End Function
+	
+	'' here i am overloading some constructors, so that i can initialise this
+	' object without constructor injection
+	' constructor injection actually forces me to tightly couple a class
+	' using the IEngineeringConversionEnumerable list
+	' to use this implementation
+	' i don't want any reference to this concrete class inside
+	' the subsequent objects
+	' but i want to define the delegate objects within the 
+	' new class, so no constructor injection here
+	
+
+    Public Sub New()
+
+		Dim conversionFunction As EngineeringConversion
+		conversionFunction = new EngineeringConversion(AddressOf Me.defaultError)
+		Me._conversionFunction = conversionFunction
+		
+	End Sub
+
+	Private Function defaultError(ByVal quantityEnumerable As IEnumerable (Of Double)) As IEnumerable (Of BaseUnit)
+
+
+		' this function is only here to throw a new error
+		' in case the delgates are not defined
+
+		Dim ErrorMessage As String
+		ErrorMessage = "==== Invalid Operation Exception ==== "
+		ErrorMessage += VbCrLf & "Please use the EngineeringConversionList.setDelegate Method"
+		ErrorMessage += VbCrLf & "to set the way you want to convert the IEnumerable<Double> to IEnumerable<BaseUnit>" 
+		throw new InvalidOperationException(ErrorMessage)
+
+	End Function
+
+
+	Public Sub setDelegate(ByVal conversionFunction As EngineeringConversion) Implements IEngineeringConversionEnumerable.setDelegate
+
+		If conversionFunction = Nothing
+			Dim ErrorMessage As String
+			ErrorMessage = "you need inject a proper EngineeringConversion "
+			ErrorMessage += VbCrLf & "Delegate into EngineeringConversionList"
+			throw new InvalidOperationException(ErrorMessage)
+		End If
+
+		Me._conversionFunction = conversionFunction
+
+	End Sub
 
 	' destructor or finaliser
 	' this frees up memory in event the object is destroyed

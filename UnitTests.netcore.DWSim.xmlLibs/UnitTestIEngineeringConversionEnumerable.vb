@@ -9,6 +9,144 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 
     Public Class UnitTestIEngineeringConversionEnumerable
 
+	    <Theory>
+		<InlineData()>
+		Sub TestIEngineeringConversionEnumerable_exceptionSetDelegate()
+
+			Dim engineeringEnum As IEngineeringConversionEnumerable
+			engineeringEnum = new EngineeringConversionlist()
+
+			Dim A As Double
+			Dim B As Double
+			Dim C As Double
+			Dim D As Double
+			Dim E As Double
+
+			A = 2.98E+01
+			B = -7.01E-03
+			C = 1.74E-05
+			D = -8.48E-09
+			E = 9.34E-13
+
+
+			engineeringEnum.Add(A)
+			engineeringEnum.Add(B)
+			engineeringEnum.Add(C)
+			engineeringEnum.Add(D)
+			engineeringEnum.Add(E)
+
+			Dim refErrorMsg As String
+			refErrorMsg = "you need inject a proper EngineeringConversion "
+			refErrorMsg += VbCrLf & "Delegate into EngineeringConversionList"
+
+			Dim engConvDelegate As EngineeringConversion
+			engConvDelegate = new EngineeringConversion(AddressOf Me.convertCp)
+			engConvDelegate = Nothing
+
+			Try 
+				engineeringEnum.setDelegate(engConvDelegate)
+				Catch ex As InvalidOperationException
+				Assert.Equal(refErrorMsg, ex.Message)
+			End Try
+
+
+		End Sub
+
+	    <Theory>
+		<InlineData()>
+		Sub TestIEngineeringConversionEnumerable_exceptionConstructorTest()
+
+			Dim engineeringEnum As IEngineeringConversionEnumerable
+			engineeringEnum = new EngineeringConversionlist()
+
+			Dim A As Double
+			Dim B As Double
+			Dim C As Double
+			Dim D As Double
+			Dim E As Double
+
+			A = 2.98E+01
+			B = -7.01E-03
+			C = 1.74E-05
+			D = -8.48E-09
+			E = 9.34E-13
+
+
+			engineeringEnum.Add(A)
+			engineeringEnum.Add(B)
+			engineeringEnum.Add(C)
+			engineeringEnum.Add(D)
+			engineeringEnum.Add(E)
+
+			Dim refErrorMsg As String
+			refErrorMsg = "==== Invalid Operation Exception ==== "
+			refErrorMsg += VbCrLf & "Please use the EngineeringConversionList.setDelegate Method"
+			refErrorMsg += VbCrLf & "to set the way you want to convert the IEnumerable<Double> to IEnumerable<BaseUnit>" 
+
+			Try 
+				engineeringEnum.getEnumerable()
+				Catch ex As InvalidOperationException
+				Assert.Equal(refErrorMsg,ex.Message)
+			End Try
+
+
+		End Sub
+
+	    '<Theory>
+		<InlineData()>
+		Sub TestIEngineeringConversionEnumerable_exceptionSandbox()
+
+			' the IEngineeringConversionEnumerables implementations should give an exception
+			' if one gives a rubbish method
+			' As a delegate
+			' or one forgets to inject the delegate in the first place
+			'' setup
+
+			Dim engineeringEnum As IEngineeringConversionEnumerable
+			engineeringEnum = new EngineeringConversionlist()
+
+			Dim A As Double
+			Dim B As Double
+			Dim C As Double
+			Dim D As Double
+			Dim E As Double
+
+			A = 2.98E+01
+			B = -7.01E-03
+			C = 1.74E-05
+			D = -8.48E-09
+			E = 9.34E-13
+
+
+			engineeringEnum.Add(A)
+			engineeringEnum.Add(B)
+			engineeringEnum.Add(C)
+			engineeringEnum.Add(D)
+			engineeringEnum.Add(E)
+
+			Try 
+				engineeringEnum.getEnumerable()
+				Catch ex As InvalidOperationException
+				Console.WriteLine(ex.Message)
+			End Try
+
+
+			Dim engConvDelegate As EngineeringConversion
+			engConvDelegate = new EngineeringConversion(AddressOf Me.convertCp)
+			engConvDelegate = Nothing
+
+			Try 
+				engineeringEnum.setDelegate(engConvDelegate)
+				Catch ex As InvalidOperationException
+				Console.WriteLine(ex.Message)
+			End Try
+
+			
+			    
+
+
+		End Sub
+
 		<Theory>
 		<InlineData()>
 		Sub TestIEngineeringConversionEnumerable_ShouldConvert()
@@ -58,7 +196,7 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 		End Sub
 
 
-	    <Theory>
+	    '<Theory>
 		<InlineData()>
 		Sub TestIEngineeringEnumerableSandbox()
 
