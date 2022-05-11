@@ -13,6 +13,27 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 		<InlineData()>
 		Sub IQuantityRetrieval_Sandbox()
 
+			' first the user should 
+			' inject the library into IQuantityRetrieval
+			' there will be a function checking out what library it is
+			' when the library is checked
+			'then i will return a List of Properties that can be returned
+			' then when returnQuantityList is called
+			' i will then check the desired quantity against the string of properties
+			'  available
+			
+			' and based on that string of properties, start creating an engineeringConversionEnumerable object
+			' and add create a list one by one
+			' i can use IXmlHumanReadablePropertyList to check what properties
+			' are available 
+			' i can use IXmlPropertyList to categorize the human readable properties
+			' or rather just combine them both into one
+			' and provide the appropriate return types
+			
+
+			' 
+
+
 			
 		End Sub
 
