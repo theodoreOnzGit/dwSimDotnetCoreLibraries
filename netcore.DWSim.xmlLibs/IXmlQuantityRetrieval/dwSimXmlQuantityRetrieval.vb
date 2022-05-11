@@ -2,52 +2,39 @@ Imports System.Xml
 Imports System.Xml.Linq
 Imports System
 
+Imports EngineeringUnits
+Imports EngineeringUnits.Units
 
 Public Class dwSimXmlQuantityRetrieval 
 
-Implements IXmlLibraryList
+Implements IXmlQuantityRetrieval
 
 
-    Private Property xmlLibraryList As List(Of (libraryName As String, xmlLibLoader As IXmlLibLoader))
+    Private Property _xmlLibLoader As IXmlLibLoader Implements IXmlQuantityRetrieval._xmlLibLoader
 
-	
-
-	Sub New()
-
-		Me.xmlLibraryList = new List(Of (libraryName As String, xmlLibLoader As IXmlLibLoader))
-		Me.AddLibrary("dwsim", new dwSimXmlLibBruteForce)
-
-	End Sub
-
-	Public Sub AddLibrary(ByVal libraryName As String, ByVal xmlLibLoader As IXmlLibLoader)
-
-		Dim tuple As (libraryName As String, xmlLibLoader As IXmlLibLoader)
-		tuple.libraryName = libraryName
-		tuple.xmlLibLoader = xmlLibLoader 
-		Me.xmlLibraryList.Add(tuple)
-
-	End Sub
-
-
-    Function returnXmlLibraryList() As List(Of (libraryName As String, xmlLibLoader As IXmlLibLoader)) Implements IXmlLibraryList.returnXmlLibraryList
-
-		return xmlLibraryList
+    Function returnQuantityList(ByVal desiredQuantity As String) As IEnumerable (Of Double) Implements IXmlQuantityRetrieval.returnQuantityList
 
 	End Function
 
-	
 
+    Function returnDimensionedQuantityList(ByVal desiredQuantity As String) As IEnumerable (Of BaseUnit) Implements IXmlQuantityRetrieval.returnDimensionedQuantityList
 
+	End Function
 
-	Sub Dispose() Implements IDisposable.Dispose
-
-		For Each xmlLibraryTuple In xmlLibraryList
-			xmlLibraryTuple.libraryName = Nothing
-			xmlLibraryTuple.xmlLibLoader.Dispose()
-			xmlLibraryTuple.xmlLibLoader = Nothing
-		Next
+    Sub injectLib(xmlLibLoaderObj As IXmlLibLoader) Implements IXmlQuantityRetrieval.injectLib
 
 	End Sub
+
+    Public Sub Dispose() Implements IDisposable.Dispose
+
+		_xmlLibLoader.Dispose()
+		_xmlLibLoader = Nothing
+
+	End Sub
+
+
+	
+
 
 End Class
 
