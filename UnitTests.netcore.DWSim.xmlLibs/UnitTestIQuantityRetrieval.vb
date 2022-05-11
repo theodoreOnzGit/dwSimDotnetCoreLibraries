@@ -51,6 +51,15 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 
 			'' first let's have the name category
 
+			' this will contain all the names and identifiers
+			' of the chemcial
+			
+			' units and functions found here: https://github.com/DanWBR/dwsim/blob/windows/DWSIM.Thermodynamics/BaseClasses/ThermodynamicsBase.vb
+			' line 1419
+			' more units found in this file
+			' https://github.com/DanWBR/dwsim/blob/windows/DWSIM.Interfaces/ICompoundConstantProperties.vb
+
+
 			propertyName = "Name"
 
 			attachedList.Add("Name")
@@ -62,6 +71,7 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 			propertyList.Add(tupleToAdd)
 			attachedList.Clear()
 
+			' critical properties
 
 			propertyName = "criticalProperties"
 			attachedList.Add("Critical_Temperature")
@@ -72,12 +82,14 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 			tupleToAdd = (propertyName, attachedList)
 			propertyList.Add(tupleToAdd)
 			attachedList.Clear()
-'    <Formula>CH4</Formula>
-'    <Molar_Weight>16.043</Molar_Weight>
-'    <Acentric_Factor>0.01155</Acentric_Factor>
-'    <Z_Rackett>2.89E-01</Z_Rackett>
-'    <PR_Volume_Translation_Coefficient>-0.1595</PR_Volume_Translation_Coefficient>
-'    <SRK_Volume_Translation_Coefficient>0.0234</SRK_Volume_Translation_Coefficient>
+			'    <Formula>CH4</Formula>
+			'    <Molar_Weight>16.043</Molar_Weight>
+			'    <Acentric_Factor>0.01155</Acentric_Factor>
+			'    <Z_Rackett>2.89E-01</Z_Rackett>
+			'    <PR_Volume_Translation_Coefficient>-0.1595</PR_Volume_Translation_Coefficient>
+			'    <SRK_Volume_Translation_Coefficient>0.0234</SRK_Volume_Translation_Coefficient>
+
+			' chao seader propperties
 			propertyName = "chaoSeaderProperties"
 			attachedList.Add("CS_Acentric_Factor")
 			attachedList.Add("CS_Solubility_Parameter")
@@ -98,7 +110,10 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 			tupleToAdd = (propertyName, attachedList)
 			propertyList.Add(tupleToAdd)
 			attachedList.Clear()
-'    <Dipole_Moment>0</Dipole_Moment>
+			'<Dipole_Moment>0</Dipole_Moment>
+
+			' vapour pressure
+
 			propertyName = "vaporPressure"
 
 			attachedList.Add("DIPPR_Vapor_Pressure_Constant_A")
@@ -113,6 +128,7 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 			propertyList.Add(tupleToAdd)
 			attachedList.Clear()
 
+			' heatCapacity ideal gas J/mol/K
 			propertyName = "heatCapacity"
 			attachedList.Add("Ideal_Gas_Heat_Capacity_Const_A")
 			attachedList.Add("Ideal_Gas_Heat_Capacity_Const_B")
@@ -124,6 +140,7 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 			propertyList.Add(tupleToAdd)
 			attachedList.Clear()
 
+			' liquid viscosity
 			propertyname = "liquidviscosity"
 			attachedList.Add("liquid_viscosity_const_a")
 			attachedList.Add("liquid_viscosity_const_b")
@@ -135,32 +152,41 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 			propertyList.Add(tupleToAdd)
 			attachedList.Clear()
 
+			'' now for boiling point
+
 			propertyname = "boilingpoint"
 			attachedList.Add("normal_boiling_point")
 
 			tupleToAdd = (propertyName, attachedList)
 			propertyList.Add(tupleToAdd)
 			attachedList.Clear()
-'    <ispf>0</ispf>
-'    <ishyp>0</ishyp>
-propertyname = "hvap"
-'    <hvapa>10194000</hvapa>
-'    <hvapb>0.26087</hvapb>
-'    <hvapc>-0.14694</hvapc>
-'    <hvapd>0.22154</hvapd>
-'    <hvaptmin>90</hvaptmin>
-'    <hvaptmax>190</hvaptmax>
-propertyname = "uniquac"
-'    <uniquac_r>1.1239</uniquac_r>
-'    <uniquac_q>1.152</uniquac_q>
-'    <unifac>
-'      <group name="ch4">1</group>
-'    </unifac>
-'    <elements>
-'      <element name="c">1</element>
-'      <element name="h">4</element>
-'    </elements>
-'
+			'    <ispf>0</ispf>
+			'    <ishyp>0</ishyp>
+			'' enthalpy of vaporisation properties
+			propertyname = "hvap"
+			attachedList.Add("hvapa")
+			attachedList.Add("hvapb")
+			attachedList.Add("hvapc")
+			attachedList.Add("hvapd")
+			attachedList.Add("hvaptmin")
+			attachedList.Add("hvaptmax")
+
+			tupleToAdd = (propertyName, attachedList)
+			propertyList.Add(tupleToAdd)
+			attachedList.Clear()
+
+			'' uniquac properties
+
+			propertyname = "uniquac"
+			'    <uniquac_r>1.1239</uniquac_r>
+			'    <uniquac_q>1.152</uniquac_q>
+			'    <unifac>
+			'      <group name="ch4">1</group>
+			'    </unifac>
+			'    <elements>
+			'      <element name="c">1</element>
+			'      <element name="h">4</element>
+			'    </elements>
 
 
 
