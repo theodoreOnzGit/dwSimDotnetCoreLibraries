@@ -17,7 +17,7 @@ Implements IXmlQuantityRetrieval
 	End Function
 
 
-    Function returnDimensionedQuantityList(ByVal desiredQuantity As String) As IEnumerable (Of BaseUnit) Implements IXmlQuantityRetrieval.returnDimensionedQuantityList
+    Function returnEngineeringEnumerable(ByVal desiredQuantity As String) As IEngineeringConversionEnumerable Implements IXmlQuantityRetrieval.returnEngineeringEnumerable
 
 	End Function
 

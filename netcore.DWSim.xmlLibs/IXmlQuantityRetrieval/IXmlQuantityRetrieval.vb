@@ -13,7 +13,7 @@ Inherits IDisposable
 
     Function returnQuantityList(ByVal desiredQuantity As String) As IEnumerable (Of Double)
 
-    Function returnDimensionedQuantityList(ByVal desiredQuantity As String) As IEnumerable (Of BaseUnit)
+    Function returnEngineeringEnumerable(ByVal desiredQuantity As String) As IEngineeringConversionEnumerable
 
     Sub injectLib(xmlLibLoaderObj As IXmlLibLoader)
 
