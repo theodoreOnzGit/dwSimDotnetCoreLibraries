@@ -38,6 +38,108 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 		End Sub
 
 
+		Function getPropertyList() As IEnumerable (Of (propertyName As String, attachedList As IEnumerable (Of String)))
+
+			Dim tupleToAdd As (propertyName As String, attachedList As IEnumerable (Of String))
+			Dim propertyList As IList (Of (propertyName As String, attachedList As IEnumerable (Of String)))
+
+			propertyList = new List (Of (propertyName As String, attachedList As IEnumerable (Of String)))
+
+			Dim propertyName As String
+			Dim attachedList As IList(Of String)
+			attachedList = new List(Of String)
+
+			'' first let's have the name category
+
+			propertyName = "Name"
+
+			attachedList.Add("Name")
+			attachedList.Add("CAS_Number")
+			attachedList.Add("ID")
+			attachedList.Add("COSMODBName")
+
+			tupleToAdd = (propertyName, attachedList)
+			propertyList.Add(tupleToAdd)
+
+
+			propertyName = "criticalProperties"
+'    <Critical_Temperature>190.564</Critical_Temperature>
+'    <Critical_Pressure>4599000</Critical_Pressure>
+'    <Critical_Volume>0.0986</Critical_Volume>
+'    <Critical_Compressibility>0.286</Critical_Compressibility>
+
+
+'    <Formula>CH4</Formula>
+'    <Molar_Weight>16.043</Molar_Weight>
+			propertyName = "criticalProperties"
+'    <Critical_Temperature>190.564</Critical_Temperature>
+'    <Critical_Pressure>4599000</Critical_Pressure>
+'    <Critical_Volume>0.0986</Critical_Volume>
+'    <Critical_Compressibility>0.286</Critical_Compressibility>
+'    <Acentric_Factor>0.01155</Acentric_Factor>
+'    <Z_Rackett>2.89E-01</Z_Rackett>
+'    <PR_Volume_Translation_Coefficient>-0.1595</PR_Volume_Translation_Coefficient>
+'    <SRK_Volume_Translation_Coefficient>0.0234</SRK_Volume_Translation_Coefficient>
+propertyName = "chaoSeaderProperties"
+'    <CS_Acentric_Factor>0</CS_Acentric_Factor>
+'    <CS_Solubility_Parameter>5.68</CS_Solubility_Parameter>
+'    <CS_Liquid_Molar_Volume>52</CS_Liquid_Molar_Volume>
+propertyName = "formationProperties"
+'    <IG_Entropy_of_Formation_25C>2.58324</IG_Entropy_of_Formation_25C>
+'    <IG_Enthalpy_of_Formation_25C>-4645.1</IG_Enthalpy_of_Formation_25C>
+'    <IG_Gibbs_Energy_of_Formation_25C>-3147.21</IG_Gibbs_Energy_of_Formation_25C>
+'    <Dipole_Moment>0</Dipole_Moment>
+propertyName = "vaporPressure"
+'    <DIPPR_Vapor_Pressure_Constant_A>39.205</DIPPR_Vapor_Pressure_Constant_A>
+'    <DIPPR_Vapor_Pressure_Constant_B>-1324.4</DIPPR_Vapor_Pressure_Constant_B>
+'    <DIPPR_Vapor_Pressure_Constant_C>-3.44</DIPPR_Vapor_Pressure_Constant_C>
+'    <DIPPR_Vapor_Pressure_Constant_D>3.10E-05</DIPPR_Vapor_Pressure_Constant_D>
+'    <DIPPR_Vapor_Pressure_Constant_E>2</DIPPR_Vapor_Pressure_Constant_E>
+'    <DIPPR_Vapor_Pressure_TMIN>90.64</DIPPR_Vapor_Pressure_TMIN>
+'    <DIPPR_Vapor_Pressure_TMAX>190.56</DIPPR_Vapor_Pressure_TMAX>
+propertyName = "heatCapacity"
+'    <Ideal_Gas_Heat_Capacity_Const_A>3.62E+01</Ideal_Gas_Heat_Capacity_Const_A>
+'    <Ideal_Gas_Heat_Capacity_Const_B>-5.11E-02</Ideal_Gas_Heat_Capacity_Const_B>
+'    <Ideal_Gas_Heat_Capacity_Const_C>2.21E-04</Ideal_Gas_Heat_Capacity_Const_C>
+'    <Ideal_Gas_Heat_Capacity_Const_D>-1.82E-07</Ideal_Gas_Heat_Capacity_Const_D>
+'    <Ideal_Gas_Heat_Capacity_Const_E>4.89E-11</Ideal_Gas_Heat_Capacity_Const_E>
+propertyName = "liquidViscosity"
+'    <Liquid_Viscosity_Const_A>-61.572</Liquid_Viscosity_Const_A>
+'    <Liquid_Viscosity_Const_B>178.15</Liquid_Viscosity_Const_B>
+'    <Liquid_Viscosity_Const_C>-0.95239</Liquid_Viscosity_Const_C>
+'    <Liquid_Viscosity_Const_D>-9.06E-24</Liquid_Viscosity_Const_D>
+'    <Liquid_Viscosity_Const_E>10</Liquid_Viscosity_Const_E>
+propertyName = "boilingPoint"
+'    <Normal_Boiling_Point>111.66</Normal_Boiling_Point>
+'    <isPf>0</isPf>
+'    <isHYP>0</isHYP>
+propertyName = "Hvap"
+'    <HVapA>10194000</HVapA>
+'    <HVapB>0.26087</HVapB>
+'    <HvapC>-0.14694</HvapC>
+'    <HVapD>0.22154</HVapD>
+'    <HvapTmin>90</HvapTmin>
+'    <HvapTMAX>190</HvapTMAX>
+propertyName = "UNIQUAC"
+'    <UNIQUAC_r>1.1239</UNIQUAC_r>
+'    <UNIQUAC_q>1.152</UNIQUAC_q>
+'    <UNIFAC>
+'      <group name="CH4">1</group>
+'    </UNIFAC>
+'    <elements>
+'      <element name="C">1</element>
+'      <element name="H">4</element>
+'    </elements>
+'
+
+
+
+
+		End Function
+
+
+
+
 	    '<Theory>
 		<InlineData()>
 		Sub IXmlReader_IEnumerableTest()
