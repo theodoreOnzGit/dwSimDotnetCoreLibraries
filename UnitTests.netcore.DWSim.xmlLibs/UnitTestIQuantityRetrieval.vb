@@ -60,478 +60,508 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 
 			tupleToAdd = (propertyName, attachedList)
 			propertyList.Add(tupleToAdd)
+			attachedList.Clear()
 
 
 			propertyName = "criticalProperties"
-'    <Critical_Temperature>190.564</Critical_Temperature>
-'    <Critical_Pressure>4599000</Critical_Pressure>
-'    <Critical_Volume>0.0986</Critical_Volume>
-'    <Critical_Compressibility>0.286</Critical_Compressibility>
+			attachedList.Add("Critical_Temperature")
+			attachedList.Add("Critical_Pressure")
+			attachedList.Add("Critical_Volume")
+			attachedList.Add("Critical_Compressibility")
 
-
+			tupleToAdd = (propertyName, attachedList)
+			propertyList.Add(tupleToAdd)
+			attachedList.Clear()
 '    <Formula>CH4</Formula>
 '    <Molar_Weight>16.043</Molar_Weight>
-			propertyName = "criticalProperties"
-'    <Critical_Temperature>190.564</Critical_Temperature>
-'    <Critical_Pressure>4599000</Critical_Pressure>
-'    <Critical_Volume>0.0986</Critical_Volume>
-'    <Critical_Compressibility>0.286</Critical_Compressibility>
 '    <Acentric_Factor>0.01155</Acentric_Factor>
 '    <Z_Rackett>2.89E-01</Z_Rackett>
 '    <PR_Volume_Translation_Coefficient>-0.1595</PR_Volume_Translation_Coefficient>
 '    <SRK_Volume_Translation_Coefficient>0.0234</SRK_Volume_Translation_Coefficient>
-propertyName = "chaoSeaderProperties"
-'    <CS_Acentric_Factor>0</CS_Acentric_Factor>
-'    <CS_Solubility_Parameter>5.68</CS_Solubility_Parameter>
-'    <CS_Liquid_Molar_Volume>52</CS_Liquid_Molar_Volume>
-propertyName = "formationProperties"
-'    <IG_Entropy_of_Formation_25C>2.58324</IG_Entropy_of_Formation_25C>
-'    <IG_Enthalpy_of_Formation_25C>-4645.1</IG_Enthalpy_of_Formation_25C>
-'    <IG_Gibbs_Energy_of_Formation_25C>-3147.21</IG_Gibbs_Energy_of_Formation_25C>
+			propertyName = "chaoSeaderProperties"
+			attachedList.Add("CS_Acentric_Factor")
+			attachedList.Add("CS_Solubility_Parameter")
+			attachedList.Add("CS_Liquid_Molar_Volume")
+
+			tupleToAdd = (propertyName, attachedList)
+			propertyList.Add(tupleToAdd)
+
+			attachedList.Clear()
+
+			' this is enthalpy entropy and Gibbs free energy of formation
+
+			propertyName = "formationProperties"
+			attachedList.Add("IG_Entropy_of_Formation_25C")
+			attachedList.Add("IG_Enthalpy_of_Formation_25C")
+			attachedList.Add("IG_Gibbs_Energy_of_Formation_25C")
+
+			tupleToAdd = (propertyName, attachedList)
+			propertyList.Add(tupleToAdd)
+			attachedList.Clear()
 '    <Dipole_Moment>0</Dipole_Moment>
-propertyName = "vaporPressure"
-'    <DIPPR_Vapor_Pressure_Constant_A>39.205</DIPPR_Vapor_Pressure_Constant_A>
-'    <DIPPR_Vapor_Pressure_Constant_B>-1324.4</DIPPR_Vapor_Pressure_Constant_B>
-'    <DIPPR_Vapor_Pressure_Constant_C>-3.44</DIPPR_Vapor_Pressure_Constant_C>
-'    <DIPPR_Vapor_Pressure_Constant_D>3.10E-05</DIPPR_Vapor_Pressure_Constant_D>
-'    <DIPPR_Vapor_Pressure_Constant_E>2</DIPPR_Vapor_Pressure_Constant_E>
-'    <DIPPR_Vapor_Pressure_TMIN>90.64</DIPPR_Vapor_Pressure_TMIN>
-'    <DIPPR_Vapor_Pressure_TMAX>190.56</DIPPR_Vapor_Pressure_TMAX>
-propertyName = "heatCapacity"
-'    <Ideal_Gas_Heat_Capacity_Const_A>3.62E+01</Ideal_Gas_Heat_Capacity_Const_A>
-'    <Ideal_Gas_Heat_Capacity_Const_B>-5.11E-02</Ideal_Gas_Heat_Capacity_Const_B>
-'    <Ideal_Gas_Heat_Capacity_Const_C>2.21E-04</Ideal_Gas_Heat_Capacity_Const_C>
-'    <Ideal_Gas_Heat_Capacity_Const_D>-1.82E-07</Ideal_Gas_Heat_Capacity_Const_D>
-'    <Ideal_Gas_Heat_Capacity_Const_E>4.89E-11</Ideal_Gas_Heat_Capacity_Const_E>
-propertyName = "liquidViscosity"
-'    <Liquid_Viscosity_Const_A>-61.572</Liquid_Viscosity_Const_A>
-'    <Liquid_Viscosity_Const_B>178.15</Liquid_Viscosity_Const_B>
-'    <Liquid_Viscosity_Const_C>-0.95239</Liquid_Viscosity_Const_C>
-'    <Liquid_Viscosity_Const_D>-9.06E-24</Liquid_Viscosity_Const_D>
-'    <Liquid_Viscosity_Const_E>10</Liquid_Viscosity_Const_E>
-propertyName = "boilingPoint"
-'    <Normal_Boiling_Point>111.66</Normal_Boiling_Point>
-'    <isPf>0</isPf>
-'    <isHYP>0</isHYP>
-propertyName = "Hvap"
-'    <HVapA>10194000</HVapA>
-'    <HVapB>0.26087</HVapB>
-'    <HvapC>-0.14694</HvapC>
-'    <HVapD>0.22154</HVapD>
-'    <HvapTmin>90</HvapTmin>
-'    <HvapTMAX>190</HvapTMAX>
-propertyName = "UNIQUAC"
-'    <UNIQUAC_r>1.1239</UNIQUAC_r>
-'    <UNIQUAC_q>1.152</UNIQUAC_q>
-'    <UNIFAC>
-'      <group name="CH4">1</group>
-'    </UNIFAC>
+			propertyName = "vaporPressure"
+
+			attachedList.Add("DIPPR_Vapor_Pressure_Constant_A")
+			attachedList.Add("DIPPR_Vapor_Pressure_Constant_B")
+			attachedList.Add("DIPPR_Vapor_Pressure_Constant_C")
+			attachedList.Add("DIPPR_Vapor_Pressure_Constant_D")
+			attachedList.Add("DIPPR_Vapor_Pressure_Constant_E")
+			attachedList.Add("DIPPR_Vapor_Pressure_TMIN")
+			attachedList.Add("DIPPR_Vapor_Pressure_TMAX")
+
+			tupleToAdd = (propertyName, attachedList)
+			propertyList.Add(tupleToAdd)
+			attachedList.Clear()
+
+			propertyName = "heatCapacity"
+			attachedList.Add("Ideal_Gas_Heat_Capacity_Const_A")
+			attachedList.Add("Ideal_Gas_Heat_Capacity_Const_B")
+			attachedList.Add("Ideal_Gas_Heat_Capacity_Const_C")
+			attachedList.Add("Ideal_Gas_Heat_Capacity_Const_D")
+			attachedList.Add("Ideal_Gas_Heat_Capacity_Const_E")
+
+			tupleToAdd = (propertyName, attachedList)
+			propertyList.Add(tupleToAdd)
+			attachedList.Clear()
+
+			propertyname = "liquidviscosity"
+			attachedList.Add("liquid_viscosity_const_a")
+			attachedList.Add("liquid_viscosity_const_b")
+			attachedList.Add("liquid_viscosity_const_c")
+			attachedList.Add("liquid_viscosity_const_d")
+			attachedList.Add("liquid_viscosity_const_e")
+
+			tupleToAdd = (propertyName, attachedList)
+			propertyList.Add(tupleToAdd)
+			attachedList.Clear()
+
+			propertyname = "boilingpoint"
+			attachedList.Add("normal_boiling_point")
+
+			tupleToAdd = (propertyName, attachedList)
+			propertyList.Add(tupleToAdd)
+			attachedList.Clear()
+'    <ispf>0</ispf>
+'    <ishyp>0</ishyp>
+propertyname = "hvap"
+'    <hvapa>10194000</hvapa>
+'    <hvapb>0.26087</hvapb>
+'    <hvapc>-0.14694</hvapc>
+'    <hvapd>0.22154</hvapd>
+'    <hvaptmin>90</hvaptmin>
+'    <hvaptmax>190</hvaptmax>
+propertyname = "uniquac"
+'    <uniquac_r>1.1239</uniquac_r>
+'    <uniquac_q>1.152</uniquac_q>
+'    <unifac>
+'      <group name="ch4">1</group>
+'    </unifac>
 '    <elements>
-'      <element name="C">1</element>
-'      <element name="H">4</element>
+'      <element name="c">1</element>
+'      <element name="h">4</element>
 '    </elements>
 '
 
 
 
 
-		End Function
+		end function
 
 
 
 
-	    '<Theory>
-		<InlineData()>
-		Sub IXmlReader_IEnumerableTest()
+	    '<theory>
+		<inlinedata()>
+		sub ixmlreader_ienumerabletest()
 
-			' Description:
-			' In this test, i will make an IEnumerable Of BaseUnits Manually
-			' First by making a List of Base Units
-			' then manually fitting them into the IEnumerable
-			' First i need to know how to compare two base unit types
+			' description:
+			' in this test, i will make an ienumerable of baseunits manually
+			' first by making a list of base units
+			' then manually fitting them into the ienumerable
+			' first i need to know how to compare two base unit types
 			'
-			' In the BaseUnit_ComparisonTest, i have seen that 
+			' in the baseunit_comparisontest, i have seen that 
 			' comparing two differently instantiated objects of temperature
-			' using Assert.Equal is ok!
+			' using assert.equal is ok!
 			'
 			'
-			' So okay, i want to make a comparison of the heat capacity constants
+			' so okay, i want to make a comparison of the heat capacity constants
 			' of air and their units
 			'
-			' Well closest thing is nitrogen, 
+			' well closest thing is nitrogen, 
 			' so let me get nitrogen
 			'
 			'the units are as follows:
-			''Cp = A + B*T + C*T^2 + D*T^3 + E*T^4 where Cp in kJ/kg-mol*K , T in K
+			''cp = a + b*t + c*t^2 + d*t^3 + e*t^4 where cp in kj/kg-mol*k , t in k
 			'
 			
-			'' Setup
-			Dim Ideal_Gas_Heat_Capacity_Const_A As BaseUnit
-			Dim Ideal_Gas_Heat_Capacity_Const_B As BaseUnit
-			Dim Ideal_Gas_Heat_Capacity_Const_C As BaseUnit
-			Dim Ideal_Gas_Heat_Capacity_Const_D As BaseUnit
-			Dim Ideal_Gas_Heat_Capacity_Const_E As BaseUnit
+			'' setup
+			dim ideal_gas_heat_capacity_const_a as baseunit
+			dim ideal_gas_heat_capacity_const_b as baseunit
+			dim ideal_gas_heat_capacity_const_c as baseunit
+			dim ideal_gas_heat_capacity_const_d as baseunit
+			dim ideal_gas_heat_capacity_const_e as baseunit
 
-			Dim cpUnit As UnitSystem
-			cpUnit = (EnergyUnit.SI/AmountOfSubstanceUnit.SI/TemperatureUnit.SI)
+			dim cpunit as unitsystem
+			cpunit = (energyunit.si/amountofsubstanceunit.si/temperatureunit.si)
 
-			Ideal_Gas_Heat_Capacity_Const_A = new BaseUnit(2.98E+01,cpUnit)
-			Ideal_Gas_Heat_Capacity_Const_B = new BaseUnit(-7.01E-03,cpUnit/TemperatureUnit.SI)
-			Ideal_Gas_Heat_Capacity_Const_C = new BaseUnit(1.74E-05,cpUnit/(TemperatureUnit.SI.pow(2)))
-			Ideal_Gas_Heat_Capacity_Const_D = new BaseUnit(-8.48E-09,cpUnit/(TemperatureUnit.SI.pow(3)))
-			Ideal_Gas_Heat_Capacity_Const_E = new BaseUnit(9.34E-13,cpUnit/(TemperatureUnit.SI.pow(4)))
+			ideal_gas_heat_capacity_const_a = new baseunit(2.98e+01,cpunit)
+			ideal_gas_heat_capacity_const_b = new baseunit(-7.01e-03,cpunit/temperatureunit.si)
+			ideal_gas_heat_capacity_const_c = new baseunit(1.74e-05,cpunit/(temperatureunit.si.pow(2)))
+			ideal_gas_heat_capacity_const_d = new baseunit(-8.48e-09,cpunit/(temperatureunit.si.pow(3)))
+			ideal_gas_heat_capacity_const_e = new baseunit(9.34e-13,cpunit/(temperatureunit.si.pow(4)))
 
-			' here i create a refEnumerable, which is my eventual return type
-			Dim refEnumerable As IEnumerable (Of BaseUnit)
+			' here i create a refenumerable, which is my eventual return type
+			dim refenumerable as ienumerable (of baseunit)
 
-			' however, when creating IEnumerables, it is almost always
+			' however, when creating ienumerables, it is almost always
 			' easier to have a list
-			' so here is a reference list of BaseUnits,
-			' which i will then pass back to refEnumerable when done
-			' and Console.WriteLine that
-			Dim refList As List (Of BaseUnit)
-			refList = new List (Of BaseUnit)
+			' so here is a reference list of baseunits,
+			' which i will then pass back to refenumerable when done
+			' and console.writeline that
+			dim reflist as list (of baseunit)
+			reflist = new list (of baseunit)
 
-			refList.Add(Ideal_Gas_Heat_Capacity_Const_A)
-			refList.Add(Ideal_Gas_Heat_Capacity_Const_B)
-			refList.Add(Ideal_Gas_Heat_Capacity_Const_C)
-			refList.Add(Ideal_Gas_Heat_Capacity_Const_D)
-			refList.Add(Ideal_Gas_Heat_Capacity_Const_E)
+			reflist.add(ideal_gas_heat_capacity_const_a)
+			reflist.add(ideal_gas_heat_capacity_const_b)
+			reflist.add(ideal_gas_heat_capacity_const_c)
+			reflist.add(ideal_gas_heat_capacity_const_d)
+			reflist.add(ideal_gas_heat_capacity_const_e)
 
-			refEnumerable = refList
+			refenumerable = reflist
 
-			For Each quantity in refEnumerable
-				Console.WriteLine(quantity)
-			Next
+			for each quantity in refenumerable
+				console.writeline(quantity)
+			next
 
-			' now we have our refList ready
+			' now we have our reflist ready
 			' we can then start working with our interface
 
-			Dim xmlReader As IXmlReader
-			' please declare new object here, and do proper Dependency Injection
+			dim xmlreader as ixmlreader
+			' please declare new object here, and do proper dependency injection
 
 			' here are our dependencies
-			Dim xmlLibrarySelector As IXmlLibrarySelector
-			xmlLibrarySelector = new XmlLibSelector_may2022
+			dim xmllibraryselector as ixmllibraryselector
+			xmllibraryselector = new xmllibselector_may2022
 
 			' now we instantiate class with proper dependency injection
-			xmlReader = new DWSimXmlReader(xmlLibrarySelector)
+			xmlreader = new dwsimxmlreader(xmllibraryselector)
 
-			Dim resultEnumerable As IEnumerable (Of BaseUnit)
-			'' Act
-			resultEnumerable = xmlReader.getQuantityList("nitrogen","heatCapacityConstants")
-			'' Assert
+			dim resultenumerable as ienumerable (of baseunit)
+			'' act
+			resultenumerable = xmlreader.getquantitylist("nitrogen","heatcapacityconstants")
+			'' assert
 
-			Dim AreEnumerablesEqual As Boolean
-			AreEnumerablesEqual = Enumerable.SequenceEqual(refEnumerable,resultEnumerable)
+			dim areenumerablesequal as boolean
+			areenumerablesequal = enumerable.sequenceequal(refenumerable,resultenumerable)
 
-			Assert.True(AreEnumerablesEqual)
-		End Sub
+			assert.true(areenumerablesequal)
+		end sub
 
 
-		<Theory>
-		<InlineData()>
-		Sub BaseUnit_ComparisonTest()
+		<theory>
+		<inlinedata()>
+		sub baseunit_comparisontest()
 
 			'' this test checks if two base unit types can be 
-			' compared to each other using Assert.Equal
-			Dim t1 As BaseUnit
-			Dim t2 As BaseUnit
+			' compared to each other using assert.equal
+			dim t1 as baseunit
+			dim t2 as baseunit
 
-			t1 = new Temperature(0,TemperatureUnit.DegreeCelsius)
-			t2  = new Temperature(0,TemperatureUnit.DegreeCelsius)
+			t1 = new temperature(0,temperatureunit.degreecelsius)
+			t2  = new temperature(0,temperatureunit.degreecelsius)
 
-			Assert.Equal(t1,t2)
+			assert.equal(t1,t2)
 
 			'' this seems to work well!
-		End Sub
+		end sub
 
-	    '<Theory>
-		<InlineData()>
-		Sub youtubeDemo_engineeringUnits()
-			Dim freezingPointWater As Temperature
+	    '<theory>
+		<inlinedata()>
+		sub youtubedemo_engineeringunits()
+			dim freezingpointwater as temperature
 
-			freezingPointWater = new Temperature(0,TemperatureUnit.DegreeCelsius)
-			freezingPointWater = new Temperature(273.15, TemperatureUnit.SI)
-			freezingPointWater = new Temperature(273.15, TemperatureUnit.Kelvin)
+			freezingpointwater = new temperature(0,temperatureunit.degreecelsius)
+			freezingpointwater = new temperature(273.15, temperatureunit.si)
+			freezingpointwater = new temperature(273.15, temperatureunit.kelvin)
 
-			Console.WriteLine(freezingPointWater)
+			console.writeline(freezingpointwater)
 
-			Dim freezingPointF As Double
-			freezingPointF = freezingPointWater.As(TemperatureUnit.DegreeFahrenheit)
-			Console.WriteLine(freezingPointF)
+			dim freezingpointf as double
+			freezingpointf = freezingpointwater.as(temperatureunit.degreefahrenheit)
+			console.writeline(freezingpointf)
 
-			freezingPointWater = new Temperature(freezingPointF, TemperatureUnit.DegreeFahrenheit)
+			freezingpointwater = new temperature(freezingpointf, temperatureunit.degreefahrenheit)
 
-			Console.WriteLine(freezingPointWater)
-			Console.WriteLine(freezingPointWater.ToString())
-			Console.WriteLIne(freezingPointWater.ToUnit(TemperatureUnit.DegreeRankine))
-			Console.WriteLine(freezingPointWater)
+			console.writeline(freezingpointwater)
+			console.writeline(freezingpointwater.tostring())
+			console.writeline(freezingpointwater.tounit(temperatureunit.degreerankine))
+			console.writeline(freezingpointwater)
 			
 			'' more complicated example, ideal gas heat capacity
-			''Cp = A + B*T + C*T^2 + D*T^3 + E*T^4 where Cp in kJ/kg-mol*K , T in K
+			''cp = a + b*t + c*t^2 + d*t^3 + e*t^4 where cp in kj/kg-mol*k , t in k
 
 
-			Dim cpUnit As UnitSystem
-			cpUnit = (EnergyUnit.Kilojoule/AmountOfSubstanceUnit.Kilomole/TemperatureUnit.SI)
-			Console.WriteLine(cpUnit)
-			cpUnit = (EnergyUnit.SI/AmountOfSubstanceUnit.SI/TemperatureUnit.SI)
-			Console.WriteLine(cpUnit)
-			Console.WriteLine(EnergyUnit.SI)
-			Console.WriteLine(EnergyUnit.Kilojoule)
+			dim cpunit as unitsystem
+			cpunit = (energyunit.kilojoule/amountofsubstanceunit.kilomole/temperatureunit.si)
+			console.writeline(cpunit)
+			cpunit = (energyunit.si/amountofsubstanceunit.si/temperatureunit.si)
+			console.writeline(cpunit)
+			console.writeline(energyunit.si)
+			console.writeline(energyunit.kilojoule)
 
 			'' molar heat capacity with units
-			' J/mol/K
-			Dim Cp As BaseUnit
-			Cp = new BaseUnit(200,cpUnit)
-			Console.WriteLine(Cp)
-			Console.WriteLine(Cp.unit)
+			' j/mol/k
+			dim cp as baseunit
+			cp = new baseunit(200,cpunit)
+			console.writeline(cp)
+			console.writeline(cp.unit)
 
-			Dim A As BaseUnit
-			A = new BaseUnit(10,cpUnit)
-			Console.WriteLine(A)
+			dim a as baseunit
+			a = new baseunit(10,cpunit)
+			console.writeline(a)
 
-			Dim B As BaseUnit
-			B = new BaseUnit(30,Cp.unit/TemperatureUnit.SI)
-			Console.WriteLine(B)
+			dim b as baseunit
+			b = new baseunit(30,cp.unit/temperatureunit.si)
+			console.writeline(b)
 
-			Dim E As BaseUnit
-			E = new BaseUnit(50,Cp.unit/(TemperatureUnit.SI.pow(4)))
-			Console.WriteLine(E)
+			dim e as baseunit
+			e = new baseunit(50,cp.unit/(temperatureunit.si.pow(4)))
+			console.writeline(e)
 
 
-			Dim C As BaseUnit
-			C = new BaseUnit(-4,Cp.unit/(TemperatureUnit.SI.pow(2)))
-			Console.WriteLine(C)
+			dim c as baseunit
+			c = new baseunit(-4,cp.unit/(temperatureunit.si.pow(2)))
+			console.writeline(c)
 
-			Dim D As BaseUnit
-			D = new BaseUnit(5,Cp.unit/(TemperatureUnit.SI.pow(3)))
-			Console.WriteLine(D)
+			dim d as baseunit
+			d = new baseunit(5,cp.unit/(temperatureunit.si.pow(3)))
+			console.writeline(d)
 
-			Cp = Nothing
-			Console.WriteLIne(Cp)
+			cp = nothing
+			console.writeline(cp)
 
 			'' now we can start calculating
 			'
-			Dim T1 As Temperature
-			T1 = new Temperature(373, TemperatureUnit.SI)
-			Console.WriteLine(T1)
+			dim t1 as temperature
+			t1 = new temperature(373, temperatureunit.si)
+			console.writeline(t1)
 
-			Cp = A + B*T1 +C*T1.pow(2) + D*T1.pow(3) + E*T1.pow(4)
+			cp = a + b*t1 +c*t1.pow(2) + d*t1.pow(3) + e*t1.pow(4)
 
-			Console.WriteLine(Cp)
+			console.writeline(cp)
 
 
 			'' purposely try wrong units
 
-			Try
-				Cp = A + B*T1 +C*T1.pow(1) + D*T1.pow(3) + E*T1.pow(4)
-			Catch ex As Exception
-			    Console.WriteLine(ex.Message)
-			End Try
+			try
+				cp = a + b*t1 +c*t1.pow(1) + d*t1.pow(3) + e*t1.pow(4)
+			catch ex as exception
+			    console.writeline(ex.message)
+			end try
 
 			'' trying to work with unknown units
-			Dim Cp2 As Object
-			Cp2 = A+B*T1
-			Console.WriteLine(Cp2.GetType)
+			dim cp2 as object
+			cp2 = a+b*t1
+			console.writeline(cp2.gettype)
 			
-			Dim Cp3 As Object
-			Cp3 = Cp2 + Cp2
-			Cp3 = Cp2*3
-			Console.WriteLine(Cp3)
-			Console.WriteLine(Cp3.GetType)
+			dim cp3 as object
+			cp3 = cp2 + cp2
+			cp3 = cp2*3
+			console.writeline(cp3)
+			console.writeline(cp3.gettype)
 
 			'' you can check units with unknown units
-			BaseUnit.UnitCheck(Cp3,Cp)
+			baseunit.unitcheck(cp3,cp)
 
-			Try 
-			    BaseUnit.UnitCheck(Cp3,T1)
-			Catch ex As Exception
-				Console.WriteLine(ex.Message)
-			End Try
+			try 
+			    baseunit.unitcheck(cp3,t1)
+			catch ex as exception
+				console.writeline(ex.message)
+			end try
 
 
 			'' testing unknown units with combined units
-			Dim heatValue As SpecificEnergy
-			heatValue = new SpecificEnergy(100,SpecificEnergyUnit.SI)
-			Console.WriteLine(heatValue)
+			dim heatvalue as specificenergy
+			heatvalue = new specificenergy(100,specificenergyunit.si)
+			console.writeline(heatvalue)
 
-			Dim cp4 As Object
+			dim cp4 as object
 
-			cp4 = heatValue/T1
-			Console.WriteLine(cp4)
-			Console.WriteLine(cp4.GetType)
-			Console.WriteLine(cp4.unit)
-			Console.WriteLine(cp4.unit.GetType)
-			Console.WriteLine(cp4.Value)
-			Console.WriteLine(cp4.Value.GetType)
+			cp4 = heatvalue/t1
+			console.writeline(cp4)
+			console.writeline(cp4.gettype)
+			console.writeline(cp4.unit)
+			console.writeline(cp4.unit.gettype)
+			console.writeline(cp4.value)
+			console.writeline(cp4.value.gettype)
 
-			Dim cp4Value As Double
-			cp4Value = cp4.Value
+			dim cp4value as double
+			cp4value = cp4.value
 
-			Dim cp4Unit As UnitSystem
-			cp4Unit = cp4.unit
+			dim cp4unit as unitsystem
+			cp4unit = cp4.unit
 
 
 			'''''''''''''''''''''''''''''''''''''''''''''''
 			'' this is a code block to help typecast unknown units to
 			' known units
 			'' check units
-			Dim unit4 As SpecificHeat
-			unit4 = new SpecificHeat(0,SpecificEntropyUnit.SI)
+			dim unit4 as specificheat
+			unit4 = new specificheat(0,specificentropyunit.si)
 
-			BaseUnit.UnitCheck(cp4,unit4)
+			baseunit.unitcheck(cp4,unit4)
 
 
-			'' converting unknown unit types to BaseUnit/CombinedUnit
+			'' converting unknown unit types to baseunit/combinedunit
 
-			'' use existing SpecificEntropyUnit when working with Specific Entropy
+			'' use existing specificentropyunit when working with specific entropy
 			' using base units here will result in error!
-			Dim unit5 As BaseUnit
-			unit5 = new SpecificHeat(cp4Value,SpecificEntropyUnit.JoulePerKilogramKelvin) 
+			dim unit5 as baseunit
+			unit5 = new specificheat(cp4value,specificentropyunit.jouleperkilogramkelvin) 
 			
-			'' use a new UnitSystem when working with BaseUnit
+			'' use a new unitsystem when working with baseunit
 			' using some combined units here may result in error
-			Dim unit5Unit As UnitSystem
-			unit5Unit = EnergyUnit.SI/MassUnit.SI/TemperatureUnit.SI
+			dim unit5unit as unitsystem
+			unit5unit = energyunit.si/massunit.si/temperatureunit.si
 
-			unit5 = new BaseUnit(cp4Value,unit5Unit)
+			unit5 = new baseunit(cp4value,unit5unit)
 
 
-			Console.WriteLine(unit5)
-			Console.WriteLine(unit5.GetType)
+			console.writeline(unit5)
+			console.writeline(unit5.gettype)
 
 			'' we test the function to help us typecast a base unit
 
-			Dim testUnitObj As BaseUnit
-			testUnitObj = Me.typeCastUnknownUnit(cp4,unit5Unit)
-			Console.WriteLine(testUnitObj)
-			Console.WriteLine(testUnitObj)
+			dim testunitobj as baseunit
+			testunitobj = me.typecastunknownunit(cp4,unit5unit)
+			console.writeline(testunitobj)
+			console.writeline(testunitobj)
 
-			'' It is better to work with base units
+			'' it is better to work with base units
 			' rather than typecast an object as an unknown unit and try
 			' typecasting it to a base unit
 
 
-			Console.WriteLine(cp4.GetType)
-			Console.WriteLine(unit5.GetType)
+			console.writeline(cp4.gettype)
+			console.writeline(unit5.gettype)
 
 			' this is okay
 			' meaning assign the calculated value to a base unit straightaway
-			unit5 = heatValue/T1
-			cp4 = heatValue/T1
+			unit5 = heatvalue/t1
+			cp4 = heatvalue/t1
 
 			'' this is not okay
 			' meaning if a type is already an unknown unit object
 			' casting it to a base unit is problematic
 
-			Try
+			try
 			    unit5 =cp4
 
-			Catch ex As Exception
-				Console.WriteLine(ex.Message)
+			catch ex as exception
+				console.writeline(ex.message)
 
-			End Try
+			end try
 
 
 			'' i want to check if assigning a known unit as base unit is ok
 			
-			unit5 = T1
-			Console.WriteLine(unit5.GetType)
-			Console.WriteLine(unit5)
+			unit5 = t1
+			console.writeline(unit5.gettype)
+			console.writeline(unit5)
 
-			Dim unitbase6 As BaseUnit
+			dim unitbase6 as baseunit
 
 			'' this does not even compile right
 			'' 
-			''unitbase6 = new BaseUnit(10, TemperatureUnit.SI)
-			' however, if the base unit is some new quantity, this is OK
-			unitbase6 = new BaseUnit(10, TemperatureUnit.SI.pow(4))
+			''unitbase6 = new baseunit(10, temperatureunit.si)
+			' however, if the base unit is some new quantity, this is ok
+			unitbase6 = new baseunit(10, temperatureunit.si.pow(4))
 
 
 
 
-		End Sub
+		end sub
 
 
-		Public Function typeCastUnknownUnit(x As UnknownUnit,desiredUnits As UnitSystem) As BaseUnit
+		public function typecastunknownunit(x as unknownunit,desiredunits as unitsystem) as baseunit
 
-			'' check whether unknownUnit x has the same units as the desired Units
-			Dim unitCheckObject As BaseUnit
-			unitCheckObject = new BaseUnit(0,desiredUnits)
-			BaseUnit.UnitCheck(unitCheckObject, x)
+			'' check whether unknownunit x has the same units as the desired units
+			dim unitcheckobject as baseunit
+			unitcheckobject = new baseunit(0,desiredunits)
+			baseunit.unitcheck(unitcheckobject, x)
 
 			' if this checks out, i mean units check out
 			' i will then make a new baseunit object
-			' use UnkownUnit.SI to extract the decimal value
-			dim xValue As Double
-			xValue = x.SI
+			' use unkownunit.si to extract the decimal value
+			dim xvalue as double
+			xvalue = x.si
 
-			return new BaseUnit(xValue,desiredUnits)
+			return new baseunit(xvalue,desiredunits)
 
-		End Function
+		end function
 
 
-		'<Theory>
-		<InlineData()>
-		Sub TestIXmlReader_ManualEngineeringUnitsTest()
+		'<theory>
+		<inlinedata()>
+		sub testixmlreader_manualengineeringunitstest()
 
 			'' this is testing the new engineeringunits stuff
-			Dim roomTemp As Temperature
-			roomTemp = new Temperature(293, TemperatureUnit.Kelvin)
-			Console.WriteLine(roomTemp)
+			dim roomtemp as temperature
+			roomtemp = new temperature(293, temperatureunit.kelvin)
+			console.writeline(roomtemp)
 
 
 			'' now i want to test specific energy
-			Dim heatValue As SpecificEnergy
-			heatValue = new SpecificEnergy(200, SpecificEnergyUnit.JoulePerKilogram)
+			dim heatvalue as specificenergy
+			heatvalue = new specificenergy(200, specificenergyunit.jouleperkilogram)
 
-			Console.WriteLine(heatValue)
+			console.writeline(heatvalue)
 
 			'' now, the thing is heat capacity is not included
 			' but technically i don't need to make a new unit
 			' i can just perform calculations like that
 			' or so i thought, i'm getting wrong units
-			' i need to Dim this As an object, let's see what the type is
+			' i need to dim this as an object, let's see what the type is
 
-			Dim heatCapacity As Object
-			heatCapacity = heatValue/roomTemp
-			Console.WriteLine(heatCapacity)
-			Console.WriteLine(heatCapacity.GetType)
+			dim heatcapacity as object
+			heatcapacity = heatvalue/roomtemp
+			console.writeline(heatcapacity)
+			console.writeline(heatcapacity.gettype)
 
 
 			'' now let's try to get back specific energy
 			'
 			
-			Dim resultEnergy As Object
-			resultEnergy = heatCapacity*roomTemp
-			Console.WriteLine(resultEnergy)
-			UnknownUnitExtensions.IntelligentCast(resultEnergy)
-			Console.WriteLine(resultEnergy.GetType)
+			dim resultenergy as object
+			resultenergy = heatcapacity*roomtemp
+			console.writeline(resultenergy)
+			unknownunitextensions.intelligentcast(resultenergy)
+			console.writeline(resultenergy.gettype)
 
 
-			'' test ToString
-		    Console.WriteLine(resultEnergy.ToString())
-			Console.WriteLIne(heatValue.ToString())
+			'' test tostring
+		    console.writeline(resultenergy.tostring())
+			console.writeline(heatvalue.tostring())
 
 
-			'' test the Unit of each type
-			Console.WriteLine(resultEnergy.Unit)
-			Console.WriteLine(heatValue.Unit)
+			'' test the unit of each type
+			console.writeline(resultenergy.unit)
+			console.writeline(heatvalue.unit)
 			
-			'Dim sum As Object
-			'sum = resultEnergy + heatValue
-			'Console.WriteLine(sum)
+			'dim sum as object
+			'sum = resultenergy + heatvalue
+			'console.writeline(sum)
 
-			' this is the unitCheck method for two quantities
-			BaseUnit.UnitCheck(resultEnergy,heatValue)
-			Try 
-			    BaseUnit.UnitCheck(roomTemp,resultEnergy)
-			Catch ex As WrongUnitException
+			' this is the unitcheck method for two quantities
+			baseunit.unitcheck(resultenergy,heatvalue)
+			try 
+			    baseunit.unitcheck(roomtemp,resultenergy)
+			catch ex as wrongunitexception
 
-			    Console.WriteLine(ex.Message)
+			    console.writeline(ex.message)
 
-		    End Try
+		    end try
 
 
 			' i want to check if we can typecast base unit as unknown unit
