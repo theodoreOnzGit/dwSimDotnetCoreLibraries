@@ -9,6 +9,12 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 
     Public Class UnitTestIXmlReader
 
+		<Theory>
+		<InlineData()>
+		Sub IXmlReader_sandbox()
+
+			
+		End Sub
 
 
 	    '<Theory>
