@@ -1,3 +1,7 @@
+# vim swp files
+#
+*.swp
+*.*.swp
 # minder files
 
 *backup*.minder
