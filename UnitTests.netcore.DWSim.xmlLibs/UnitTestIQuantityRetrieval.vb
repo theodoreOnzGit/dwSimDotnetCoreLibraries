@@ -31,8 +31,7 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 			' and provide the appropriate return types
 			
 
-			' 
-
+			Me.getPropertyList()
 
 			
 		End Sub
@@ -46,8 +45,8 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 			propertyList = new List (Of (propertyName As String, attachedList As IEnumerable (Of String)))
 
 			Dim propertyName As String
-			Dim attachedList As IList(Of String)
-			attachedList = new List(Of String)
+			Dim attachingList As IList(Of String)
+			attachingList = new List(Of String)
 
 			'' first let's have the name category
 
@@ -62,26 +61,26 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 
 			propertyName = "Name"
 
-			attachedList.Add("Name")
-			attachedList.Add("CAS_Number")
-			attachedList.Add("ID")
-			attachedList.Add("COSMODBName")
+			attachingList.Add("Name")
+			attachingList.Add("CAS_Number")
+			attachingList.Add("ID")
+			attachingList.Add("COSMODBName")
 
-			tupleToAdd = (propertyName, attachedList)
+			tupleToAdd = (propertyName, attachingList)
 			propertyList.Add(tupleToAdd)
-			attachedList.Clear()
+			attachingList.Clear()
 
 			' critical properties
 
 			propertyName = "criticalProperties"
-			attachedList.Add("Critical_Temperature")
-			attachedList.Add("Critical_Pressure")
-			attachedList.Add("Critical_Volume")
-			attachedList.Add("Critical_Compressibility")
+			attachingList.Add("Critical_Temperature")
+			attachingList.Add("Critical_Pressure")
+			attachingList.Add("Critical_Volume")
+			attachingList.Add("Critical_Compressibility")
 
-			tupleToAdd = (propertyName, attachedList)
+			tupleToAdd = (propertyName, attachingList)
 			propertyList.Add(tupleToAdd)
-			attachedList.Clear()
+			attachingList.Clear()
 			'    <Formula>CH4</Formula>
 			'    <Molar_Weight>16.043</Molar_Weight>
 			'    <Acentric_Factor>0.01155</Acentric_Factor>
@@ -91,89 +90,101 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 
 			' chao seader propperties
 			propertyName = "chaoSeaderProperties"
-			attachedList.Add("CS_Acentric_Factor")
-			attachedList.Add("CS_Solubility_Parameter")
-			attachedList.Add("CS_Liquid_Molar_Volume")
+			attachingList.Add("CS_Acentric_Factor")
+			attachingList.Add("CS_Solubility_Parameter")
+			attachingList.Add("CS_Liquid_Molar_Volume")
 
-			tupleToAdd = (propertyName, attachedList)
+			tupleToAdd = (propertyName, attachingList)
 			propertyList.Add(tupleToAdd)
 
-			attachedList.Clear()
+			attachingList.Clear()
 
 			' this is enthalpy entropy and Gibbs free energy of formation
 
 			propertyName = "formationProperties"
-			attachedList.Add("IG_Entropy_of_Formation_25C")
-			attachedList.Add("IG_Enthalpy_of_Formation_25C")
-			attachedList.Add("IG_Gibbs_Energy_of_Formation_25C")
+			attachingList.Add("IG_Entropy_of_Formation_25C")
+			attachingList.Add("IG_Enthalpy_of_Formation_25C")
+			attachingList.Add("IG_Gibbs_Energy_of_Formation_25C")
 
-			tupleToAdd = (propertyName, attachedList)
+			tupleToAdd = (propertyName, attachingList)
 			propertyList.Add(tupleToAdd)
-			attachedList.Clear()
+			attachingList.Clear()
 			'<Dipole_Moment>0</Dipole_Moment>
 
 			' vapour pressure
 
 			propertyName = "vaporPressure"
 
-			attachedList.Add("DIPPR_Vapor_Pressure_Constant_A")
-			attachedList.Add("DIPPR_Vapor_Pressure_Constant_B")
-			attachedList.Add("DIPPR_Vapor_Pressure_Constant_C")
-			attachedList.Add("DIPPR_Vapor_Pressure_Constant_D")
-			attachedList.Add("DIPPR_Vapor_Pressure_Constant_E")
-			attachedList.Add("DIPPR_Vapor_Pressure_TMIN")
-			attachedList.Add("DIPPR_Vapor_Pressure_TMAX")
+			attachingList.Add("DIPPR_Vapor_Pressure_Constant_A")
+			attachingList.Add("DIPPR_Vapor_Pressure_Constant_B")
+			attachingList.Add("DIPPR_Vapor_Pressure_Constant_C")
+			attachingList.Add("DIPPR_Vapor_Pressure_Constant_D")
+			attachingList.Add("DIPPR_Vapor_Pressure_Constant_E")
+			attachingList.Add("DIPPR_Vapor_Pressure_TMIN")
+			attachingList.Add("DIPPR_Vapor_Pressure_TMAX")
 
-			tupleToAdd = (propertyName, attachedList)
+			tupleToAdd = (propertyName, attachingList)
 			propertyList.Add(tupleToAdd)
-			attachedList.Clear()
+			attachingList.Clear()
 
 			' heatCapacity ideal gas J/mol/K
 			propertyName = "heatCapacity"
-			attachedList.Add("Ideal_Gas_Heat_Capacity_Const_A")
-			attachedList.Add("Ideal_Gas_Heat_Capacity_Const_B")
-			attachedList.Add("Ideal_Gas_Heat_Capacity_Const_C")
-			attachedList.Add("Ideal_Gas_Heat_Capacity_Const_D")
-			attachedList.Add("Ideal_Gas_Heat_Capacity_Const_E")
+			attachingList.Add("Ideal_Gas_Heat_Capacity_Const_A")
+			attachingList.Add("Ideal_Gas_Heat_Capacity_Const_B")
+			attachingList.Add("Ideal_Gas_Heat_Capacity_Const_C")
+			attachingList.Add("Ideal_Gas_Heat_Capacity_Const_D")
+			attachingList.Add("Ideal_Gas_Heat_Capacity_Const_E")
 
-			tupleToAdd = (propertyName, attachedList)
+			tupleToAdd = (propertyName, attachingList)
 			propertyList.Add(tupleToAdd)
-			attachedList.Clear()
+			attachingList.Clear()
 
 			' liquid viscosity
 			propertyname = "liquidviscosity"
-			attachedList.Add("liquid_viscosity_const_a")
-			attachedList.Add("liquid_viscosity_const_b")
-			attachedList.Add("liquid_viscosity_const_c")
-			attachedList.Add("liquid_viscosity_const_d")
-			attachedList.Add("liquid_viscosity_const_e")
+			attachingList.Add("liquid_viscosity_const_a")
+			attachingList.Add("liquid_viscosity_const_b")
+			attachingList.Add("liquid_viscosity_const_c")
+			attachingList.Add("liquid_viscosity_const_d")
+			attachingList.Add("liquid_viscosity_const_e")
 
-			tupleToAdd = (propertyName, attachedList)
+			tupleToAdd = (propertyName, attachingList)
 			propertyList.Add(tupleToAdd)
-			attachedList.Clear()
+			attachingList.Clear()
 
 			'' now for boiling point
 
 			propertyname = "boilingpoint"
-			attachedList.Add("normal_boiling_point")
+			attachingList.Add("normal_boiling_point")
 
-			tupleToAdd = (propertyName, attachedList)
+			tupleToAdd = (propertyName, attachingList)
 			propertyList.Add(tupleToAdd)
-			attachedList.Clear()
+			attachingList.Clear()
 			'    <ispf>0</ispf>
 			'    <ishyp>0</ishyp>
 			'' enthalpy of vaporisation properties
 			propertyname = "hvap"
-			attachedList.Add("hvapa")
-			attachedList.Add("hvapb")
-			attachedList.Add("hvapc")
-			attachedList.Add("hvapd")
-			attachedList.Add("hvaptmin")
-			attachedList.Add("hvaptmax")
+			attachingList.Add("hvapa")
+			attachingList.Add("hvapb")
+			attachingList.Add("hvapc")
+			attachingList.Add("hvapd")
+			attachingList.Add("hvaptmin")
+			attachingList.Add("hvaptmax")
 
-			tupleToAdd = (propertyName, attachedList)
+			Me.printEnumerableString(attachingList)
+
+			tupleToAdd = (propertyName, attachingList)
+
+			Me.printEnumerableString(tupleToAdd.attachedList)
+
+			Dim x As IEnumerable (Of String)
+			x = tupleToAdd.attachedList
+
+			Console.WriteLine("checking if typecasting method is the cause of a bug")
+			Console.WriteLine()
+			Me.printEnumerableString(x)
+
 			propertyList.Add(tupleToAdd)
-			attachedList.Clear()
+			attachingList.Clear()
 
 			'' uniquac properties
 
@@ -190,10 +201,37 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 
 
 
+			For Each tuple in propertyList
+				Console.WriteLine(tuple.propertyName)
+				Console.WriteLine(tuple.attachedList)
+				Console.WriteLine()
+				Dim y as IEnumerable (Of String)
+				y = tuple.AttachedList
+				Me.printEnumerableString(y)
+			Next
+
+			'' was stuck here, i think the list of tuple of (string,list)
+			' doesn't quite work well yeah...
 
 		end function
 
 
+		Function printEnumerableString(ByVal stringEnum As IEnumerable (Of String)) 
+
+
+			Console.WriteLine("printing Type")
+			Dim objtype as Type
+			objtype = stringEnum.GetType()
+			Console.WriteLine(objtype.Name)
+
+			Console.WriteLine("how many items there are in this object:")
+			Console.WriteLine(Enumerable.Count(stringEnum))
+			
+			For Each item in stringEnum
+				Console.WriteLine(item)
+			Next
+
+		End Function
 
 
 	    '<theory>
