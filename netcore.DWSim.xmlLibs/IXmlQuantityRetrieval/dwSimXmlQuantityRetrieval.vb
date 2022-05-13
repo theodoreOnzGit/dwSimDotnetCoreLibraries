@@ -32,9 +32,5 @@ Implements IXmlQuantityRetrieval
 
 	End Sub
 
-
-	
-
-
 End Class
 

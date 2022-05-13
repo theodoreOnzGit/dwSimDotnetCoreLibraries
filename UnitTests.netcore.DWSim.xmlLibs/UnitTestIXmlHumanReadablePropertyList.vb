@@ -16,6 +16,30 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 
 		End Sub
 
+        <Theory>
+		<InlineData("heatcapacity")>
+		<InlineData("Ideal_Gas_Heat_Capacity_Const_A")>
+        Sub sandbox(desiredQuantity As String)
+
+
+			Dim xmlLibLoader as IXmlLibLoader
+			'' please declare new object later
+			xmlLibLoader = new dwSimXmlLibBruteForce
+			Dim dwSimPropertyList As IXmlHumanReadablePropertyList
+
+			dwSimPropertyList = new dwSimXmlHumanReadablePropertyList_May2022
+			dwSimPropertyList.injectLibrary(xmlLibLoader)
+
+			Dim testEnumerable As IEnumerable (Of String)
+
+			testEnumerable = dwSimPropertyList.returnList(desiredQuantity)
+
+			For Each compoundProperty in testEnumerable
+				Console.Writeline(compoundProperty)
+			Next
+
+		End Sub
+
 		<Fact>
 		Sub TestIXmlPropertyList_ShouldProduceList()
 			'' Setup

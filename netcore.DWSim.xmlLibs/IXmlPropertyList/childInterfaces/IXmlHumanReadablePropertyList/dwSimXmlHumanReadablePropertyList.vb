@@ -6,7 +6,7 @@ Imports System.Collections.Generic
 
 
 
-Public Class dwSimXmlHumanReadablePropertyList
+Public Class dwSimXmlHumanReadablePropertyList_May2022
 
 Inherits dwSimXmlPropertyList_May2022
 
@@ -24,12 +24,26 @@ Implements IXmlHumanReadablePropertyList
 
 	'' this is where the user accesses the lists from outside
 	Public Overloads Function returnList(ByVal desiredQuantity As String) As IEnumerable (Of String) Implements IXmlHumanReadablePropertyList.returnList
+	'' first i clear the property List
+		Me.propertyList = new List (Of String) 
+
+		'' next i check if the desiredQuantity is some null value
 		If desiredQuantity Is Nothing
 			'' remember to put message here later
 			throw new InvalidOperationException()
 		End If
 
 		Me.constructHeatCapacityList(desiredQuantity)
+
+		'' if after all the checks the propertyList
+		'isn't populated, then something is wrong,
+		'throw an exception
+		If Me.propertyList.Count = 0
+
+			'probably change this to out of range later
+			throw new InvalidOperationException()
+
+		End If
 
 		
 		return Me.propertyList
