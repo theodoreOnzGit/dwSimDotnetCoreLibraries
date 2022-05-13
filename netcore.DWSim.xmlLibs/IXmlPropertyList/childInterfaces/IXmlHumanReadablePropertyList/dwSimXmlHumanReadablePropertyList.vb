@@ -176,7 +176,11 @@ Implements IXmlHumanReadablePropertyList
 	End Sub
 
 	Private Sub constructBoilingPoint(ByVal desiredQuantity As String)
-		throw new NotImplementedException()
+		Select Case desiredQuantity.ToLower()
+			Case "boilingPoint".ToLower() Or "normal_boiling_point".ToLower()
+				Me.propertyList.Clear()
+				Me.propertyList.Add("normal_boiling_point")
+		End Select
 	End Sub
 
 	'' hvap
