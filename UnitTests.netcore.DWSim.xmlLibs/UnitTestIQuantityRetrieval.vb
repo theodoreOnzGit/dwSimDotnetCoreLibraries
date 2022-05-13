@@ -9,7 +9,7 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 
     Public Class UnitTestIQuantityRetrieval
 
-		<Theory>
+		'<Theory>
 		<InlineData()>
 		Sub IQuantityRetrieval_Sandbox()
 
@@ -213,7 +213,72 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 			'' was stuck here, i think the list of tuple of (string,list)
 			' doesn't quite work well yeah...
 
-		end function
+
+			' so list of tuple (Of String, IEnumerable(Of String))
+			' doesn't quite work well
+			' here are a number of solutions
+			' 1) replace IEnumerable of String with some other object class
+				' a) it has worked before
+				' b) i just need to make a new class
+			' 2) use the IEngineeringConversionEnumerable class
+				' a) i use the existing IEngineeringConversionEnumerable interface
+				' to put the data in and then just make a new implementation
+				' b) cons: doesn't seem to match the function of what the class
+				' is meant to do
+			' 3) use IXmlPropertyList interface, which should inherit IList or IEnumerable
+				' the sublists of which should be also typed as IXmlPropertyList
+				' which means i'll need to have several constructors
+				' so if the user just does dependency injection and gives the right
+				' IXmlLibrary, the whole list will be returned
+				' otherwise, if a property is also given
+				' then filtered sublists of items will be returned
+				' which means the human readable list 
+				' may as well be a property within the IXmlPropertyList
+				' however, if i merge this altogether, i will violate
+				' SRP (Single Responsibility principle)
+			' 4) use IXmlHumanReadableList
+			' 5) use IXmlPropertyList interface, but implement it with hard coded lists
+			' of IEnumerable<string>
+				' a) it would make sense that IXmlPropertyList would be implemented
+				' by some sublists, like heat capacity and etc
+				'
+				' b) however, it won't be tightly coupled to the human readable list
+				' i would like it to be such that when i make the list here in one place
+				' I would also make the same lists in other places
+				'
+				' c) the simpler approach may be to make a super object which is tightly 
+				' coupled but implements several interfaces at one go,
+				' because those operations are tightly coupled
+				' this may violate single responsibility principle
+				' but i guess a heuristic is what the responsibility should be
+				' I suppose if operations become so tightly coupled, they can indeed
+				' be lumped together in a superclass
+				' that does many functions, but has one singular responsibility
+				' that's a good rule of thumb
+				' this will obey the interface segregation principle
+				' but also single responsibility
+				'
+				' key question is: am I giving myself extra work by
+				' decoupling the class?
+				'
+				' if so, make the single responsibility bigger
+				'
+				' the responsibility of the eventual class will be to return lists
+				' of properties, full lists, subfiltered lists
+				' and human readable property lists
+				'
+				' in doing so, using the object becomes really simple because
+				' there are predefined ways of interfacing with an object
+				'
+				' and by tightly coupling the operations within a single class
+				' I can make sure one change in one part of the class is
+				' reflected in other areas as well
+				' so two interfaces i will make, 
+				' IXmlPropertyList and IXmlHumanReadablePropertyList
+				' 
+			
+
+		End Function
 
 
 		Function printEnumerableString(ByVal stringEnum As IEnumerable (Of String)) 
