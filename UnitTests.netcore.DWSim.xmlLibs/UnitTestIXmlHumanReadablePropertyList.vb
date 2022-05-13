@@ -34,6 +34,7 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 		<InlineData("boilingPoint")>
 		<InlineData("normal_boiling_point")>
 		<InlineData("nonsense")>
+		<InlineData("miscList")>
 		<InlineData("")>
         Sub sandbox(desiredQuantity As String)
 

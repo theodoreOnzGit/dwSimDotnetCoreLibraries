@@ -6,6 +6,7 @@ Imports System.Collections.Generic
 
 
 
+
 Public Class dwSimXmlHumanReadablePropertyList_May2022
 
 Inherits dwSimXmlPropertyList_May2022
@@ -32,10 +33,18 @@ Implements IXmlHumanReadablePropertyList
 			'' remember to put message here later
 			throw new InvalidOperationException()
 		End If
+		If  _xmlLibrary Is Nothing
+			throw new InvalidOperationException("please use injectLibrary to inject xmlLibLoader first")
+		End If
 
+		
+		'' first i return a miscList, this will be a full copy of the
+		' propertyList found
+		Me.constructUnEditedMiscList()
 		Me.constructHeatCapacityList(desiredQuantity)
 		Me.constructLiquidViscosity(desiredQuantity)
 		Me.constructBoilingPoint(desiredQuantity)
+		Me.constructMiscList(desiredQuantity)
 
 		'' if after all the checks the propertyList
 		'isn't populated, then something is wrong,
@@ -44,8 +53,9 @@ Implements IXmlHumanReadablePropertyList
 
 			'probably change this to out of range later
 			Dim errorMsg as String
-			errorMsg = desiredQuantity + " does not exist" & VbCrLf
+			errorMsg = "The quantity you entered :("+ desiredQuantity + ") does not exist" & VbCrLf
 			errorMsg += "please select a valid entry from the following:" & VbCrLf
+			errorMsg += VbCrLf
 			For Each menuItem in Me.propertyMenu
 				errorMsg += menuItem & VbCrLf
 			Next
@@ -65,6 +75,7 @@ Implements IXmlHumanReadablePropertyList
 	' the constructor constructs all the relevant lists needed 
 	Public Sub New()
 		Me.propertyList = new List(Of String)
+		Me.constructMiscList()
 		Me.constructHeatCapacityList()
 		Me.constructLiquidViscosity()
 		Me.constructBoilingPoint()
@@ -142,6 +153,14 @@ Implements IXmlHumanReadablePropertyList
 			Me.propertyList.Add("Ideal_Gas_Heat_Capacity_Const_E")
 		End If
 
+
+		'' lastly i'll remove all the entries from the miscList
+		Me.MiscList.Remove("Ideal_Gas_Heat_Capacity_Const_A")
+		Me.MiscList.Remove("Ideal_Gas_Heat_Capacity_Const_B")
+		Me.MiscList.Remove("Ideal_Gas_Heat_Capacity_Const_C")
+		Me.MiscList.Remove("Ideal_Gas_Heat_Capacity_Const_D")
+		Me.MiscList.Remove("Ideal_Gas_Heat_Capacity_Const_E")
+
 	End Sub
 
 	'' next thing is liquid viscosity
@@ -154,27 +173,32 @@ Implements IXmlHumanReadablePropertyList
 		Select Case desiredQuantity.ToLower()
 			Case "liquidViscosity".ToLower()
 				Me.propertyList.Clear()
-				Me.propertyList.Add("liquid_viscosity_const_a")
-				Me.propertyList.Add("liquid_viscosity_const_b")
-				Me.propertyList.Add("liquid_viscosity_const_c")
-				Me.propertyList.Add("liquid_viscosity_const_d")
-				Me.propertyList.Add("liquid_viscosity_const_e")
-			Case "liquid_viscosity_const_a".ToLower()
+				Me.propertyList.Add("Liquid_Viscosity_Const_A")
+				Me.propertyList.Add("Liquid_Viscosity_Const_B")
+				Me.propertyList.Add("Liquid_Viscosity_Const_C")
+				Me.propertyList.Add("Liquid_Viscosity_Const_D")
+				Me.propertyList.Add("Liquid_Viscosity_Const_E")
+			Case "Liquid_Viscosity_Const_A".ToLower()
 				Me.propertyList.Clear()
-				Me.propertyList.Add("liquid_viscosity_const_a")
-			Case "liquid_viscosity_const_b".ToLower()
+				Me.propertyList.Add("Liquid_Viscosity_Const_A")
+			Case "Liquid_Viscosity_Const_B".ToLower()
 				Me.propertyList.Clear()
-				Me.propertyList.Add("liquid_viscosity_const_b")
-			Case "liquid_viscosity_const_c".ToLower()
+				Me.propertyList.Add("Liquid_Viscosity_Const_B")
+			Case "Liquid_Viscosity_Const_C".ToLower()
 				Me.propertyList.Clear()
-				Me.propertyList.Add("liquid_viscosity_const_c")
-			Case "liquid_viscosity_const_d".ToLower()
+				Me.propertyList.Add("Liquid_Viscosity_Const_C")
+			Case "Liquid_Viscosity_Const_D".ToLower()
 				Me.propertyList.Clear()
-				Me.propertyList.Add("liquid_viscosity_const_d")
-			Case "liquid_viscosity_const_e".ToLower()
+				Me.propertyList.Add("Liquid_Viscosity_Const_D")
+			Case "Liquid_Viscosity_Const_E".ToLower()
 				Me.propertyList.Clear()
-				Me.propertyList.Add("liquid_viscosity_const_e")
+				Me.propertyList.Add("Liquid_Viscosity_Const_E")
 		End Select
+		Me.MiscList.Remove("Liquid_Viscosity_Const_A")
+		Me.MiscList.Remove("Liquid_Viscosity_Const_B")
+		Me.MiscList.Remove("Liquid_Viscosity_Const_C")
+		Me.MiscList.Remove("Liquid_Viscosity_Const_D")
+		Me.MiscList.Remove("Liquid_Viscosity_Const_E")
 	End Sub
 
 	'' boiling point
@@ -188,11 +212,12 @@ Implements IXmlHumanReadablePropertyList
 		Select Case desiredQuantity.ToLower()
 			Case "boilingPoint".ToLower() 
 				Me.propertyList.Clear()
-				Me.propertyList.Add("normal_boiling_point")
-			Case "normal_boiling_point".ToLower()
+				Me.propertyList.Add("Normal_Boiling_Point")
+			Case "Normal_Boiling_Point".ToLower()
 				Me.propertyList.Clear()
-				Me.propertyList.Add("normal_boiling_point")
+				Me.propertyList.Add("Normal_Boiling_Point")
 		End Select
+		Me.miscList.Remove("Normal_Boiling_Point")
 	End Sub
 
 	'' hvap
@@ -225,6 +250,64 @@ Implements IXmlHumanReadablePropertyList
 	Private Sub constructCompoundName(ByVal desiredQuantity As String)
 		throw new NotImplementedException()
 	End Sub
+
+	'' finally i have a misc list here
+	' a misc list holds all the properties present,
+	' but as the other properties are constructed, the misc list has its properties
+	' removed
+	Private Sub constructMiscList()
+		Me.propertyList.Add("miscList")
+	End Sub
+
+	Private Sub constructMiscList(ByVal desiredQuantity As String)
+		Select desiredQuantity.ToLower()
+			Case "misc".ToLower()
+				Me.propertyList.Clear()
+				Me.propertyList = Me.miscList
+			Case "miscList".ToLower()
+				Me.propertyList.Clear()
+				Me.propertyList = Me.miscList
+		End Select
+	
+	End Sub
+
+	Private Sub constructUnEditedMiscList()
+		Me.miscList = new List(Of String)
+
+		Dim xmlData As XDocument
+		xmlData = _xmlLibrary.getXDoc()
+
+		Dim xElementList as IEnumerable(Of XElement)
+
+		xElementList = xmlData.Elements().Elements()
+
+
+		Dim waterComponentXElement As IEnumerable(Of XElement)
+
+		waterComponentXElement = From el In xElementList
+		Where el.Element("Name") = "Water"
+		Select el
+
+
+
+		'' after i have the Xelement for water
+		'i can then extract the child elements from them
+		'and put their names into a List of string
+		For Each element As XElement in waterComponentXElement.Elements()
+			Me.miscList.Add(element.Name.ToString())
+		Next
+	End Sub
+
+	' for convenience, i will have a constructorUpdateList method
+	' this adds the string to the propertyList, 
+	' and deletes it from the miscList
+	Private Sub constructorUpdateList(ByVal x As String)
+		Me.propertyList.Add(x)
+	End Sub
+
+	Private Property miscList As IList(Of String)
+
+
 
 End Class
 
