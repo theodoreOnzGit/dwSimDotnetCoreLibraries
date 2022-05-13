@@ -31,6 +31,8 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 		<InlineData("liquidviscosity")>
 		<InlineData("liquid_viscosity_const_e")>
 		<InlineData("liquid_viscosity_const_b")>
+		<InlineData("boilingPoint")>
+		<InlineData("normal_boiling_point")>
 		<InlineData("nonsense")>
 		<InlineData("")>
         Sub sandbox(desiredQuantity As String)
