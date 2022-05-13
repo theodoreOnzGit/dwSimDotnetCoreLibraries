@@ -34,6 +34,8 @@ Implements IXmlHumanReadablePropertyList
 		End If
 
 		Me.constructHeatCapacityList(desiredQuantity)
+		Me.constructLiquidViscosity(desiredQuantity)
+		Me.constructBoilingPoint(desiredQuantity)
 
 		'' if after all the checks the propertyList
 		'isn't populated, then something is wrong,
@@ -64,6 +66,8 @@ Implements IXmlHumanReadablePropertyList
 	Public Sub New()
 		Me.propertyList = new List(Of String)
 		Me.constructHeatCapacityList()
+		Me.constructLiquidViscosity()
+		Me.constructBoilingPoint()
 
 		Me.propertyMenu = propertyList
 		Me.propertyList = Nothing
