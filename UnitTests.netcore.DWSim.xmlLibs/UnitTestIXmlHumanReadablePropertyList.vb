@@ -19,6 +19,8 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
         <Theory>
 		<InlineData("heatcapacity")>
 		<InlineData("Ideal_Gas_Heat_Capacity_Const_A")>
+		<InlineData("nonsense")>
+		<InlineData("")>
         Sub sandbox(desiredQuantity As String)
 
 

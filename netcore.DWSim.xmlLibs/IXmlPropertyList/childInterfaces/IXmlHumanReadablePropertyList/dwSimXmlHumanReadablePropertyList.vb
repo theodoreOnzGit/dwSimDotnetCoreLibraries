@@ -41,7 +41,18 @@ Implements IXmlHumanReadablePropertyList
 		If Me.propertyList.Count = 0
 
 			'probably change this to out of range later
-			throw new InvalidOperationException()
+			Dim errorMsg as String
+			errorMsg = desiredQuantity + " does not exist" & VbCrLf
+			errorMsg += "please select a valid entry from the following:" & VbCrLf
+			For Each menuItem in Me.propertyMenu
+				errorMsg += menuItem & VbCrLf
+			Next
+			
+			errorMsg += VbCrLf
+			errorMsg += "Thank you!" & VbCrLf
+
+
+			throw new InvalidOperationException(errorMsg)
 
 		End If
 
