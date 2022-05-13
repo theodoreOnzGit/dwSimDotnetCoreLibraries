@@ -22,15 +22,15 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 
         <Fact>
         Sub TestSub()
-			Me._output.WriteLine("hello there")
-			Me._output.WriteLine("General Kenobi")
 		End Sub
-
 
 
         <Theory>
 		<InlineData("heatcapacity")>
 		<InlineData("Ideal_Gas_Heat_Capacity_Const_A")>
+		<InlineData("liquidviscosity")>
+		<InlineData("liquid_viscosity_const_e")>
+		<InlineData("liquid_viscosity_const_b")>
 		<InlineData("nonsense")>
 		<InlineData("")>
         Sub sandbox(desiredQuantity As String)
@@ -49,10 +49,10 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 			Try
 				testEnumerable = dwSimPropertyList.returnList(desiredQuantity)
 				For Each compoundProperty in testEnumerable
-					Console.Writeline(compoundProperty)
+					_output.Writeline(compoundProperty)
 				Next
 				Catch ex As InvalidOperationException
-				Console.Writeline(ex)
+					_output.Writeline(ex.Message)
 				Assert.True(True)
 			End Try
 

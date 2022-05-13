@@ -147,7 +147,25 @@ Implements IXmlHumanReadablePropertyList
 	End Sub
 
 	Private Sub constructLiquidViscosity(ByVal desiredQuantity As String)
-		throw new NotImplementedException()
+		Select Case desiredQuantity.ToLower()
+			Case "liquidViscosity".ToLower()
+				Me.propertyList.Clear()
+				Me.propertyList.Add("liquid_viscosity_const_a")
+				Me.propertyList.Add("liquid_viscosity_const_b")
+				Me.propertyList.Add("liquid_viscosity_const_c")
+				Me.propertyList.Add("liquid_viscosity_const_d")
+				Me.propertyList.Add("liquid_viscosity_const_e")
+			Case "liquid_viscosity_const_a".ToLower()
+				Me.propertyList.Add("liquid_viscosity_const_a")
+			Case "liquid_viscosity_const_b".ToLower()
+				Me.propertyList.Add("liquid_viscosity_const_b")
+			Case "liquid_viscosity_const_c".ToLower()
+				Me.propertyList.Add("liquid_viscosity_const_c")
+			Case "liquid_viscosity_const_d".ToLower()
+				Me.propertyList.Add("liquid_viscosity_const_d")
+			Case "liquid_viscosity_const_e".ToLower()
+				Me.propertyList.Add("liquid_viscosity_const_e")
+		End Select
 	End Sub
 
 	'' boiling point
