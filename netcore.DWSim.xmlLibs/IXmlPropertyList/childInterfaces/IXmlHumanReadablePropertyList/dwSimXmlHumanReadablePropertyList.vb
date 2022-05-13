@@ -160,14 +160,19 @@ Implements IXmlHumanReadablePropertyList
 				Me.propertyList.Add("liquid_viscosity_const_d")
 				Me.propertyList.Add("liquid_viscosity_const_e")
 			Case "liquid_viscosity_const_a".ToLower()
+				Me.propertyList.Clear()
 				Me.propertyList.Add("liquid_viscosity_const_a")
 			Case "liquid_viscosity_const_b".ToLower()
+				Me.propertyList.Clear()
 				Me.propertyList.Add("liquid_viscosity_const_b")
 			Case "liquid_viscosity_const_c".ToLower()
+				Me.propertyList.Clear()
 				Me.propertyList.Add("liquid_viscosity_const_c")
 			Case "liquid_viscosity_const_d".ToLower()
+				Me.propertyList.Clear()
 				Me.propertyList.Add("liquid_viscosity_const_d")
 			Case "liquid_viscosity_const_e".ToLower()
+				Me.propertyList.Clear()
 				Me.propertyList.Add("liquid_viscosity_const_e")
 		End Select
 	End Sub
@@ -181,7 +186,10 @@ Implements IXmlHumanReadablePropertyList
 
 	Private Sub constructBoilingPoint(ByVal desiredQuantity As String)
 		Select Case desiredQuantity.ToLower()
-			Case "boilingPoint".ToLower() Or "normal_boiling_point".ToLower()
+			Case "boilingPoint".ToLower() 
+				Me.propertyList.Clear()
+				Me.propertyList.Add("normal_boiling_point")
+			Case "normal_boiling_point".ToLower()
 				Me.propertyList.Clear()
 				Me.propertyList.Add("normal_boiling_point")
 		End Select
