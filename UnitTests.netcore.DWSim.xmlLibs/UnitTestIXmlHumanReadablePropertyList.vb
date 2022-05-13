@@ -5,16 +5,28 @@ Imports theoOng.netcore.DWSim.xmlLibs
 Imports System.Xml
 Imports System.Xml.Linq
 
+Imports Xunit.Abstractions
+
 
 Namespace UnitTests.netcore.DWSim.xmlLibs
 
     Public Class UnitTestIXmlHumanReadablePropertyList
+	' ==== this part helps to inject the output helper so that one can write output ==='
+	' only for windows usage of dotnet build
+	Inherits testOutputHelper
+
+		Public Sub New(outputHelper As ITestOutputHelper)
+			MyBase.New(outputHelper)
+		End Sub
 
 
         <Fact>
         Sub TestSub()
-
+			Me._output.WriteLine("hello there")
+			Me._output.WriteLine("General Kenobi")
 		End Sub
+
+
 
         <Theory>
 		<InlineData("heatcapacity")>
@@ -34,11 +46,16 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 
 			Dim testEnumerable As IEnumerable (Of String)
 
-			testEnumerable = dwSimPropertyList.returnList(desiredQuantity)
+			Try
+				testEnumerable = dwSimPropertyList.returnList(desiredQuantity)
+				For Each compoundProperty in testEnumerable
+					Console.Writeline(compoundProperty)
+				Next
+				Catch ex As InvalidOperationException
+				Console.Writeline(ex)
+				Assert.True(True)
+			End Try
 
-			For Each compoundProperty in testEnumerable
-				Console.Writeline(compoundProperty)
-			Next
 
 		End Sub
 
@@ -90,6 +107,7 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 			dwSimPropertyList.injectLibrary(xmlLibLoader)
 			'' Act
 			'
+
 			resultEnumerable = dwSimPropertyList.returnList()
 			'' Assert
 			Dim areEnumerablesEqual As Boolean
