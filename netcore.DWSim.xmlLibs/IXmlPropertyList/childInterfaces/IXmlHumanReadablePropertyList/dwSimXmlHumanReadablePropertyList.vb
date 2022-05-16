@@ -45,6 +45,7 @@ Implements IXmlHumanReadablePropertyList
 		Me.constructLiquidViscosity(desiredQuantity)
 		Me.constructBoilingPoint(desiredQuantity)
 		Me.constructMiscList(desiredQuantity)
+		Me.constructHVap(desiredQuantity)
 
 		'' if after all the checks the propertyList
 		'isn't populated, then something is wrong,
@@ -79,6 +80,7 @@ Implements IXmlHumanReadablePropertyList
 		Me.constructHeatCapacityList()
 		Me.constructLiquidViscosity()
 		Me.constructBoilingPoint()
+		Me.constructHVap()
 
 		Me.propertyMenu = propertyList
 		Me.propertyList = Nothing
@@ -227,7 +229,40 @@ Implements IXmlHumanReadablePropertyList
 	End Sub
 
 	Private Sub constructHVap(ByVal desiredQuantity As String)
-		throw new NotImplementedException()
+		Select Case desiredQuantity.ToLower()
+			Case "hVap".ToLower()
+				Me.propertyList.Clear()
+				Me.propertyList.Add("HVapA")
+				Me.propertyList.Add("HVapB")
+				Me.propertyList.Add("HvapC")
+				Me.propertyList.Add("HVapD")
+				Me.propertyList.Add("HvapTmin")
+				Me.propertyList.Add("HvapTMAX")
+			Case "HVapA".ToLower() 
+				Me.propertyList.Clear()
+				Me.propertyList.Add("HVapA")
+			Case "HVapB".ToLower() 
+				Me.propertyList.Clear()
+				Me.propertyList.Add("HVapB")
+			Case "HVapC".ToLower() 
+				Me.propertyList.Clear()
+				Me.propertyList.Add("HvapC")
+			Case "HVapD".ToLower() 
+				Me.propertyList.Clear()
+				Me.propertyList.Add("HVapD")
+			Case "HvapTmin".ToLower() 
+				Me.propertyList.Clear()
+				Me.propertyList.Add("HvapTmin")
+			Case "HvapTMAX".ToLower() 
+				Me.propertyList.Clear()
+				Me.propertyList.Add("HvapTMAX")
+		End Select
+		Me.miscList.Remove("HVapA")
+		Me.miscList.Remove("HVapB")
+		Me.miscList.Remove("HvapC")
+		Me.miscList.Remove("HVapD")
+		Me.miscList.Remove("HvapTmin")
+		Me.miscList.Remove("HvapTMAX")
 	End Sub
 
 	'' critical Properties

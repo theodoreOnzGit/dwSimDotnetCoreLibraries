@@ -33,10 +33,15 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 		<InlineData("liquid_viscosity_const_b")>
 		<InlineData("boilingPoint")>
 		<InlineData("normal_boiling_point")>
+		<InlineData("hvap")>
+		<InlineData("hvapA")>
 		<InlineData("nonsense")>
 		<InlineData("miscList")>
 		<InlineData("")>
         Sub sandbox(desiredQuantity As String)
+
+			Me.cout(VbCrLf)
+			Me.cout("Test for:" & desiredQuantity & VbCrLf)
 
 
 			Dim xmlLibLoader as IXmlLibLoader
@@ -52,10 +57,10 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 			Try
 				testEnumerable = dwSimPropertyList.returnList(desiredQuantity)
 				For Each compoundProperty in testEnumerable
-					_output.Writeline(compoundProperty)
+					Me.cout(compoundProperty)
 				Next
 				Catch ex As InvalidOperationException
-					_output.Writeline(ex.Message)
+					Me.cout(ex.Message)
 				Assert.True(True)
 			End Try
 
