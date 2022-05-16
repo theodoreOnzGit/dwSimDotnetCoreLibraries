@@ -43,6 +43,8 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 		<InlineData("compoundname")>
 		<InlineData("ID")>
 		<InlineData("DIPPR_Vapor_pressure_constant_A")>
+		<InlineData("chaoseader")>
+		<InlineData("molecularproperties")>
 		<InlineData("")>
         Sub sandbox(desiredQuantity As String)
 

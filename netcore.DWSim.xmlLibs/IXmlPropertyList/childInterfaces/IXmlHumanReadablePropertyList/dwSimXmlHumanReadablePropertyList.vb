@@ -49,6 +49,9 @@ Implements IXmlHumanReadablePropertyList
 		Me.constructCriticalProperties(desiredQuantity)
 		Me.constructVaporPressure(desiredQuantity)
 		Me.constructCompoundName(desiredQuantity)
+		Me.constructFormationProperties(desiredQuantity)
+		Me.constructChaoSeader(desiredQuantity)
+		Me.constructMolecularProperties(desiredQuantity)
 
 		'' if after all the checks the propertyList
 		'isn't populated, then something is wrong,
@@ -87,6 +90,9 @@ Implements IXmlHumanReadablePropertyList
 		Me.constructCriticalProperties()
 		Me.constructVaporPressure()
 		Me.constructCompoundName()
+		Me.constructFormationProperties()
+		Me.constructChaoSeader()
+		Me.constructMolecularProperties()
 
 
 		Me.propertyMenu = propertyList
@@ -378,6 +384,102 @@ Implements IXmlHumanReadablePropertyList
 		Me.Check(desiredQuantity,constE)
 		Me.Check(desiredQuantity,tmin)
 		Me.Check(desiredQuantity,tmax)
+
+	End Sub
+
+
+	'' formation properties
+	
+	Private Sub constructFormationProperties()
+		Me.propertyList.Add("formationProperties")
+	End Sub
+
+	Private Sub constructFormationProperties(ByVal desiredQuantity As String)
+		Dim checkList As List (Of String) = new List (Of String)
+		checkList.Add("IG_Entropy_of_Formation_25C")
+		checkList.Add("IG_Enthalpy_of_Formation_25C")
+		checkList.Add("IG_Gibbs_Energy_of_Formation_25C")
+
+		'' this part of the code adds the above strings to the
+		'propertyList
+		Select desiredQuantity.ToLower()
+			Case "formationProperties".ToLower()
+				Me.propertyList.Clear()
+				For Each listItem in checkList
+					Me.PropertyList.Add(listItem)
+				Next
+		End Select
+
+		'' this part of the code cleans up the Misc list
+		'and also checks if the desired quantity happens to be any
+		'of the desired properties in the list
+
+		For Each listItem in checkList
+			Me.check(desiredQuantity,listItem)
+		Next
+	End Sub
+	'
+	'' chao seader properties
+	Private Sub constructChaoSeader()
+		Me.propertyList.Add("chaoSeader")
+	End Sub
+
+	Private Sub constructChaoSeader(ByVal desiredQuantity As String)
+		Dim checkList As List (Of String) = new List (Of String)
+		checkList.Add("CS_Acentric_Factor")
+		checkList.Add("CS_Solubility_Parameter")
+		checkList.Add("CS_Liquid_Molar_Volume")
+
+		'' this part of the code adds the above strings to the
+		'propertyList
+		Select desiredQuantity.ToLower()
+			Case "chaoSeader".ToLower()
+				Me.propertyList.Clear()
+				For Each listItem in checkList
+					Me.PropertyList.Add(listItem)
+				Next
+		End Select
+
+		'' this part of the code cleans up the Misc list
+		'and also checks if the desired quantity happens to be any
+		'of the desired properties in the list
+
+		For Each listItem in checkList
+			Me.check(desiredQuantity,listItem)
+		Next
+	End Sub
+	'' molecular properties
+
+	Private Sub constructMolecularProperties()
+		Me.propertyList.Add("molecularProperties")
+	End Sub
+
+	Private Sub constructMolecularProperties(ByVal desiredQuantity As String)
+		Dim checkList As List (Of String) = new List (Of String)
+		checkList.Add("Molar_Weight")
+		checkList.Add("elements")
+		checkList.Add("Acentric_Factor")
+		checkList.Add("Dipole_Moment")
+		checkList.Add("ID")
+
+		'' this part of the code adds the above strings to the
+		'propertyList
+		Select desiredQuantity.ToLower()
+			Case "molecularProperties".ToLower()
+				Me.propertyList.Clear()
+				For Each listItem in checkList
+					Me.PropertyList.Add(listItem)
+				Next
+		End Select
+
+		'' this part of the code cleans up the Misc list
+		'and also checks if the desired quantity happens to be any
+		'of the desired properties in the list
+
+		For Each listItem in checkList
+			Me.check(desiredQuantity,listItem)
+		Next
+
 
 	End Sub
 
