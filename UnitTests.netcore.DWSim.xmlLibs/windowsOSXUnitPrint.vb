@@ -32,6 +32,11 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 
 		End Sub
 
+		Public Sub cout(ByVal text As String)
+			Console.WriteLine(text)
+			Me._output.WriteLine(text)
+		End Sub
+
 	End Class
 
 
