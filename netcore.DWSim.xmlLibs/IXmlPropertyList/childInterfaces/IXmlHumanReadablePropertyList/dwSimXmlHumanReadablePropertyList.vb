@@ -46,6 +46,8 @@ Implements IXmlHumanReadablePropertyList
 		Me.constructBoilingPoint(desiredQuantity)
 		Me.constructMiscList(desiredQuantity)
 		Me.constructHVap(desiredQuantity)
+		Me.constructCriticalProperties(desiredQuantity)
+		Me.constructVaporPressure(desiredQuantity)
 
 		'' if after all the checks the propertyList
 		'isn't populated, then something is wrong,
@@ -81,6 +83,8 @@ Implements IXmlHumanReadablePropertyList
 		Me.constructLiquidViscosity()
 		Me.constructBoilingPoint()
 		Me.constructHVap()
+		Me.constructCriticalProperties()
+		Me.constructVaporPressure()
 
 		Me.propertyMenu = propertyList
 		Me.propertyList = Nothing
@@ -272,8 +276,25 @@ Implements IXmlHumanReadablePropertyList
 	End Sub
 
 	Private Sub constructCriticalProperties(ByVal desiredQuantity As String)
-		throw new NotImplementedException()
+		Dim critT As String = "Critical_Temperature"
+		Dim critP As String = "Critical_Pressure"
+		Dim critV As String = "Critical_Volume"
+		Dim critZ As String = "Critical_Compressibility"
+		Select desiredQuantity.ToLower()
+			Case "criticalProperties".ToLower()
+				Me.propertyList.Clear()
+				Me.propertyList.Add(critT)
+				Me.propertyList.Add(critP)
+				Me.propertyList.Add(critV)
+				Me.propertyList.Add(critZ)
+		End Select
+
+		Me.Check(desiredQuantity,critT)
+		Me.Check(desiredQuantity,critV)
+		Me.Check(desiredQuantity,critP)
+		Me.Check(desiredQuantity,critZ)
 	End Sub
+
 
 
 	'' name and identifiers
@@ -283,7 +304,58 @@ Implements IXmlHumanReadablePropertyList
 	End Sub
 
 	Private Sub constructCompoundName(ByVal desiredQuantity As String)
-		throw new NotImplementedException()
+
+		Dim chemicalName As String = "Name"
+		Dim CAS As String = "CAS_Number"
+		Dim Formula As String = "Formula"
+		Dim COSMODBName As String = "COSMODBName"
+		Dim ID As String = "ID"
+	End Sub
+
+	'' vapor pressure
+	Private Sub constructVaporPressure()
+		Me.propertyList.Add("vaporPressure")
+	End Sub
+
+	Private Sub constructVaporPressure(ByVal desiredQuantity As String)
+
+		Dim vaporPressure As String = "vaporPressure"
+		Dim vapourPressure As String = "vapourPressure"
+		Dim constA As String = "DIPPR_Vapor_Pressure_Constant_A"
+		Dim constB As String = "DIPPR_Vapor_Pressure_Constant_B"
+		Dim constC As String = "DIPPR_Vapor_Pressure_Constant_C"
+		Dim constD As String = "DIPPR_Vapor_Pressure_Constant_D"
+		Dim constE As String = "DIPPR_Vapor_Pressure_Constant_E"
+		Dim tmin As String = "DIPPR_Vapor_Pressure_TMIN"
+		Dim tmax As String = "DIPPR_Vapor_Pressure_TMAX"
+		Select desiredQuantity.ToLower()
+			Case vaporPressure.ToLower()
+				Me.propertyList.Clear()
+				Me.propertyList.Add(constA)
+				Me.propertyList.Add(constB)
+				Me.propertyList.Add(constC)
+				Me.propertyList.Add(constD)
+				Me.propertyList.Add(constE)
+				Me.propertyList.Add(tmin)
+				Me.propertyList.Add(tmax)
+			Case vapourPressure.ToLower()
+				Me.propertyList.Clear()
+				Me.propertyList.Add(constA)
+				Me.propertyList.Add(constB)
+				Me.propertyList.Add(constC)
+				Me.propertyList.Add(constD)
+				Me.propertyList.Add(constE)
+				Me.propertyList.Add(tmin)
+				Me.propertyList.Add(tmax)
+		End Select
+		Me.Check(desiredQuantity,constA)
+		Me.Check(desiredQuantity,constB)
+		Me.Check(desiredQuantity,constC)
+		Me.Check(desiredQuantity,constD)
+		Me.Check(desiredQuantity,constE)
+		Me.Check(desiredQuantity,tmin)
+		Me.Check(desiredQuantity,tmax)
+
 	End Sub
 
 	'' finally i have a misc list here
@@ -343,6 +415,16 @@ Implements IXmlHumanReadablePropertyList
 	Private Property miscList As IList(Of String)
 
 
+	' another convenience thing
+	'
+	Private Sub Check(ByVal desiredQuantity As String, ByVal inputString As String)
+		desiredQuantity = desiredQuantity.ToLower()
+		If desiredQuantity = inputString.ToLower()
+			Me.propertyList.Clear()
+			Me.propertyList.Add(inputString)
+		End If
+		Me.miscList.Remove(inputString)
+	End Sub
 
 End Class
 

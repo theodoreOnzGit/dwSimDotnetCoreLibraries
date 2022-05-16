@@ -37,6 +37,10 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 		<InlineData("hvapA")>
 		<InlineData("nonsense")>
 		<InlineData("miscList")>
+		<InlineData("vaporPressure")>
+		<InlineData("criticalProperties")>
+		<InlineData("critical_volume")>
+		<InlineData("DIPPR_Vapor_pressure_constant_A")>
 		<InlineData("")>
         Sub sandbox(desiredQuantity As String)
 
