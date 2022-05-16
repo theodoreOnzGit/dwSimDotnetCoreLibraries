@@ -48,6 +48,7 @@ Implements IXmlHumanReadablePropertyList
 		Me.constructHVap(desiredQuantity)
 		Me.constructCriticalProperties(desiredQuantity)
 		Me.constructVaporPressure(desiredQuantity)
+		Me.constructCompoundName(desiredQuantity)
 
 		'' if after all the checks the propertyList
 		'isn't populated, then something is wrong,
@@ -85,6 +86,8 @@ Implements IXmlHumanReadablePropertyList
 		Me.constructHVap()
 		Me.constructCriticalProperties()
 		Me.constructVaporPressure()
+		Me.constructCompoundName()
+
 
 		Me.propertyMenu = propertyList
 		Me.propertyList = Nothing
@@ -304,12 +307,32 @@ Implements IXmlHumanReadablePropertyList
 	End Sub
 
 	Private Sub constructCompoundName(ByVal desiredQuantity As String)
+		Dim checkList As List (Of String) = new List (Of String)
+		checkList.Add("Name")
+		checkList.Add("CAS_Number")
+		checkList.Add("Formula")
+		checkList.Add("COSMODBName")
+		checkList.Add("ID")
 
-		Dim chemicalName As String = "Name"
-		Dim CAS As String = "CAS_Number"
-		Dim Formula As String = "Formula"
-		Dim COSMODBName As String = "COSMODBName"
-		Dim ID As String = "ID"
+		'' this part of the code adds the above strings to the
+		'propertyList
+		Select desiredQuantity.ToLower()
+			Case "compoundName".ToLower()
+				Me.propertyList.Clear()
+				For Each listItem in checkList
+					Me.PropertyList.Add(listItem)
+				Next
+		End Select
+
+		'' this part of the code cleans up the Misc list
+		'and also checks if the desired quantity happens to be any
+		'of the desired properties in the list
+
+		For Each listItem in checkList
+			Me.check(desiredQuantity,listItem)
+		Next
+
+
 	End Sub
 
 	'' vapor pressure
