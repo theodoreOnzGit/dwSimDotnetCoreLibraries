@@ -52,6 +52,10 @@ Implements IXmlHumanReadablePropertyList
 		Me.constructFormationProperties(desiredQuantity)
 		Me.constructChaoSeader(desiredQuantity)
 		Me.constructMolecularProperties(desiredQuantity)
+		Me.constructZRackett(desiredQuantity)
+		Me.constructUNIQUAC(desiredQuantity)
+		Me.constructUNIFAC(desiredQuantity)
+		Me.constructIsPetroleumFraction(desiredQuantity)
 
 		'' if after all the checks the propertyList
 		'isn't populated, then something is wrong,
@@ -93,6 +97,10 @@ Implements IXmlHumanReadablePropertyList
 		Me.constructFormationProperties()
 		Me.constructChaoSeader()
 		Me.constructMolecularProperties()
+		Me.constructZRackett()
+		Me.constructUNIQUAC()
+		Me.constructUNIFAC()
+		Me.constructIsPetroleumFraction()
 
 
 		Me.propertyMenu = propertyList
@@ -238,11 +246,19 @@ Implements IXmlHumanReadablePropertyList
 	'' hvap
 
 	Private Sub constructHVap()
-		Me.propertyList.Add("hVap")
+		Me.propertyList.Add("enthalpyOfVaporisation")
 	End Sub
 
 	Private Sub constructHVap(ByVal desiredQuantity As String)
 		Select Case desiredQuantity.ToLower()
+			Case "enthalpyOfVaporisation".ToLower()
+				Me.propertyList.Clear()
+				Me.propertyList.Add("HVapA")
+				Me.propertyList.Add("HVapB")
+				Me.propertyList.Add("HvapC")
+				Me.propertyList.Add("HVapD")
+				Me.propertyList.Add("HvapTmin")
+				Me.propertyList.Add("HvapTMAX")
 			Case "hVap".ToLower()
 				Me.propertyList.Clear()
 				Me.propertyList.Add("HVapA")
@@ -357,34 +373,37 @@ Implements IXmlHumanReadablePropertyList
 		Dim constE As String = "DIPPR_Vapor_Pressure_Constant_E"
 		Dim tmin As String = "DIPPR_Vapor_Pressure_TMIN"
 		Dim tmax As String = "DIPPR_Vapor_Pressure_TMAX"
+
+		Dim checkList As List (Of String) = new List (Of String)
+		checkList.Add(constA)
+		checkList.Add(constB)
+		checkList.Add(constC)
+		checkList.Add(constD)
+		checkList.Add(constE)
+		checkList.Add(tmin)
+		checkList.Add(tmax)
+		'' this part of the code adds the above strings to the
+		'propertyList
 		Select desiredQuantity.ToLower()
-			Case vaporPressure.ToLower()
-				Me.propertyList.Clear()
-				Me.propertyList.Add(constA)
-				Me.propertyList.Add(constB)
-				Me.propertyList.Add(constC)
-				Me.propertyList.Add(constD)
-				Me.propertyList.Add(constE)
-				Me.propertyList.Add(tmin)
-				Me.propertyList.Add(tmax)
 			Case vapourPressure.ToLower()
 				Me.propertyList.Clear()
-				Me.propertyList.Add(constA)
-				Me.propertyList.Add(constB)
-				Me.propertyList.Add(constC)
-				Me.propertyList.Add(constD)
-				Me.propertyList.Add(constE)
-				Me.propertyList.Add(tmin)
-				Me.propertyList.Add(tmax)
+				For Each listItem in checkList
+					Me.PropertyList.Add(listItem)
+				Next
+			Case vaporPressure.ToLower()
+				Me.propertyList.Clear()
+				For Each listItem in checkList
+					Me.PropertyList.Add(listItem)
+				Next
 		End Select
-		Me.Check(desiredQuantity,constA)
-		Me.Check(desiredQuantity,constB)
-		Me.Check(desiredQuantity,constC)
-		Me.Check(desiredQuantity,constD)
-		Me.Check(desiredQuantity,constE)
-		Me.Check(desiredQuantity,tmin)
-		Me.Check(desiredQuantity,tmax)
 
+		'' this part of the code cleans up the Misc list
+		'and also checks if the desired quantity happens to be any
+		'of the desired properties in the list
+
+		For Each listItem in checkList
+			Me.check(desiredQuantity,listItem)
+		Next
 	End Sub
 
 
@@ -466,6 +485,136 @@ Implements IXmlHumanReadablePropertyList
 		'propertyList
 		Select desiredQuantity.ToLower()
 			Case "molecularProperties".ToLower()
+				Me.propertyList.Clear()
+				For Each listItem in checkList
+					Me.PropertyList.Add(listItem)
+				Next
+		End Select
+
+		'' this part of the code cleans up the Misc list
+		'and also checks if the desired quantity happens to be any
+		'of the desired properties in the list
+
+		For Each listItem in checkList
+			Me.check(desiredQuantity,listItem)
+		Next
+
+
+	End Sub
+	
+	'' Z_Rackett
+	
+
+	Private Sub constructZRackett()
+		'' this is the Z Rackett Compressibility Factor
+		Me.propertyList.Add("rackettCompressibility")
+	End Sub
+
+	Private Sub constructZRackett(ByVal desiredQuantity As String)
+		Dim checkList As List (Of String) = new List (Of String)
+		checkList.Add("Z_Rackett")
+
+		'' this part of the code adds the above strings to the
+		'propertyList
+		Select desiredQuantity.ToLower()
+			Case "rackettCompressibility".ToLower()
+				Me.propertyList.Clear()
+				For Each listItem in checkList
+					Me.PropertyList.Add(listItem)
+				Next
+		End Select
+
+		'' this part of the code cleans up the Misc list
+		'and also checks if the desired quantity happens to be any
+		'of the desired properties in the list
+
+		For Each listItem in checkList
+			Me.check(desiredQuantity,listItem)
+		Next
+
+
+	End Sub
+
+	'' UNIQUAC
+
+	Private Sub constructUNIQUAC()
+		'' this is the UNIQUAC r and q parameters
+		Me.propertyList.Add("UNIQUAC")
+	End Sub
+
+	Private Sub constructUNIQUAC(ByVal desiredQuantity As String)
+		Dim checkList As List (Of String) = new List (Of String)
+		checkList.Add("UNIQUAC_r")
+		checkList.Add("UNIQUAC_q")
+
+		'' this part of the code adds the above strings to the
+		'propertyList
+		Select desiredQuantity.ToLower()
+			Case "UNIQUAC".ToLower()
+				Me.propertyList.Clear()
+				For Each listItem in checkList
+					Me.PropertyList.Add(listItem)
+				Next
+		End Select
+
+		'' this part of the code cleans up the Misc list
+		'and also checks if the desired quantity happens to be any
+		'of the desired properties in the list
+
+		For Each listItem in checkList
+			Me.check(desiredQuantity,listItem)
+		Next
+
+
+	End Sub
+
+	'' this is the UNIFAC List
+
+	Private Sub constructUNIFAC()
+		'' this is the unifac property
+		Me.propertyList.Add("UNIFAC")
+	End Sub
+
+	Private Sub constructUNIFAC(ByVal desiredQuantity As String)
+		Dim checkList As List (Of String) = new List (Of String)
+		checkList.Add("UNIFAC")
+
+		'' this part of the code adds the above strings to the
+		'propertyList
+		Select desiredQuantity.ToLower()
+			Case "UNIFAC".ToLower()
+				Me.propertyList.Clear()
+				For Each listItem in checkList
+					Me.PropertyList.Add(listItem)
+				Next
+		End Select
+
+		'' this part of the code cleans up the Misc list
+		'and also checks if the desired quantity happens to be any
+		'of the desired properties in the list
+
+		For Each listItem in checkList
+			Me.check(desiredQuantity,listItem)
+		Next
+
+
+	End Sub
+
+	'' here is a boolean for indicating if the compound is a petroleum 
+	'fraction
+
+	Private Sub constructIsPetroleumFraction()
+		Me.propertyList.Add("IsPetroleumFraction")
+	End Sub
+
+	Private Sub constructIsPetroleumFraction(ByVal desiredQuantity As String)
+		Dim checkList As List (Of String) = new List (Of String)
+		checkList.Add("isPf")
+
+		'' this part of the code adds the above strings to the
+		'propertyList
+		Select desiredQuantity.ToLower()
+			Case "IsPetroleumFraction".ToLower()
 				Me.propertyList.Clear()
 				For Each listItem in checkList
 					Me.PropertyList.Add(listItem)

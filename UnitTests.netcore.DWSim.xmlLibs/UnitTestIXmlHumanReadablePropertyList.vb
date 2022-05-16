@@ -45,6 +45,10 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 		<InlineData("DIPPR_Vapor_pressure_constant_A")>
 		<InlineData("chaoseader")>
 		<InlineData("molecularproperties")>
+		<InlineData("Z_Rackett")>
+		<InlineData("UNIQUAC")>
+		<InlineData("UNIFAC")>
+		<InlineData("IsPf")>
 		<InlineData("")>
         Sub sandbox(desiredQuantity As String)
 
