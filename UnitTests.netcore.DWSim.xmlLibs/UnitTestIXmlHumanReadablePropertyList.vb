@@ -24,6 +24,42 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
         Sub TestSub()
 		End Sub
 
+		<Fact>
+		Sub TestIXmlHumanReadablePropertyList_ShouldGetPropertyMenu
+			'' Setup
+
+			Dim xmlLibLoader as IXmlLibLoader
+			'' please declare new object later
+			xmlLibLoader = new dwSimXmlLibBruteForce
+			Dim dwSimPropertyList As IXmlHumanReadablePropertyList
+
+			dwSimPropertyList = new dwSimXmlHumanReadablePropertyList_May2022
+			dwSimPropertyList.injectLibrary(xmlLibLoader)
+
+
+			Dim resultEnumerable As IEnumerable (Of String)
+			Dim refEnumerable As IEnumerable(Of String)
+			Dim desiredQuantity As String
+			desiredQuantity = "propertyMenu"
+
+			refEnumerable = Me.returnRefEnumerable(desiredQuantity)
+			'' this part checks if refEnumerable is null
+			If refEnumerable Is Nothing
+				throw new InvalidOperationException()
+			End If
+			If Enumerable.Count(refEnumerable) = 0
+				throw new InvalidOperationException()
+			End If
+			'' Act
+			resultEnumerable = dwSimPropertyList.getMenu()
+			'' Assert
+			Dim areEnumerablesEqual As Boolean
+			areEnumerablesEqual = Enumerable.SequenceEqual(refEnumerable,resultEnumerable)
+			Assert.True(areEnumerablesEqual)
+
+
+		End Sub
+
 		<Theory>
 		<InlineData("LiquidViscosity")>
 		<InlineData("boilingPoint")>
@@ -151,6 +187,25 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 				Case "UNIFAC".ToLower()
 					Dim checkList As List (Of String) = new List (Of String)
 					checkList.Add("UNIFAC")
+					refList = checkList
+				Case "propertyMenu".ToLower()
+					Dim checkList As List (Of String) = new List (Of String)
+					checkList.Add("miscList")
+					checkList.Add("heatCapacity")
+					checkList.Add("liquidViscosity")
+					checkList.Add("boilingPoint")
+					checkList.Add("enthalpyOfVaporisation")
+					checkList.Add("criticalProperties")
+					checkList.Add("vaporPressure")
+					checkList.Add("compoundName")
+					checkList.Add("formationProperties")
+					checkList.Add("chaoSeader")
+					checkList.Add("molecularProperties")
+					checkList.Add("rackettCompressibility")
+					checkList.Add("UNIQUAC")
+					checkList.Add("UNIFAC")
+					checkList.Add("IsPetroleumFraction")
+
 					refList = checkList
 			End Select
 			refEnumerable = refList
