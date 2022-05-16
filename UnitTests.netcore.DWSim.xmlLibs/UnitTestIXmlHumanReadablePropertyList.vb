@@ -24,6 +24,52 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
         Sub TestSub()
 		End Sub
 
+		<Fact>
+		Sub TestIXmlHumanReadablePropertyList_ShouldReturnHeatCapacityList()
+			''Setup
+			Dim refList As IList (Of String)
+			Dim refEnumerable As IEnumerable (Of String)
+
+			refList = new List (Of String)
+			refList.Add("Ideal_Gas_Heat_Capacity_Const_A")
+			refList.Add("Ideal_Gas_Heat_Capacity_Const_B")
+			refList.Add("Ideal_Gas_Heat_Capacity_Const_C")
+			refList.Add("Ideal_Gas_Heat_Capacity_Const_D")
+			refList.Add("Ideal_Gas_Heat_Capacity_Const_E")
+			refEnumerable = refList
+
+			'' Act
+			Dim resultEnumerable As IEnumerable (Of String)
+			resultEnumerable = Me.retrieveDesiredQuantity("heatcapacity")
+			'
+			'' Assert
+			
+			Dim areEnumerablesEqual As Boolean
+			areEnumerablesEqual = Enumerable.SequenceEqual(refEnumerable,resultEnumerable)
+			Assert.True(areEnumerablesEqual)
+		End Sub
+
+		Function retrieveDesiredQuantity(ByVal desiredQuantity As String) As IEnumerable (Of String)
+			Dim xmlLibLoader as IXmlLibLoader
+			'' please declare new object later
+			xmlLibLoader = new dwSimXmlLibBruteForce
+			Dim dwSimPropertyList As IXmlHumanReadablePropertyList
+
+			dwSimPropertyList = new dwSimXmlHumanReadablePropertyList_May2022
+			dwSimPropertyList.injectLibrary(xmlLibLoader)
+
+			Dim testEnumerable As IEnumerable (Of String)
+
+			Try
+				testEnumerable = dwSimPropertyList.returnList(desiredQuantity)
+				Catch ex As InvalidOperationException
+					Me.cout(ex.Message)
+			End Try
+
+			return testEnumerable
+
+		End Function
+
 
         <Theory>
 		<InlineData("heatcapacity")>
