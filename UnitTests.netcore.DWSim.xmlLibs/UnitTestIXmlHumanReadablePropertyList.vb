@@ -32,12 +32,25 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 		<InlineData("compoundName")>
 		<InlineData("vaporPressure")>
 		<InlineData("formationProperties")>
+		<InlineData("chaoSeader")>
+		<InlineData("molecularProperties")>
+		<InlineData("rackettCompressibility")>
+		<InlineData("UNIQUAC")>
+		<InlineData("UNIFAC")>
+		<InlineData("IsPetroleumFraction")>
 		Sub TestIXmlHumanReadablePropertyList_ShouldReturnLists(desiredQuantity As String)
 
 			''Setup
 			Dim refEnumerable As IEnumerable (Of String)
 			Dim resultEnumerable As IEnumerable (Of String)
 			refEnumerable = Me.returnRefEnumerable(desiredQuantity)
+			'' this part checks if refEnumerable is null
+			If refEnumerable Is Nothing
+				throw new InvalidOperationException()
+			End If
+			If Enumerable.Count(refEnumerable) = 0
+				throw new InvalidOperationException()
+			End If
 			'' Act
 			resultEnumerable = Me.retrieveDesiredQuantity(desiredQuantity)
 			'' Assert
@@ -107,6 +120,37 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 					checkList.Add("IG_Entropy_of_Formation_25C")
 					checkList.Add("IG_Enthalpy_of_Formation_25C")
 					checkList.Add("IG_Gibbs_Energy_of_Formation_25C")
+					refList = checkList
+				Case "chaoSeader".ToLower()
+					Dim checkList As List (Of String) = new List (Of String)
+					checkList.Add("CS_Acentric_Factor")
+					checkList.Add("CS_Solubility_Parameter")
+					checkList.Add("CS_Liquid_Molar_Volume")
+					refList = checkList
+				Case "molecularProperties".ToLower()
+					Dim checkList As List (Of String) = new List (Of String)
+					checkList.Add("Molar_Weight")
+					checkList.Add("elements")
+					checkList.Add("Acentric_Factor")
+					checkList.Add("Dipole_Moment")
+					checkList.Add("ID")
+					refList = checkList
+				Case "rackettCompressibility".ToLower()
+					Dim checkList As List (Of String) = new List (Of String)
+					checkList.Add("Z_Rackett")
+					refList = checkList
+				Case "IsPetroleumFraction".ToLower()
+					Dim checkList As List (Of String) = new List (Of String)
+					checkList.Add("isPf")
+					refList = checkList
+				Case "UNIQUAC".ToLower()
+					Dim checkList As List (Of String) = new List (Of String)
+					checkList.Add("UNIQUAC_r")
+					checkList.Add("UNIQUAC_q")
+					refList = checkList
+				Case "UNIFAC".ToLower()
+					Dim checkList As List (Of String) = new List (Of String)
+					checkList.Add("UNIFAC")
 					refList = checkList
 			End Select
 			refEnumerable = refList
