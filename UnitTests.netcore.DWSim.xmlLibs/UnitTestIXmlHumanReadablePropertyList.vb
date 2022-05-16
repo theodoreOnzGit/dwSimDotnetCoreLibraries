@@ -24,6 +24,62 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
         Sub TestSub()
 		End Sub
 
+		<Theory>
+		<InlineData("LiquidViscosity")>
+		<InlineData("boilingPoint")>
+		<InlineData("enthalpyOfVaporisation")>
+		<InlineData("criticalProperties")>
+		Sub TestIXmlHumanReadablePropertyList_ShouldReturnLists(desiredQuantity As String)
+
+			''Setup
+			Dim refEnumerable As IEnumerable (Of String)
+			Dim resultEnumerable As IEnumerable (Of String)
+			refEnumerable = Me.returnRefEnumerable(desiredQuantity)
+			'' Act
+			resultEnumerable = Me.retrieveDesiredQuantity(desiredQuantity)
+			'' Assert
+			Dim areEnumerablesEqual As Boolean
+			areEnumerablesEqual = Enumerable.SequenceEqual(refEnumerable,resultEnumerable)
+			Assert.True(areEnumerablesEqual)
+		End Sub
+
+
+		'' here is a case structure to return my ref enumerables
+		'
+
+		Public Function returnRefEnumerable(ByVal desiredQuantity As String) As IEnumerable (Of String)
+			Dim refEnumerable As IEnumerable (Of String)
+			Dim refList As IList (Of String)
+			refList = new List (Of String)
+
+			Select desiredQuantity.ToLower()
+				Case "LiquidViscosity".ToLower()
+					refList.Add("Liquid_Viscosity_Const_A")
+					refList.Add("Liquid_Viscosity_Const_B")
+					refList.Add("Liquid_Viscosity_Const_C")
+					refList.Add("Liquid_Viscosity_Const_D")
+					refList.Add("Liquid_Viscosity_Const_E")
+				Case "boilingPoint".ToLower()
+					refList.Add("Normal_Boiling_Point")
+				Case "enthalpyOfVaporisation".ToLower()
+					refList.Add("HVapA")
+					refList.Add("HVapB")
+					refList.Add("HvapC")
+					refList.Add("HVapD")
+					refList.Add("HvapTmin")
+					refList.Add("HvapTMAX")
+				Case "criticalProperties".ToLower()
+					refList.Add("Critical_Temperature")
+					refList.Add("Critical_Pressure")
+					refList.Add("Critical_Volume")
+					refList.Add("Critical_Compressibility")
+			End Select
+			refEnumerable = refList
+			return refEnumerable
+		End Function
+
+
+
 		<Fact>
 		Sub TestIXmlHumanReadablePropertyList_ShouldReturnHeatCapacityList()
 			''Setup
@@ -60,18 +116,14 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 
 			Dim testEnumerable As IEnumerable (Of String)
 
-			Try
-				testEnumerable = dwSimPropertyList.returnList(desiredQuantity)
-				Catch ex As InvalidOperationException
-					Me.cout(ex.Message)
-			End Try
+			testEnumerable = dwSimPropertyList.returnList(desiredQuantity)
 
 			return testEnumerable
 
 		End Function
 
 
-        <Theory>
+        '<Theory>
 		<InlineData("heatcapacity")>
 		<InlineData("Ideal_Gas_Heat_Capacity_Const_A")>
 		<InlineData("liquidviscosity")>
