@@ -29,6 +29,9 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 		<InlineData("boilingPoint")>
 		<InlineData("enthalpyOfVaporisation")>
 		<InlineData("criticalProperties")>
+		<InlineData("compoundName")>
+		<InlineData("vaporPressure")>
+		<InlineData("formationProperties")>
 		Sub TestIXmlHumanReadablePropertyList_ShouldReturnLists(desiredQuantity As String)
 
 			''Setup
@@ -73,6 +76,38 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 					refList.Add("Critical_Pressure")
 					refList.Add("Critical_Volume")
 					refList.Add("Critical_Compressibility")
+				Case "compoundName".ToLower()
+					Dim checkList As List (Of String) = new List (Of String)
+					checkList.Add("Name")
+					checkList.Add("CAS_Number")
+					checkList.Add("Formula")
+					checkList.Add("COSMODBName")
+					checkList.Add("ID")
+					refList=checkList
+				Case "vaporPressure".ToLower()
+					Dim constA As String = "DIPPR_Vapor_Pressure_Constant_A"
+					Dim constB As String = "DIPPR_Vapor_Pressure_Constant_B"
+					Dim constC As String = "DIPPR_Vapor_Pressure_Constant_C"
+					Dim constD As String = "DIPPR_Vapor_Pressure_Constant_D"
+					Dim constE As String = "DIPPR_Vapor_Pressure_Constant_E"
+					Dim tmin As String = "DIPPR_Vapor_Pressure_TMIN"
+					Dim tmax As String = "DIPPR_Vapor_Pressure_TMAX"
+
+					Dim checkList As List (Of String) = new List (Of String)
+					checkList.Add(constA)
+					checkList.Add(constB)
+					checkList.Add(constC)
+					checkList.Add(constD)
+					checkList.Add(constE)
+					checkList.Add(tmin)
+					checkList.Add(tmax)
+					refList=checkList
+				Case "formationProperties".ToLower()
+					Dim checkList As List (Of String) = new List (Of String)
+					checkList.Add("IG_Entropy_of_Formation_25C")
+					checkList.Add("IG_Enthalpy_of_Formation_25C")
+					checkList.Add("IG_Gibbs_Energy_of_Formation_25C")
+					refList = checkList
 			End Select
 			refEnumerable = refList
 			return refEnumerable
