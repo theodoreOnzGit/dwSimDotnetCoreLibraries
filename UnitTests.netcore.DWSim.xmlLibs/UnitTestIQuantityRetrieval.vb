@@ -5,13 +5,22 @@ Imports theoOng.netcore.DWSim.xmlLibs
 Imports EngineeringUnits
 Imports EngineeringUnits.Units
 
+Imports Xunit.Abstractions
 Namespace UnitTests.netcore.DWSim.xmlLibs
 
     Public Class UnitTestIQuantityRetrieval
 
+	Inherits testOutputHelper
+
+		Public Sub New(outputHelper As ITestOutputHelper)
+			MyBase.New(outputHelper)
+		End Sub
+
+
 		'<Theory>
 		<InlineData()>
 		Sub IQuantityRetrieval_Sandbox()
+
 
 			' first the user should 
 			' inject the library into IQuantityRetrieval
@@ -29,274 +38,42 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 			' i can use IXmlPropertyList to categorize the human readable properties
 			' or rather just combine them both into one
 			' and provide the appropriate return types
+			'
+
+			'' Setup
+			'' (1) create object
+			Dim testObjectXmlQuantityRetrieval As IXmlQuantityRetrieval
+			testObjectXmlQuantityRetrieval = new dwSimXmlQuantityRetrieval
+
+			testObjectXmlQuantityRetrieval.injectLib(new dwSimXmlLibBruteForce)
+
+			Dim refEnumerable As IEngineeringConversionEnumerable
+			refEnumerable = new EngineeringConversionList()
+
+
+
+			Dim resultEnumerable As IEngineeringConversionEnumerable
+
+			''Act
+			'
+
+			resultEnumerable = testObjectXmlQuantityRetrieval.returnEngineeringEnumerable("heatCapacity")
+
+			'' print
+			For Each item in resultEnumerable
+				Me.cout(item)
+			Next
+
+			' assert
+			'' (2) 
+
 			
 
-			Me.getPropertyList()
 
 			
 		End Sub
 
 
-		Function getPropertyList() As IEnumerable (Of (propertyName As String, attachedList As IEnumerable (Of String)))
-
-			Dim tupleToAdd As (propertyName As String, attachedList As IEnumerable (Of String))
-			Dim propertyList As IList (Of (propertyName As String, attachedList As IEnumerable (Of String)))
-
-			propertyList = new List (Of (propertyName As String, attachedList As IEnumerable (Of String)))
-
-			Dim propertyName As String
-			Dim attachingList As IList(Of String)
-			attachingList = new List(Of String)
-
-			'' first let's have the name category
-
-			' this will contain all the names and identifiers
-			' of the chemcial
-			
-			' units and functions found here: https://github.com/DanWBR/dwsim/blob/windows/DWSIM.Thermodynamics/BaseClasses/ThermodynamicsBase.vb
-			' line 1419
-			' more units found in this file
-			' https://github.com/DanWBR/dwsim/blob/windows/DWSIM.Interfaces/ICompoundConstantProperties.vb
-
-
-			propertyName = "Name"
-
-			attachingList.Add("Name")
-			attachingList.Add("CAS_Number")
-			attachingList.Add("ID")
-			attachingList.Add("COSMODBName")
-
-			tupleToAdd = (propertyName, attachingList)
-			propertyList.Add(tupleToAdd)
-			attachingList.Clear()
-
-			' critical properties
-
-			propertyName = "criticalProperties"
-			attachingList.Add("Critical_Temperature")
-			attachingList.Add("Critical_Pressure")
-			attachingList.Add("Critical_Volume")
-			attachingList.Add("Critical_Compressibility")
-
-			tupleToAdd = (propertyName, attachingList)
-			propertyList.Add(tupleToAdd)
-			attachingList.Clear()
-			'    <Formula>CH4</Formula>
-			'    <Molar_Weight>16.043</Molar_Weight>
-			'    <Acentric_Factor>0.01155</Acentric_Factor>
-			'    <Z_Rackett>2.89E-01</Z_Rackett>
-			'    <PR_Volume_Translation_Coefficient>-0.1595</PR_Volume_Translation_Coefficient>
-			'    <SRK_Volume_Translation_Coefficient>0.0234</SRK_Volume_Translation_Coefficient>
-
-			' chao seader propperties
-			propertyName = "chaoSeaderProperties"
-			attachingList.Add("CS_Acentric_Factor")
-			attachingList.Add("CS_Solubility_Parameter")
-			attachingList.Add("CS_Liquid_Molar_Volume")
-
-			tupleToAdd = (propertyName, attachingList)
-			propertyList.Add(tupleToAdd)
-
-			attachingList.Clear()
-
-			' this is enthalpy entropy and Gibbs free energy of formation
-
-			propertyName = "formationProperties"
-			attachingList.Add("IG_Entropy_of_Formation_25C")
-			attachingList.Add("IG_Enthalpy_of_Formation_25C")
-			attachingList.Add("IG_Gibbs_Energy_of_Formation_25C")
-
-			tupleToAdd = (propertyName, attachingList)
-			propertyList.Add(tupleToAdd)
-			attachingList.Clear()
-			'<Dipole_Moment>0</Dipole_Moment>
-
-			' vapour pressure
-
-			propertyName = "vaporPressure"
-
-			attachingList.Add("DIPPR_Vapor_Pressure_Constant_A")
-			attachingList.Add("DIPPR_Vapor_Pressure_Constant_B")
-			attachingList.Add("DIPPR_Vapor_Pressure_Constant_C")
-			attachingList.Add("DIPPR_Vapor_Pressure_Constant_D")
-			attachingList.Add("DIPPR_Vapor_Pressure_Constant_E")
-			attachingList.Add("DIPPR_Vapor_Pressure_TMIN")
-			attachingList.Add("DIPPR_Vapor_Pressure_TMAX")
-
-			tupleToAdd = (propertyName, attachingList)
-			propertyList.Add(tupleToAdd)
-			attachingList.Clear()
-
-			' heatCapacity ideal gas J/mol/K
-			propertyName = "heatCapacity"
-			attachingList.Add("Ideal_Gas_Heat_Capacity_Const_A")
-			attachingList.Add("Ideal_Gas_Heat_Capacity_Const_B")
-			attachingList.Add("Ideal_Gas_Heat_Capacity_Const_C")
-			attachingList.Add("Ideal_Gas_Heat_Capacity_Const_D")
-			attachingList.Add("Ideal_Gas_Heat_Capacity_Const_E")
-
-			tupleToAdd = (propertyName, attachingList)
-			propertyList.Add(tupleToAdd)
-			attachingList.Clear()
-
-			' liquid viscosity
-			propertyname = "liquidviscosity"
-			attachingList.Add("liquid_viscosity_const_a")
-			attachingList.Add("liquid_viscosity_const_b")
-			attachingList.Add("liquid_viscosity_const_c")
-			attachingList.Add("liquid_viscosity_const_d")
-			attachingList.Add("liquid_viscosity_const_e")
-
-			tupleToAdd = (propertyName, attachingList)
-			propertyList.Add(tupleToAdd)
-			attachingList.Clear()
-
-			'' now for boiling point
-
-			propertyname = "boilingpoint"
-			attachingList.Add("normal_boiling_point")
-
-			tupleToAdd = (propertyName, attachingList)
-			propertyList.Add(tupleToAdd)
-			attachingList.Clear()
-			'    <ispf>0</ispf>
-			'    <ishyp>0</ishyp>
-			'' enthalpy of vaporisation properties
-			propertyname = "hvap"
-			attachingList.Add("hvapa")
-			attachingList.Add("hvapb")
-			attachingList.Add("hvapc")
-			attachingList.Add("hvapd")
-			attachingList.Add("hvaptmin")
-			attachingList.Add("hvaptmax")
-
-			Me.printEnumerableString(attachingList)
-
-			tupleToAdd = (propertyName, attachingList)
-
-			Me.printEnumerableString(tupleToAdd.attachedList)
-
-			Dim x As IEnumerable (Of String)
-			x = tupleToAdd.attachedList
-
-			Console.WriteLine("checking if typecasting method is the cause of a bug")
-			Console.WriteLine()
-			Me.printEnumerableString(x)
-
-			propertyList.Add(tupleToAdd)
-			attachingList.Clear()
-
-			'' uniquac properties
-
-			propertyname = "uniquac"
-			'    <uniquac_r>1.1239</uniquac_r>
-			'    <uniquac_q>1.152</uniquac_q>
-			'    <unifac>
-			'      <group name="ch4">1</group>
-			'    </unifac>
-			'    <elements>
-			'      <element name="c">1</element>
-			'      <element name="h">4</element>
-			'    </elements>
-
-
-
-			For Each tuple in propertyList
-				Console.WriteLine(tuple.propertyName)
-				Console.WriteLine(tuple.attachedList)
-				Console.WriteLine()
-				Dim y as IEnumerable (Of String)
-				y = tuple.AttachedList
-				Me.printEnumerableString(y)
-			Next
-
-			'' was stuck here, i think the list of tuple of (string,list)
-			' doesn't quite work well yeah...
-
-
-			' so list of tuple (Of String, IEnumerable(Of String))
-			' doesn't quite work well
-			' here are a number of solutions
-			' 1) replace IEnumerable of String with some other object class
-				' a) it has worked before
-				' b) i just need to make a new class
-			' 2) use the IEngineeringConversionEnumerable class
-				' a) i use the existing IEngineeringConversionEnumerable interface
-				' to put the data in and then just make a new implementation
-				' b) cons: doesn't seem to match the function of what the class
-				' is meant to do
-			' 3) use IXmlPropertyList interface, which should inherit IList or IEnumerable
-				' the sublists of which should be also typed as IXmlPropertyList
-				' which means i'll need to have several constructors
-				' so if the user just does dependency injection and gives the right
-				' IXmlLibrary, the whole list will be returned
-				' otherwise, if a property is also given
-				' then filtered sublists of items will be returned
-				' which means the human readable list 
-				' may as well be a property within the IXmlPropertyList
-				' however, if i merge this altogether, i will violate
-				' SRP (Single Responsibility principle)
-			' 4) use IXmlHumanReadableList
-			' 5) use IXmlPropertyList interface, but implement it with hard coded lists
-			' of IEnumerable<string>
-				' a) it would make sense that IXmlPropertyList would be implemented
-				' by some sublists, like heat capacity and etc
-				'
-				' b) however, it won't be tightly coupled to the human readable list
-				' i would like it to be such that when i make the list here in one place
-				' I would also make the same lists in other places
-				'
-				' c) the simpler approach may be to make a super object which is tightly 
-				' coupled but implements several interfaces at one go,
-				' because those operations are tightly coupled
-				' this may violate single responsibility principle
-				' but i guess a heuristic is what the responsibility should be
-				' I suppose if operations become so tightly coupled, they can indeed
-				' be lumped together in a superclass
-				' that does many functions, but has one singular responsibility
-				' that's a good rule of thumb
-				' this will obey the interface segregation principle
-				' but also single responsibility
-				'
-				' key question is: am I giving myself extra work by
-				' decoupling the class?
-				'
-				' if so, make the single responsibility bigger
-				'
-				' the responsibility of the eventual class will be to return lists
-				' of properties, full lists, subfiltered lists
-				' and human readable property lists
-				'
-				' in doing so, using the object becomes really simple because
-				' there are predefined ways of interfacing with an object
-				'
-				' and by tightly coupling the operations within a single class
-				' I can make sure one change in one part of the class is
-				' reflected in other areas as well
-				' so two interfaces i will make, 
-				' IXmlPropertyList and IXmlHumanReadablePropertyList
-				' 
-			
-
-		End Function
-
-
-		Function printEnumerableString(ByVal stringEnum As IEnumerable (Of String)) 
-
-
-			Console.WriteLine("printing Type")
-			Dim objtype as Type
-			objtype = stringEnum.GetType()
-			Console.WriteLine(objtype.Name)
-
-			Console.WriteLine("how many items there are in this object:")
-			Console.WriteLine(Enumerable.Count(stringEnum))
-			
-			For Each item in stringEnum
-				Console.WriteLine(item)
-			Next
-
-		End Function
 
 
 	    '<theory>
@@ -762,23 +539,6 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 
 		End Sub
 
-	    '<Fact>
-		Sub IXmlLibrarySelector_executeMoreThanOnceTest()
-
-			
-			Dim resultLib As IXmlLibLoader
-
-
-			Dim xmlLibrarySelector As IXmlLibrarySelector
-			xmlLibrarySelector = new XmlLibSelector_may2022
-
-			resultLib = xmlLibrarySelector.getXmlLibLoader("dwsIm")
-			resultLib = xmlLibrarySelector.getXmlLibLoader("dwsIm")
-			resultLib = xmlLibrarySelector.getXmlLibLoader("dwsIm")
-
-			xmlLibrarySelector = Nothing
-
-		End Sub
 
 
 
@@ -788,5 +548,271 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 
     End Class
 
+
+	Public Class legacyCodeAndSandbox
+
+		Function getPropertyList() As IEnumerable (Of (propertyName As String, attachedList As IEnumerable (Of String)))
+
+			Dim tupleToAdd As (propertyName As String, attachedList As IEnumerable (Of String))
+			Dim propertyList As IList (Of (propertyName As String, attachedList As IEnumerable (Of String)))
+
+			propertyList = new List (Of (propertyName As String, attachedList As IEnumerable (Of String)))
+
+			Dim propertyName As String
+			Dim attachingList As IList(Of String)
+			attachingList = new List(Of String)
+
+			'' first let's have the name category
+
+			' this will contain all the names and identifiers
+			' of the chemcial
+			
+			' units and functions found here: https://github.com/DanWBR/dwsim/blob/windows/DWSIM.Thermodynamics/BaseClasses/ThermodynamicsBase.vb
+			' line 1419
+			' more units found in this file
+			' https://github.com/DanWBR/dwsim/blob/windows/DWSIM.Interfaces/ICompoundConstantProperties.vb
+
+
+			propertyName = "Name"
+
+			attachingList.Add("Name")
+			attachingList.Add("CAS_Number")
+			attachingList.Add("ID")
+			attachingList.Add("COSMODBName")
+
+			tupleToAdd = (propertyName, attachingList)
+			propertyList.Add(tupleToAdd)
+			attachingList.Clear()
+
+			' critical properties
+
+			propertyName = "criticalProperties"
+			attachingList.Add("Critical_Temperature")
+			attachingList.Add("Critical_Pressure")
+			attachingList.Add("Critical_Volume")
+			attachingList.Add("Critical_Compressibility")
+
+			tupleToAdd = (propertyName, attachingList)
+			propertyList.Add(tupleToAdd)
+			attachingList.Clear()
+			'    <Formula>CH4</Formula>
+			'    <Molar_Weight>16.043</Molar_Weight>
+			'    <Acentric_Factor>0.01155</Acentric_Factor>
+			'    <Z_Rackett>2.89E-01</Z_Rackett>
+			'    <PR_Volume_Translation_Coefficient>-0.1595</PR_Volume_Translation_Coefficient>
+			'    <SRK_Volume_Translation_Coefficient>0.0234</SRK_Volume_Translation_Coefficient>
+
+			' chao seader propperties
+			propertyName = "chaoSeaderProperties"
+			attachingList.Add("CS_Acentric_Factor")
+			attachingList.Add("CS_Solubility_Parameter")
+			attachingList.Add("CS_Liquid_Molar_Volume")
+
+			tupleToAdd = (propertyName, attachingList)
+			propertyList.Add(tupleToAdd)
+
+			attachingList.Clear()
+
+			' this is enthalpy entropy and Gibbs free energy of formation
+
+			propertyName = "formationProperties"
+			attachingList.Add("IG_Entropy_of_Formation_25C")
+			attachingList.Add("IG_Enthalpy_of_Formation_25C")
+			attachingList.Add("IG_Gibbs_Energy_of_Formation_25C")
+
+			tupleToAdd = (propertyName, attachingList)
+			propertyList.Add(tupleToAdd)
+			attachingList.Clear()
+			'<Dipole_Moment>0</Dipole_Moment>
+
+			' vapour pressure
+
+			propertyName = "vaporPressure"
+
+			attachingList.Add("DIPPR_Vapor_Pressure_Constant_A")
+			attachingList.Add("DIPPR_Vapor_Pressure_Constant_B")
+			attachingList.Add("DIPPR_Vapor_Pressure_Constant_C")
+			attachingList.Add("DIPPR_Vapor_Pressure_Constant_D")
+			attachingList.Add("DIPPR_Vapor_Pressure_Constant_E")
+			attachingList.Add("DIPPR_Vapor_Pressure_TMIN")
+			attachingList.Add("DIPPR_Vapor_Pressure_TMAX")
+
+			tupleToAdd = (propertyName, attachingList)
+			propertyList.Add(tupleToAdd)
+			attachingList.Clear()
+
+			' heatCapacity ideal gas J/mol/K
+			propertyName = "heatCapacity"
+			attachingList.Add("Ideal_Gas_Heat_Capacity_Const_A")
+			attachingList.Add("Ideal_Gas_Heat_Capacity_Const_B")
+			attachingList.Add("Ideal_Gas_Heat_Capacity_Const_C")
+			attachingList.Add("Ideal_Gas_Heat_Capacity_Const_D")
+			attachingList.Add("Ideal_Gas_Heat_Capacity_Const_E")
+
+			tupleToAdd = (propertyName, attachingList)
+			propertyList.Add(tupleToAdd)
+			attachingList.Clear()
+
+			' liquid viscosity
+			propertyname = "liquidviscosity"
+			attachingList.Add("liquid_viscosity_const_a")
+			attachingList.Add("liquid_viscosity_const_b")
+			attachingList.Add("liquid_viscosity_const_c")
+			attachingList.Add("liquid_viscosity_const_d")
+			attachingList.Add("liquid_viscosity_const_e")
+
+			tupleToAdd = (propertyName, attachingList)
+			propertyList.Add(tupleToAdd)
+			attachingList.Clear()
+
+			'' now for boiling point
+
+			propertyname = "boilingpoint"
+			attachingList.Add("normal_boiling_point")
+
+			tupleToAdd = (propertyName, attachingList)
+			propertyList.Add(tupleToAdd)
+			attachingList.Clear()
+			'    <ispf>0</ispf>
+			'    <ishyp>0</ishyp>
+			'' enthalpy of vaporisation properties
+			propertyname = "hvap"
+			attachingList.Add("hvapa")
+			attachingList.Add("hvapb")
+			attachingList.Add("hvapc")
+			attachingList.Add("hvapd")
+			attachingList.Add("hvaptmin")
+			attachingList.Add("hvaptmax")
+
+			Me.printEnumerableString(attachingList)
+
+			tupleToAdd = (propertyName, attachingList)
+
+			Me.printEnumerableString(tupleToAdd.attachedList)
+
+			Dim x As IEnumerable (Of String)
+			x = tupleToAdd.attachedList
+
+			Console.WriteLine("checking if typecasting method is the cause of a bug")
+			Console.WriteLine()
+			Me.printEnumerableString(x)
+
+			propertyList.Add(tupleToAdd)
+			attachingList.Clear()
+
+			'' uniquac properties
+
+			propertyname = "uniquac"
+			'    <uniquac_r>1.1239</uniquac_r>
+			'    <uniquac_q>1.152</uniquac_q>
+			'    <unifac>
+			'      <group name="ch4">1</group>
+			'    </unifac>
+			'    <elements>
+			'      <element name="c">1</element>
+			'      <element name="h">4</element>
+			'    </elements>
+
+
+
+			For Each tuple in propertyList
+				Console.WriteLine(tuple.propertyName)
+				Console.WriteLine(tuple.attachedList)
+				Console.WriteLine()
+				Dim y as IEnumerable (Of String)
+				y = tuple.AttachedList
+				Me.printEnumerableString(y)
+			Next
+
+			'' was stuck here, i think the list of tuple of (string,list)
+			' doesn't quite work well yeah...
+
+
+			' so list of tuple (Of String, IEnumerable(Of String))
+			' doesn't quite work well
+			' here are a number of solutions
+			' 1) replace IEnumerable of String with some other object class
+				' a) it has worked before
+				' b) i just need to make a new class
+			' 2) use the IEngineeringConversionEnumerable class
+				' a) i use the existing IEngineeringConversionEnumerable interface
+				' to put the data in and then just make a new implementation
+				' b) cons: doesn't seem to match the function of what the class
+				' is meant to do
+			' 3) use IXmlPropertyList interface, which should inherit IList or IEnumerable
+				' the sublists of which should be also typed as IXmlPropertyList
+				' which means i'll need to have several constructors
+				' so if the user just does dependency injection and gives the right
+				' IXmlLibrary, the whole list will be returned
+				' otherwise, if a property is also given
+				' then filtered sublists of items will be returned
+				' which means the human readable list 
+				' may as well be a property within the IXmlPropertyList
+				' however, if i merge this altogether, i will violate
+				' SRP (Single Responsibility principle)
+			' 4) use IXmlHumanReadableList
+			' 5) use IXmlPropertyList interface, but implement it with hard coded lists
+			' of IEnumerable<string>
+				' a) it would make sense that IXmlPropertyList would be implemented
+				' by some sublists, like heat capacity and etc
+				'
+				' b) however, it won't be tightly coupled to the human readable list
+				' i would like it to be such that when i make the list here in one place
+				' I would also make the same lists in other places
+				'
+				' c) the simpler approach may be to make a super object which is tightly 
+				' coupled but implements several interfaces at one go,
+				' because those operations are tightly coupled
+				' this may violate single responsibility principle
+				' but i guess a heuristic is what the responsibility should be
+				' I suppose if operations become so tightly coupled, they can indeed
+				' be lumped together in a superclass
+				' that does many functions, but has one singular responsibility
+				' that's a good rule of thumb
+				' this will obey the interface segregation principle
+				' but also single responsibility
+				'
+				' key question is: am I giving myself extra work by
+				' decoupling the class?
+				'
+				' if so, make the single responsibility bigger
+				'
+				' the responsibility of the eventual class will be to return lists
+				' of properties, full lists, subfiltered lists
+				' and human readable property lists
+				'
+				' in doing so, using the object becomes really simple because
+				' there are predefined ways of interfacing with an object
+				'
+				' and by tightly coupling the operations within a single class
+				' I can make sure one change in one part of the class is
+				' reflected in other areas as well
+				' so two interfaces i will make, 
+				' IXmlPropertyList and IXmlHumanReadablePropertyList
+				' 
+			
+
+		End Function
+
+
+		Function printEnumerableString(ByVal stringEnum As IEnumerable (Of String)) 
+
+
+			Console.WriteLine("printing Type")
+			Dim objtype as Type
+			objtype = stringEnum.GetType()
+			Console.WriteLine(objtype.Name)
+
+			Console.WriteLine("how many items there are in this object:")
+			Console.WriteLine(Enumerable.Count(stringEnum))
+			
+			For Each item in stringEnum
+				Console.WriteLine(item)
+			Next
+
+		End Function
+	End Class
+
 End Namespace
+
 
