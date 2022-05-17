@@ -16,10 +16,9 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 			MyBase.New(outputHelper)
 		End Sub
 
-
-		'<Theory>
+		<Theory>
 		<InlineData()>
-		Sub IQuantityRetrieval_Sandbox()
+		Sub IQuantityRetrieval_sandbox_IEngineeringEnumerableComparison()
 
 
 			' first the user should 
@@ -50,9 +49,35 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 			Dim refEnumerable As IEngineeringConversionEnumerable
 			refEnumerable = new EngineeringConversionList()
 
+			Dim conversionDelegate As EngineeringConversion
+			conversionDelegate = new EngineeringConversion(AddressOf Me.convertCp)
+
+			' now set the delegate for refEnumerable
+			refEnumerable.setDelegate(conversionDelegate)
+
+			'' this is nitrogen heat capacity constants A to E
+			' From DWsim.xml
+			Dim A As Double
+			Dim B As Double
+			Dim C As Double
+			Dim D As Double
+			Dim E As Double
+
+			A = 2.98E+01
+			B = -7.01E-03
+			C = 1.74E-05
+			D = -8.48E-09
+			E = 9.34E-13
+
+			refEnumerable.Add(A)
+			refEnumerable.Add(B)
+			refEnumerable.Add(C)
+			refEnumerable.Add(D)
+			refEnumerable.Add(E)
 
 
 			Dim resultEnumerable As IEngineeringConversionEnumerable
+
 
 			''Act
 			'
@@ -60,25 +85,143 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 			resultEnumerable = testObjectXmlQuantityRetrieval.returnEngineeringEnumerable("heatCapacity")
 
 			'' print
+			For Each item in refEnumerable
+				Me.cout(item)
+			Next
 			For Each item in resultEnumerable
 				Me.cout(item)
 			Next
 
 			' assert
 			'' (2) 
-
 			
+			Dim areenumerablesequal As Boolean
+			areenumerablesequal = Enumerable.Sequenceequal(Of Double)(refenumerable,resultenumerable)
+
+			Assert.True(areenumerablesequal)
+		End Sub
+
+		<Theory>
+		<InlineData()>
+		Sub IQuantityRetrieval_sandbox_IEnumerableComparison()
 
 
+			' first the user should 
+			' inject the library into IQuantityRetrieval
+			' there will be a function checking out what library it is
+			' when the library is checked
+			'then i will return a List of Properties that can be returned
+			' then when returnQuantityList is called
+			' i will then check the desired quantity against the string of properties
+			'  available
 			
+			' and based on that string of properties, start creating an engineeringConversionEnumerable object
+			' and add create a list one by one
+			' i can use IXmlHumanReadablePropertyList to check what properties
+			' are available 
+			' i can use IXmlPropertyList to categorize the human readable properties
+			' or rather just combine them both into one
+			' and provide the appropriate return types
+			'
+
+			'' Setup
+			'' (1) create object
+			Dim testObjectXmlQuantityRetrieval As IXmlQuantityRetrieval
+			testObjectXmlQuantityRetrieval = new dwSimXmlQuantityRetrieval
+
+			testObjectXmlQuantityRetrieval.injectLib(new dwSimXmlLibBruteForce)
+
+			Dim refList As IEngineeringConversionEnumerable
+			refList = new EngineeringConversionList()
+
+			Dim conversionDelegate As EngineeringConversion
+			conversionDelegate = new EngineeringConversion(AddressOf Me.convertCp)
+
+			' now set the delegate for refEnumerable
+			refList.setDelegate(conversionDelegate)
+
+			'' this is nitrogen heat capacity constants A to E
+			' From DWsim.xml
+			Dim A As Double
+			Dim B As Double
+			Dim C As Double
+			Dim D As Double
+			Dim E As Double
+
+			A = 2.98E+01
+			B = -7.01E-03
+			C = 1.74E-05
+			D = -8.48E-09
+			E = 9.34E-13
+
+			refList.Add(A)
+			refList.Add(B)
+			refList.Add(C)
+			refList.Add(D)
+			refList.Add(E)
+
+
+			Dim resultEnumerable As IEnumerable(Of Double)
+
+
+			''Act
+			'
+
+			resultEnumerable = testObjectXmlQuantityRetrieval.returnQuantityList("heatCapacity")
+
+			'' print
+			Dim refEnumerable As IEnumerable(Of Double)
+			refEnumerable = refList
+			For Each item in refList
+				Me.cout(item)
+			Next
+			For Each item in resultEnumerable
+				Me.cout(item)
+			Next
+
+			' assert
+			'' (2) 
+			
+			Dim areenumerablesequal As Boolean
+			areenumerablesequal = Enumerable.Sequenceequal(Of Double)(refenumerable,resultenumerable)
+
+			Assert.True(areenumerablesequal)
 		End Sub
 
 
+		Private Function convertCp(ByVal quantityEnumerable As IEnumerable (Of Double)) As IEnumerable (Of BaseUnit)
 
+			' first i set my unit systems
+			Dim cpUnit As UnitSystem
+			cpUnit = (EnergyUnit.SI/AmountOfSubstanceUnit.SI/TemperatureUnit.SI)
+
+			Dim constantUnit As UnitSystem
+			Dim constantQuantity As BaseUnit
+
+			' next thing i do, is to instantiate a list
+			Dim heatCapacityConstList As List (Of BaseUnit)
+			heatCapacityConstList = new List (Of BaseUnit)
+
+
+			'	Next I initiate the for loop to return the list
+
+			For i As Integer = 0 To quantityEnumerable.Count - 1
+				constantUnit = cpUnit/TemperatureUnit.SI.pow(i)
+				constantQuantity = new BaseUnit(quantityEnumerable(i),constantUnit)
+								
+				heatCapacityConstList.Add(constantQuantity)
+
+				constantUnit = Nothing
+				constantQuantity = Nothing
+			Next
+
+			return heatCapacityConstList
+
+		End Function
 
 	    '<theory>
 		<inlinedata()>
-		sub ixmlreader_ienumerabletest()
+		Sub ixmlreader_ienumerabletest()
 
 			' description:
 			' in this test, i will make an ienumerable of baseunits manually
