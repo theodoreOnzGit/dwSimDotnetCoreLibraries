@@ -11,6 +11,8 @@ Inherits IDisposable
 
     Property _xmlLibLoader As IXmlLibLoader
 
+	Property fluidType As String 
+
     Function returnQuantityList(ByVal desiredQuantity As String) As IEnumerable (Of Double)
 
     Function returnEngineeringEnumerable(ByVal desiredQuantity As String) As IEngineeringConversionEnumerable

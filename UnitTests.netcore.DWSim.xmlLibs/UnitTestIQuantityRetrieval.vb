@@ -42,7 +42,7 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 			'' Setup
 			'' (1) create object
 			Dim testObjectXmlQuantityRetrieval As IXmlQuantityRetrieval
-			testObjectXmlQuantityRetrieval = new dwSimXmlQuantityRetrieval
+			testObjectXmlQuantityRetrieval = new dwSimXmlQuantityRetrieval(new dwSimXmlHumanReadablePropertyList_May2022, new dwSimXmlLibBruteForce)
 
 			testObjectXmlQuantityRetrieval.injectLib(new dwSimXmlLibBruteForce)
 
@@ -127,7 +127,7 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 			'' Setup
 			'' (1) create object
 			Dim testObjectXmlQuantityRetrieval As IXmlQuantityRetrieval
-			testObjectXmlQuantityRetrieval = new dwSimXmlQuantityRetrieval
+			testObjectXmlQuantityRetrieval = new dwSimXmlQuantityRetrieval(new dwSimXmlHumanReadablePropertyList_May2022, new dwSimXmlLibBruteForce)
 
 			testObjectXmlQuantityRetrieval.injectLib(new dwSimXmlLibBruteForce)
 
