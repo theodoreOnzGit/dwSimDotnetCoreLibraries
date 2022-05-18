@@ -18,7 +18,7 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 		'' make a test for 
 		' (1) displaying error message for wrong quantity
 		' (2) displaying error message for wrong library
-		' (3) unit conversion for all quantities 
+		' (3) unit conversion for all quantities (likely theory test)
 		'  -- meaning to say both quantity and unit must be correct
 
 

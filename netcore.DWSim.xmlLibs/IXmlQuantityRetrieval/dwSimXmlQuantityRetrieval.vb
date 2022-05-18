@@ -74,6 +74,7 @@ Implements IXmlQuantityRetrieval
 		'' so i have a list of things to search for, 
 		'' i will need to check the fluid type
 		'' and then return the quantities stated in the list
+		' also if a wrong desired quantity is supplied, an error message should display
 
 		'(1) return x Document
 
