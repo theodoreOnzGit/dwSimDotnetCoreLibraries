@@ -31,14 +31,22 @@ Implements IXmlQuantityRetrieval
 
 	'' these functions deal with the output
     Function returnQuantityList(ByVal desiredQuantity As String) As IEnumerable (Of Double) Implements IXmlQuantityRetrieval.returnQuantityList
+		
 		Me._desiredQuantity = desiredQuantity
+		Dim resultEnumerable As IEngineeringConversionEnumerable
+		resultEnumerable = Me.loadQuantityList(Me._xmlLibLoader)
+		return resultEnumerable
 		
 	End Function
 
 
     Function returnEngineeringEnumerable(ByVal desiredQuantity As String) As IEngineeringConversionEnumerable Implements IXmlQuantityRetrieval.returnEngineeringEnumerable
-		Me._desiredQuantity = desiredQuantity
 
+		Me._desiredQuantity = desiredQuantity
+		Dim resultEnumerable As IEngineeringConversionEnumerable
+		resultEnumerable = Me.loadQuantityList(Me._xmlLibLoader)
+		return resultEnumerable
+		
 	End Function
 
 	'' this helps to deal with the disposal of unused resources
@@ -105,6 +113,9 @@ Implements IXmlQuantityRetrieval
 		Next
 
 
+		return resultList
+
+
 
 	End Function
 
@@ -165,13 +176,15 @@ Implements IXmlQuantityRetrieval
 			errorMsg += VbCrLf
 			errorMsg += VbCrLf
 			errorMsg += "Please select a compound from the following (case sensitive):"
+			errorMsg += VbCrLf
+			errorMsg += VbCrLf
 
 			' first let's get our XDocument
 			Dim xDoc As XDocument
 			xDoc = dwSimLib.getXDoc()
 			'' then let's make a list of elements
 			For Each element As XElement in xDoc.Elements().Elements().Elements("Name")
-				errorMsg += element.Value
+				errorMsg += element.Value & VbCrLf
 			Next
 
 			errorMsg += VbCrLf
