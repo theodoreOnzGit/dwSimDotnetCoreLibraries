@@ -32,7 +32,7 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 
 
 
-		'<Theory>
+		<Theory>
 		<InlineData()>
 		Sub TestIXmlComponentList_exceptionMessageManual()
 

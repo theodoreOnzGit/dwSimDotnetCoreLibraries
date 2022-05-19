@@ -16,10 +16,121 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 			MyBase.New(outputHelper)
 		End Sub
 		'' make a test for 
-		' (1) displaying error message for wrong quantity
-		' (2) displaying error message for wrong library
-		' (3) unit conversion for all quantities (likely theory test)
+		' (1) displaying error message for wrong quantity --> based on 
+		' error message in humanreadableQuantityList
+		' (2) displaying error message for wrong library --> as of May 2022
+		' i can only inject dwSimXmlBruteForce As IXmlLibLoader
+		' so not going to put functionality until new libraries are given
+		' (3) displaying error message for wrong fluid
+		' (4) unit conversion for all quantities (likely theory test)
 		'  -- meaning to say both quantity and unit must be correct
+
+		<Theory>
+		<InlineData("abcde")>
+		Sub TestIQuantityRetrieval_shouldDisplayErrorMsgWrongFluid(ByVal fluidType As String)
+			'' setup
+			Dim testObjectXmlQuantityRetrieval As IXmlQuantityRetrieval
+			testObjectXmlQuantityRetrieval = new dwSimXmlQuantityRetrieval(new dwSimXmlHumanReadablePropertyList_May2022, new dwSimXmlLibBruteForce)
+
+			testObjectXmlQuantityRetrieval.injectLib(new dwSimXmlLibBruteForce)
+
+			' here is where i setup my reference message
+			Dim xDoc As XDocument
+			Dim dwSimLib As dwSimXmlLibBruteForce
+			dwSimLib = new dwSimXmlLibBruteForce()
+			xDoc = dwSimLib.getXDoc()
+
+			Dim checkList As IList(Of String)
+			checkList = new List(Of String)
+			For Each element As XElement in xDoc.Elements().Elements().Elements("Name")
+				checkList.Add(element.Value)
+			Next
+			Dim refErrorMsg As String
+			refErrorMsg = "The compound you specified: " & fluidType & VbCrLf
+			refErrorMsg += "does not exist" & VbCrLf
+
+			refErrorMsg += VbCrLf
+			refErrorMsg += VbCrLf
+			refErrorMsg += "Please select a compound from the following (case sensitive):"
+			refErrorMsg += VbCrLf
+			refErrorMsg += VbCrLf
+
+			'' then let's make a list of elements
+			For Each elementName As String in checkList
+				refErrorMsg += elementName & VbCrLf
+			Next
+
+			refErrorMsg += VbCrLf
+			refErrorMsg += "=== thank you ==="
+			refErrorMsg += VbCrLf
+
+			'' act 
+			' At this point i should get an error if i specify a wrong fluid
+			'
+			Dim exceptionMessage As String
+
+			Try 
+
+				testObjectXmlQuantityRetrieval.fluidType = fluidType
+				Catch ex As InvalidOperationException
+				exceptionMessage = ex.Message
+			End Try
+
+
+			'' if no exceptions are given, i will return a false value
+			Assert.Equal(refErrorMsg,exceptionMessage)
+
+		End Sub
+
+		'<Fact> 
+		Sub TestIQuantityRetrieval_shouldDisplayErrorMsgWrongLibrary()
+			Dim testObjectXmlQuantityRetrieval As IXmlQuantityRetrieval
+			testObjectXmlQuantityRetrieval = new dwSimXmlQuantityRetrieval(new dwSimXmlHumanReadablePropertyList_May2022, new dwSimXmlLibBruteForce)
+
+
+			''Act
+
+			Try 
+				'testObjectXmlQuantityRetrieval.injectLib(new abcde)
+				'' as of now i don't really have other libraries to inject
+				' therefore, i won't be testing this bit
+				' all i get is that the type abcde is not defined
+				' i won't include this as part of automatic testing
+				' this is a compile time error
+			Catch ex As Exception
+			    Assert.True(True)
+				'' i will not unit test this bit manually
+				' probably overdoing the exception messages for now
+				' if i do helpful exception messages, i will probably debug from the top
+			End Try
+		End Sub
+
+		<Fact>
+		Sub TestIQuantityRetrieval_shouldDisplayErrorMsgWrongQuantity()
+
+			'' Setup
+			'' (1) create object
+			Dim testObjectXmlQuantityRetrieval As IXmlQuantityRetrieval
+			testObjectXmlQuantityRetrieval = new dwSimXmlQuantityRetrieval(new dwSimXmlHumanReadablePropertyList_May2022, new dwSimXmlLibBruteForce)
+
+			testObjectXmlQuantityRetrieval.injectLib(new dwSimXmlLibBruteForce)
+			testObjectXmlQuantityRetrieval.fluidType = "Nitrogen"
+			Dim resultEnumerable As IEngineeringConversionEnumerable
+
+			''Act
+			'
+
+			Try 
+				resultEnumerable = testObjectXmlQuantityRetrieval.returnEngineeringEnumerable("abcde")
+			Catch ex As InvalidOperationException
+			    Assert.True(True)
+				'' i will not unit test this bit manually
+				' probably overdoing the exception messages for now
+				' if i do helpful exception messages, i will probably debug from the top
+			End Try
+
+
+		End Sub
 
 
 		<Theory>

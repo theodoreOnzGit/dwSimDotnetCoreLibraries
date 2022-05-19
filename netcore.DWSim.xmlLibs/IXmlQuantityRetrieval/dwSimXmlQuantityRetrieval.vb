@@ -12,7 +12,21 @@ Implements IXmlQuantityRetrieval
 
 	'' these are the input data you'd want to put in
 	Private _desiredQuantity As String
+	Private _fluidType As String
 	Public Property fluidType As String Implements IXmlQuantityRetrieval.fluidType
+		Get
+			Return Me._fluidType
+		End Get
+		Set(ByVal fluid As String)
+			'' i want to have a check here
+			'' so that if my fluid does not match a checklist
+			' i will throw an invalid operation exception
+			'
+			Me.checkFluid(Me._xmlLibLoader,fluid)
+			Me._fluidType = fluid
+		End Set
+	End Property
+
 
 	'' dependency injection
     Private Property _xmlLibLoader As IXmlLibLoader Implements IXmlQuantityRetrieval._xmlLibLoader
@@ -20,6 +34,10 @@ Implements IXmlQuantityRetrieval
 
 	Public Sub New(ByVal humanReadablePropertyList As IXmlHumanReadablePropertyList,
 		ByVal xmlLibLoaderObj As IXmlLibLoader)
+
+		'' here i am injecting an IXmlComponentList, with a default value
+		'and you don't have to supply a value here,
+		' you can if you want
 		Me._humanReadablePropertyList = humanReadablePropertyList
 		Me._humanReadablePropertyList.injectLibrary(xmlLibLoaderObj)
 		Me.injectLib(xmlLibLoaderObj)
@@ -95,7 +113,7 @@ Implements IXmlQuantityRetrieval
 		Select el
 
 		'(2c) if the no. of elements inside this Enumerable is zero, throw an error
-		Me.countCheckFluidType(dwSimLib,fluidXElement)
+		Me.checkFluidCount(dwSimLib,fluidXElement)
 		
 		'(3) now that we have the XElement list of the particular fluid we want, we can start
 		' filling up the list of desired quantities 
@@ -119,6 +137,10 @@ Implements IXmlQuantityRetrieval
 
 
 	End Function
+
+	' over here i also have checkFluid functions
+	' that are tightly coupled and check if matches a list
+	
 
 
 	Private Function loadConversionDelegates(ByVal dwSimLib As dwSimXmlLibBruteForce)
@@ -164,7 +186,7 @@ Implements IXmlQuantityRetrieval
 	'' count functions for enumerables
 	' this is basically for me to check if i loaded my enumerables correctly
 
-	Private Sub countCheckFluidType(ByVal dwSimLib As dwSimXmlLibBruteForce,
+	Private Sub checkFluidCount(ByVal dwSimLib As dwSimXmlLibBruteForce,
 		ByVal enumerable As IEnumerable (Of Object))
 		Dim countNumber As Integer
 		countNumber = Me.countEnum(enumerable)
@@ -196,6 +218,55 @@ Implements IXmlQuantityRetrieval
 		End If
 	End Sub
 
+	''  this overload of check fluid checks if a string exists in the in the
+	' dwsim xml library
+
+	Private Sub checkFluid(ByVal dwSimLib As dwSimXmlLibBruteForce,
+		ByVal fluid As String)
+
+		Dim xDoc As XDocument
+		xDoc = dwSimLib.getXDoc()
+
+		Dim checkList As IList(Of String)
+		checkList = new List(Of String)
+		For Each element As XElement in xDoc.Elements().Elements().Elements("Name")
+			checkList.Add(element.Value)
+		Next
+
+		Dim countNumber As Integer = 0
+
+		'' so now let's check if the fluid name matches the name in the checklist
+
+		For Each elementName in checkList
+			If fluid = elementName
+				countNumber += 1
+			End If
+		Next
+
+		If countNumber = 0
+			Dim errorMsg As String
+			errorMsg = "The compound you specified: " & fluid & VbCrLf
+			errorMsg += "does not exist" & VbCrLf
+
+			errorMsg += VbCrLf
+			errorMsg += VbCrLf
+			errorMsg += "Please select a compound from the following (case sensitive):"
+			errorMsg += VbCrLf
+			errorMsg += VbCrLf
+
+			'' then let's make a list of elements
+			For Each elementName As String in checkList
+				errorMsg += elementName & VbCrLf
+			Next
+
+			errorMsg += VbCrLf
+			errorMsg += "=== thank you ==="
+			errorMsg += VbCrLf
+
+			throw new InvalidOperationException(errorMsg)
+		End If
+	End Sub
+
 	Private Function countEnum(ByVal enumerable As IEnumerable(Of Object)) As Integer
 		Dim counter As Integer
 		counter = 0
@@ -207,6 +278,7 @@ Implements IXmlQuantityRetrieval
 		return counter
 
 	End Function
+	
 
 
 End Class
