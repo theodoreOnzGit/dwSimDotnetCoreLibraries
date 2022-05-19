@@ -144,6 +144,55 @@ Implements IXmlQuantityRetrieval
 
 
 	Private Function loadConversionDelegates(ByVal dwSimLib As dwSimXmlLibBruteForce)
+
+
+	End Function
+
+	'' here is the delegate to convertCp for dwsim library
+
+	Private Function convertCpDWsim(ByVal quantityEnumerable As IEnumerable (Of Double)) As IEnumerable (Of BaseUnit)
+		'' for cp units in DWSim, the units are in J/(mol * K)
+		' however, i want it to be output in SI units
+		' J/(kg * K)
+		' so some extra work must be done
+		' i need to extract the molar weight of this first in g/gmol
+		' to do this i use the human readable property list
+		' and extract the value molar_weight
+
+		Dim molarUnit As UnitSystem
+		molarUnit = (MassUnit.Gram/AmountOfSubstanceUnit.SI)
+		Dim molarWeightDouble As Double
+		Dim molarWeightEnum As IEnumerable(Of Double)
+
+
+
+
+		' first i set my unit systems
+		Dim cpUnit As UnitSystem
+		cpUnit = (EnergyUnit.SI/AmountOfSubstanceUnit.SI/TemperatureUnit.SI)
+
+		Dim constantUnit As UnitSystem
+		Dim constantQuantity As BaseUnit
+
+		' next thing i do, is to instantiate a list
+		Dim heatCapacityConstList As List (Of BaseUnit)
+		heatCapacityConstList = new List (Of BaseUnit)
+
+
+		'	Next I initiate the for loop to return the list
+
+		For i As Integer = 0 To quantityEnumerable.Count - 1
+			constantUnit = cpUnit/TemperatureUnit.SI.pow(i)
+			constantQuantity = new BaseUnit(quantityEnumerable(i),constantUnit)
+
+			heatCapacityConstList.Add(constantQuantity)
+
+			constantUnit = Nothing
+			constantQuantity = Nothing
+		Next
+
+		return heatCapacityConstList
+
 	End Function
 	
 	'' this set of function(s) gets the value given the name of the quantity

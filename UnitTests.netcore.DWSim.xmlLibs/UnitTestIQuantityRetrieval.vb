@@ -25,6 +25,89 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 		' (4) unit conversion for all quantities (likely theory test)
 		'  -- meaning to say both quantity and unit must be correct
 
+		'' Unit Conversion All quantities...
+		' ensure that the engineeringEnumerable is able to output the correct base unit
+
+		<Theory>
+		<InlineData("Nitrogen")>
+		Sub Sandbox_EngineeringEnumerable(ByVal fluidType As String)
+			'' in this sandbox, i want to try returning the molar weight
+			' and converting do the heat capacity conversion for nitrogen
+
+			'' setup
+			Dim testObjectXmlQuantityRetrieval As IXmlQuantityRetrieval
+			testObjectXmlQuantityRetrieval = new dwSimXmlQuantityRetrieval(new dwSimXmlHumanReadablePropertyList_May2022, new dwSimXmlLibBruteForce)
+
+			testObjectXmlQuantityRetrieval.fluidType = fluidType
+
+			Dim molarWeightList As IEnumerable(Of Double)
+			molarWeightList = testObjectXmlQuantityRetrieval.returnQuantityList("Molar_Weight")
+
+			Dim molarWeightDouble As Double
+
+			For Each molarWt in molarWeightList
+				molarWeightDouble = molarWt
+				Me.cout(molarWeightDouble)
+			Next
+
+			'now that we have the molar weight double, we can start adding in
+			' the units
+
+			Dim molarWtUnit As UnitSystem
+			molarWtUnit = (MassUnit.Gram/AmountOfSubstanceUnit.SI)
+			Dim Molar_Weight As BaseUnit
+			Molar_Weight = new BaseUnit(molarWeightDouble,molarWtUnit)
+			Dim MolarWtString As String
+			MolarWtString = Molar_Weight.ToString()
+			Me.cout(MolarWtString)
+
+			
+			Dim gToKg As BaseUnit
+			gToKg = new BaseUnit(1e-3, MassUnit.SI/MassUnit.Gram)
+			Me.cout(gToKg.ToString())
+			
+			'' now let's manually get the heat capacity list of nitrogen
+			Dim heatCapacityEnum As IEnumerable (Of Double)
+			heatCapacityEnum = testObjectXmlQuantityRetrieval.returnQuantityList("heatcapacity")
+			
+			For Each constant in heatCapacityEnum
+				Me.cout(constant)
+			Next
+			'' now i'm going to make my heat capacity list
+			' first is to make my unit, cpMolarUnit
+
+			Dim cpMolarUnit As UnitSystem
+			cpMolarUnit = (EnergyUnit.SI/AmountOfSubstanceUnit.SI/TemperatureUnit.SI)
+			
+
+			' next thing i do, is to instantiate a list
+			Dim heatCapacityConstList As List (Of BaseUnit)
+			heatCapacityConstList = new List (Of BaseUnit)
+
+			' I will define constant unit as a variable to be used
+			' in my for loops
+			' and constantQuantity as a baseunit
+			Dim constantUnit As UnitSystem
+			Dim constantQuantity As BaseUnit
+
+
+			'	Next I initiate the for loop to return the list
+
+			For i As Integer = 0 To heatCapacityEnum.Count - 1
+				constantUnit = cpMolarUnit/TemperatureUnit.SI.pow(i)
+				constantQuantity = new BaseUnit(heatCapacityEnum(i),constantUnit)
+				constantQuantity = constantQuantity / Molar_Weight / gToKg
+								
+				heatCapacityConstList.Add(constantQuantity)
+				Me.cout(constantQuantity.ToString())
+				Me.cout(constantQuantity.GetType().ToString())
+				constantUnit = Nothing
+				constantQuantity = Nothing
+			Next
+
+
+		End Sub
+
 		<Theory>
 		<InlineData("abcde")>
 		Sub TestIQuantityRetrieval_shouldDisplayErrorMsgWrongFluid(ByVal fluidType As String)
@@ -133,7 +216,7 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 		End Sub
 
 
-		<Theory>
+		'<Theory>
 		<InlineData()>
 		Sub IQuantityRetrieval_sandbox_IEngineeringEnumerableSequenceComparison()
 
@@ -223,7 +306,7 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 			Assert.True(areenumerablesequal)
 		End Sub
 
-		<Theory>
+		'<Theory>
 		<InlineData()>
 		Sub IQuantityRetrieval_sandbox_IEnumerableComparison()
 
