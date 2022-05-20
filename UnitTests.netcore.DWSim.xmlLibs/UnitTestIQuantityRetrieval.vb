@@ -27,7 +27,198 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 
 		'' Unit Conversion All quantities...
 		' ensure that the engineeringEnumerable is able to output the correct base unit
+		
+		'' here's the unit test for viscosity
+
 		<Theory>
+		<InlineData("Nitrogen")>
+		<InlineData("Oxygen")>
+		<InlineData("Methane")>
+		<InlineData("Water")>
+		<InlineData("Hydrogen")>
+		Sub UnitTest_ShouldProduceViscosityBaseUnitEnum(ByVal fluidType As String)
+			'' in this sandbox, i want to try returning the molar weight
+			' and converting do the heat capacity conversion for nitrogen
+
+			'' Setup
+			Dim testObjectXmlQuantityRetrieval As IXmlQuantityRetrieval
+			testObjectXmlQuantityRetrieval = new dwSimXmlQuantityRetrieval(new dwSimXmlHumanReadablePropertyList_May2022, new dwSimXmlLibBruteForce)
+
+			testObjectXmlQuantityRetrieval.fluidType = fluidType
+			Dim conversionEnumerable As IEngineeringConversionEnumerable
+			conversionEnumerable = testObjectXmlQuantityRetrieval.returnEngineeringEnumerable("liquidViscosity")
+
+			'' for liquid viscosity
+			' the units are in per unit 
+			' temeperature
+			' here is the eqn
+			' result = Math.Exp(A + B / T + C * Math.Log(T) + D * T ^ E)
+
+			' hence A, C, D and E are dimensionless
+			' B is in 1/Temperature units
+			' hence i kind of need a base unit in scalar
+			' so let me try base unit divide by baseunit first
+
+			Dim T2 As Temperature = new Temperature(1, TemperatureUnit.SI)
+			Dim T1 As Temperature = new Temperature(1, TemperatureUnit.SI)
+
+			Dim const1 As BaseUnit 
+			const1 = T2/T1 *314
+
+			' might even make a function to replicate the dimensionless baseunits
+
+			Dim constantUnit As UnitSystem
+			Dim constantQuantity As BaseUnit
+			Dim dimensionlessOne As BaseUnit
+			dimensionlessOne = T2/T1
+
+			Dim liqViscosityConstList As IList (Of BaseUnit)
+			liqViscosityConstList = new List (Of BaseUnit)
+
+
+			For i As Integer = 0 To conversionEnumerable.Count - 1
+				' A is dimensionless, so we multiply A by a dimensionless 1
+				' same thing for C,D and E
+				' C, D and E are cases 2,3,4 respectively
+				Select i.ToString()
+					Case 0,2,3,4
+						'' need to make this extra step to help with typecasting
+						' to BaseUnit
+						Dim quantity As Decimal
+						quantity = conversionEnumerable(i)
+						constantQuantity = dimensionlessOne * quantity
+						liqViscosityConstList.Add(constantQuantity)
+						quantity = Nothing
+						constantQuantity = Nothing
+					Case 1
+						'' need to make this extra step to help with typecasting
+						' to BaseUnit
+						Dim quantity As Decimal
+						quantity = conversionEnumerable(i)
+						constantQuantity = 1/T1 * quantity
+						liqViscosityConstList.Add(constantQuantity)
+						quantity = Nothing
+						constantQuantity = Nothing
+				End Select 
+			Next
+
+
+
+			
+			'' liquid viscosity units are in Pa.s
+
+			'' now let's try doing it with the conversion delegate
+
+			'' Act
+			Dim resultEnum As IEnumerable(Of BaseUnit)
+			resultEnum = conversionEnumerable.getEnumerable()
+
+			'' Assertion
+
+			Dim AreEnumerablesEqual As Boolean
+			AreEnumerablesEqual = Enumerable.SequenceEqual(liqViscosityConstList,resultEnum)
+
+
+			Assert.True(AreEnumerablesEqual)
+
+
+		End Sub
+
+		'''' here's the unit test for heat capacity
+		<Theory>
+		<InlineData("Nitrogen")>
+		<InlineData("Oxygen")>
+		<InlineData("Methane")>
+		<InlineData("Water")>
+		<InlineData("Hydrogen")>
+		Sub UnitTest_heatCapacityRetrieval(ByVal fluidType As String)
+			''' Setup
+
+			' first thing first, inject library and set fluid type
+			Dim testObjectXmlQuantityRetrieval As IXmlQuantityRetrieval
+			testObjectXmlQuantityRetrieval = new dwSimXmlQuantityRetrieval(new dwSimXmlHumanReadablePropertyList_May2022, new dwSimXmlLibBruteForce)
+			testObjectXmlQuantityRetrieval.fluidType = fluidType
+
+			' second thing, let's return the engineering Enumerable
+			Dim conversionEnumerable As IEngineeringConversionEnumerable
+			conversionEnumerable = testObjectXmlQuantityRetrieval.returnEngineeringEnumerable("heatCapacity")
+
+			Dim molarWeightList As IEnumerable(Of Double)
+			molarWeightList = testObjectXmlQuantityRetrieval.returnQuantityList("Molar_Weight")
+
+			Dim molarWeightDouble As Double
+
+			For Each molarWt in molarWeightList
+				molarWeightDouble = molarWt
+			Next
+
+			'now that we have the molar weight double, we can start adding in
+			' the units
+
+			Dim molarWtUnit As UnitSystem
+			molarWtUnit = (MassUnit.Gram/AmountOfSubstanceUnit.SI)
+			Dim Molar_Weight As BaseUnit
+			Molar_Weight = new BaseUnit(molarWeightDouble,molarWtUnit)
+			Dim MolarWtString As String
+			MolarWtString = Molar_Weight.ToString()
+
+			
+			Dim gToKg As BaseUnit
+			gToKg = new BaseUnit(1e-3, MassUnit.SI/MassUnit.Gram)
+			'' now let's manually get the heat capacity list of nitrogen
+			Dim heatCapacityEnum As IEnumerable (Of Double)
+			heatCapacityEnum = testObjectXmlQuantityRetrieval.returnQuantityList("heatcapacity")
+			
+			'' now i'm going to make my heat capacity list
+			' first is to make my unit, cpMolarUnit
+
+			Dim cpMolarUnit As UnitSystem
+			cpMolarUnit = (EnergyUnit.SI/AmountOfSubstanceUnit.SI/TemperatureUnit.SI)
+			
+
+			' next thing i do, is to instantiate a list
+			Dim refList As IList (Of BaseUnit)
+			refList = new List (Of BaseUnit)
+
+			' I will define constant unit as a variable to be used
+			' in my for loops
+			' and constantQuantity as a baseunit
+			Dim constantUnit As UnitSystem
+			Dim constantQuantity As BaseUnit
+
+
+			'	Next I initiate the for loop to return the list
+
+			For i As Integer = 0 To heatCapacityEnum.Count - 1
+				constantUnit = cpMolarUnit/TemperatureUnit.SI.pow(i)
+				constantQuantity = new BaseUnit(heatCapacityEnum(i),constantUnit)
+				constantQuantity = constantQuantity / Molar_Weight / gToKg
+								
+				refList.Add(constantQuantity)
+				constantUnit = Nothing
+				constantQuantity = Nothing
+			Next
+
+
+			'now my refList construction is complete
+			
+			''' Act
+			Dim resultList As IEnumerable(Of BaseUnit)
+			resultList = conversionEnumerable.getEnumerable()
+
+
+			''' Assert
+
+			Dim AreEnumerablesEqual As Boolean
+			AreEnumerablesEqual = Enumerable.SequenceEqual(refList,resultList)
+
+
+			Assert.True(AreEnumerablesEqual)
+
+
+		End Sub
+
+		'<Theory>
 		<InlineData("Nitrogen")>
 		Sub Sandbox_EngineeringEnumerableViscosity(ByVal fluidType As String)
 			'' in this sandbox, i want to try returning the molar weight
@@ -118,6 +309,19 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 			
 			'' liquid viscosity units are in Pa.s
 
+			'' now let's try doing it with the conversion delegate
+
+			Dim resultEnum As IEnumerable(Of BaseUnit)
+			resultEnum = conversionEnumerable.getEnumerable()
+
+			Me.cout("let's look at the list generated by the testObject" & VbCrLf)
+			For Each resultQuantity in resultEnum
+				Me.cout(resultQuantity.ToString())
+			Next
+
+
+
+
 
 		End Sub
 
@@ -153,7 +357,7 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 			' so DON'T use it outside this module
 		End Sub
 
-		<Theory>
+		'<Theory>
 		<InlineData("Nitrogen")>
 		<InlineData("Oxygen")>
 		<InlineData("Methane")>
@@ -183,7 +387,7 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 
 		End Sub
 
-		<Theory>
+		'<Theory>
 		<InlineData("Nitrogen")>
 		Sub Sandbox_EngineeringEnumerableHeatCapacity(ByVal fluidType As String)
 			'' in this sandbox, i want to try returning the molar weight

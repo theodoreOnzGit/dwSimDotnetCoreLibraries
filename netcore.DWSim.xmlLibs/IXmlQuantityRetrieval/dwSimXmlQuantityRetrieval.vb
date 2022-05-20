@@ -154,6 +154,9 @@ Implements IXmlQuantityRetrieval
 			Case "heatcapacity"
 				conversionFunction = new EngineeringConversion(AddressOf Me.convertCpDWsim)
 				engineeringEnum.setDelegate(conversionFunction)
+			Case "liquidviscosity"
+				conversionFunction = new EngineeringConversion(AddressOf Me.convertLiqViscosityDWsim)
+				engineeringEnum.setDelegate(conversionFunction)
 		End Select
 
 		return engineeringEnum
@@ -200,7 +203,7 @@ Implements IXmlQuantityRetrieval
 
 		'' put the formula here so users know what formula it is
 
-		Console.WriteLine("Cp (J/(kg * K) = A + B*T + C*T^2 + D*T^3 + E*T^4" & VbCrLf)
+		Console.WriteLine("Cp (J/(kg * K)) = A + B*T + C*T^2 + D*T^3 + E*T^4" & VbCrLf)
 		Console.WriteLine("A is the first element of the enum, B is the second," & VbCrLf)
 		Console.WriteLine("C is the third and so forth")
 
@@ -209,6 +212,72 @@ Implements IXmlQuantityRetrieval
 
 	End Function
 
+
+	'' here is the delegate to get viscosity in right units
+
+	Private Function convertLiqViscosityDWsim(ByVal viscosityEnum As IEnumerable (Of Double)) As IEnumerable (Of BaseUnit)
+		' first let's have a list of base units
+		Dim liqViscosityConstList As IList (Of BaseUnit)
+		liqViscosityConstList = new List (Of BaseUnit)
+
+		Dim constantUnit As UnitSystem
+		Dim constantQuantity As BaseUnit
+
+		' most constants in viscosity are dimensionless
+		' here is the eqn
+		' result = Math.Exp(A + B / T + C * Math.Log(T) + D * T ^ E)
+		' hence i want base units but with no units
+		' to get that i have a dimensionlessOne
+		' and make a onekelvin Temperature object
+		' the oneKelvin object is to convert B into 1/K unit
+		Dim dimensionlessOne As BaseUnit
+
+		Dim oneKelvin As Temperature = new Temperature(1, TemperatureUnit.SI)
+
+		dimensionlessOne = oneKelvin/onekelvin
+
+		'' what i'm trying to do here is to cycle through all
+		' the quantity list of viscosity constants
+		' i will assign a dimensionless unit to A,C,D and E which are
+		' at index 0,2,3,4 of the viscosityEnum (double)
+		' and then i will convert them into a base unit and add it to the liquid viscosity list
+		' for B, i will divide it by oneKelvin so that i can get 
+		' it in the 1/K temperature units
+
+		For i As Integer = 0 To viscosityEnum.Count - 1
+			' A is dimensionless, so we multiply A by a dimensionless 1
+			' same thing for C,D and E
+			' C, D and E are cases 2,3,4 respectively
+			Select i.ToString()
+				Case 0,2,3,4
+					'' need to make this extra step to help with typecasting
+					' to BaseUnit
+					Dim quantity As Decimal
+					quantity = viscosityEnum(i)
+					constantQuantity = dimensionlessOne * quantity
+					liqViscosityConstList.Add(constantQuantity)
+					quantity = Nothing
+					constantQuantity = Nothing
+				Case 1
+					'' need to make this extra step to help with typecasting
+					' to BaseUnit
+					Dim quantity As Decimal
+					quantity = viscosityEnum(i)
+					constantQuantity = 1/oneKelvin * quantity
+					liqViscosityConstList.Add(constantQuantity)
+					quantity = Nothing
+					constantQuantity = Nothing
+			End Select 
+		Next
+
+
+		Console.WriteLine("Viscosity (Pa*s) = Math.Exp(A + B/T + C*Math.Log(T) + D*T^E)" & VbCrLf)
+		Console.WriteLine("A is the first element of the enum, B is the second," & VbCrLf)
+		Console.WriteLine("C is the third and so forth")
+
+
+		return liqViscosityConstList
+	End Function
 
 	' a lot of functions in DWSim libraries are in molar quantities
 	' eg heat capacity for dwsim library, this particular function
