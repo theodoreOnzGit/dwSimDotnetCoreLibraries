@@ -43,6 +43,13 @@ Implements IXmlReader
 
 	Public Function getQuantityList(ByVal fluidType As String, desiredQuantityList As String) As IEnumerable (Of BaseUnit) Implements IXmlReader.getQuantityList
 
+		Me._xmlQuantityRetrieval.fluidType = fluidType
+		Dim conversionEnumerable As IEngineeringConversionEnumerable
+		conversionEnumerable = Me._xmlQuantityRetrieval.returnEngineeringEnumerable(desiredQuantityList)
+		Dim resultEnum As IEnumerable(Of BaseUnit)
+		resultEnum = conversionEnumerable.getEnumerable()
+
+		return resultEnum
 
 
 	End Function
