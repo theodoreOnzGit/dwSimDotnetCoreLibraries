@@ -5,15 +5,99 @@ Imports theoOng.netcore.DWSim.xmlLibs
 Imports EngineeringUnits
 Imports EngineeringUnits.Units
 
+Imports Xunit.Abstractions
+
 Namespace UnitTests.netcore.DWSim.xmlLibs
 
     Public Class UnitTestIXmlReader
+
+	Inherits testOutputHelper
+
+		Public Sub New(outputHelper As ITestOutputHelper)
+			MyBase.New(outputHelper)
+		End Sub
+	'' what should IXmlReader do?
+	' just by determining the fluidType, desired Quantity list and Desired Library
+	'  i should be able to get a quantityList of base units
+	' the job of this module
+	'is to autoconfigure all the dependency injection for IXmlQuantityRetreival
 
 		<Theory>
 		<InlineData()>
 		Sub IXmlReader_sandbox()
 
+			' for any IXmlReader module
+			' i'd like to use getQuantityList to get the desired IEnumerable Of BaseUnit
+			' out
+			' 
+			' before all that happens, i need to use a setLibrary method
+			' to set the library of the IXmlReader object
+			' if i get the wrong object, i should get an error message
+			' which tells me what library to use
+
+			' likewise if i don't set any library, i should get an invalid operation
+			' exception
+			' telling me to use the setLibrary method first
+			' and telling me what library string to use
+
+			' once the library is set, i need to supply a fluid type and 
+			' desired quantity list
+			' again if fluid type is wrong, i need to see an exception message
+			' telling me which fluids are ok
+			' likewise if desired quantityList is wrong, i need to get
+			' an exception message telling me which quantities are OK
+			' in the dwsim implementation of IXmlQuantityRetreival, most of this
+			' has been done already
+			'' the code should behave something like that:
+
+			'Dim xmlReaderObj As IXmlReader
+			'xmlReaderObj = new DWSimXmlReader()
+
+			'xmlReaderObj.setLibrary("dwsim")
+			'
+			'Dim resultEnum As IEnumerable(Of BaseUnit)
+			'resultEnum = xmlReaderObj.getQuantityList("nitrogen","liquidViscosity")
+
+			'' first thing first, let me get the expected result
+
+			Dim oneKelvin As Temperature
+			oneKelvin = new Temperature(1,TemperatureUnit.SI)
+
+			Dim Liquid_Viscosity_Const_A As BaseUnit
+			Liquid_Viscosity_Const_A = 16.004*oneKelvin/oneKelvin
+
+			Dim Liquid_Viscosity_Const_B As BaseUnit
+			Liquid_Viscosity_Const_B = -181.61/oneKelvin
+
+			Dim Liquid_Viscosity_Const_C As BaseUnit
+			Liquid_Viscosity_Const_C = -5.1551 * oneKelvin/oneKelvin
 			
+			Dim Liquid_Viscosity_Const_D As BaseUnit
+			Liquid_Viscosity_Const_D = 0/oneKelvin.pow(0)
+
+			Dim Liquid_Viscosity_Const_E As BaseUnit
+			Liquid_Viscosity_Const_E = 0* oneKelvin/oneKelvin
+
+			Dim refList As IList (Of BaseUnit)
+			refList = new List(Of BaseUnit)
+			refList.Add(Liquid_Viscosity_Const_A)
+			refList.Add(Liquid_Viscosity_Const_B)
+			refList.Add(Liquid_Viscosity_Const_C)
+			refList.Add(Liquid_Viscosity_Const_D)
+			refList.Add(Liquid_Viscosity_Const_E)
+			Dim refEnumerable As IEnumerable(Of BaseUnit) = refList
+
+			For Each quantityUnit in refEnumerable
+				Me.cout(quantityUnit.ToString())
+			Next
+			
+			'Dim xmlReaderObj As IXmlReader
+			'xmlReaderObj = new DWSimXmlReader()
+
+			'xmlReaderObj.setLibrary("dwsim")
+			'
+			'Dim resultEnum As IEnumerable(Of BaseUnit)
+			'resultEnum = xmlReaderObj.getQuantityList("nitrogen","liquidViscosity")
 		End Sub
 
 

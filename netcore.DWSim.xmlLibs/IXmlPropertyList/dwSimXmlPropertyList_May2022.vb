@@ -18,9 +18,9 @@ Implements IXmlPropertyList
 	Public Sub New()
 	End Sub
 
-	Function injectLibrary(ByVal xmlLibrary As IXmlLibLoader) Implements IXmlPropertyList.injectLibrary
+	Sub injectLibrary(ByVal xmlLibrary As IXmlLibLoader) Implements IXmlPropertyList.injectLibrary
 		Me._xmlLibrary = xmlLibrary
-	End Function
+	End Sub
 
 
 

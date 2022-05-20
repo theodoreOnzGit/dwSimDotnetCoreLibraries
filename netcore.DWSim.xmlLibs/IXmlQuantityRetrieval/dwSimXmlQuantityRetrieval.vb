@@ -220,7 +220,6 @@ Implements IXmlQuantityRetrieval
 		Dim liqViscosityConstList As IList (Of BaseUnit)
 		liqViscosityConstList = new List (Of BaseUnit)
 
-		Dim constantUnit As UnitSystem
 		Dim constantQuantity As BaseUnit
 
 		' most constants in viscosity are dimensionless

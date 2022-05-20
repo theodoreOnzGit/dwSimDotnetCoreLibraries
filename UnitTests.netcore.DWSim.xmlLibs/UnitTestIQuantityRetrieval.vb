@@ -68,7 +68,6 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 
 			' might even make a function to replicate the dimensionless baseunits
 
-			Dim constantUnit As UnitSystem
 			Dim constantQuantity As BaseUnit
 			Dim dimensionlessOne As BaseUnit
 			dimensionlessOne = T2/T1
@@ -267,7 +266,6 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 
 			' might even make a function to replicate the dimensionless baseunits
 
-			Dim constantUnit As UnitSystem
 			Dim constantQuantity As BaseUnit
 			Dim dimensionlessOne As BaseUnit
 			dimensionlessOne = T2/T1
@@ -1274,7 +1272,7 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 
 	Public Class legacyCodeAndSandbox
 
-		Function getPropertyList() As IEnumerable (Of (propertyName As String, attachedList As IEnumerable (Of String)))
+		Sub getPropertyList() 
 
 			Dim tupleToAdd As (propertyName As String, attachedList As IEnumerable (Of String))
 			Dim propertyList As IList (Of (propertyName As String, attachedList As IEnumerable (Of String)))
@@ -1515,10 +1513,10 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 				' 
 			
 
-		End Function
+		End Sub
 
 
-		Function printEnumerableString(ByVal stringEnum As IEnumerable (Of String)) 
+		Sub printEnumerableString(ByVal stringEnum As IEnumerable (Of String)) 
 
 
 			Console.WriteLine("printing Type")
@@ -1533,7 +1531,7 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 				Console.WriteLine(item)
 			Next
 
-		End Function
+		End Sub
 	End Class
 
 End Namespace

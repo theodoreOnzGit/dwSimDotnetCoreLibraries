@@ -4,10 +4,13 @@ Imports EngineeringUnits.Units
 
 Public Class DWSimXmlReader
 
-'Implements IXmlReader
+Implements IXmlReader
 
 
-    Private Property _xmlLibrarySelector As IXmlLibrarySelector
+    ' here's the dependency injection
+
+    Private Dim _xmlLibrarySelector As IXmlLibrarySelector
+	Private Dim _xmlQuantityRetrieval As IXmlQuantityRetrieval
 
     ' Constructor for dependency Injection 
 	' not quite dependency injection
@@ -21,7 +24,25 @@ Public Class DWSimXmlReader
 
 
 
-	Public Function getQuantityList(ByVal fluidType As String, desiredQuantityList As String) As IEnumerable (Of UnknownUnit) 'Implements IXmlReader.getQuantityList
+	Public Sub setLibrary (ByVal desiredLibrary As String) Implements IXmlReader.setLibrary
+		'' in set library i want to use the xmlLibrarySelector to insert a library
+		' and return an IXmlQuantityRetreival object
+
+		Dim xmlLibLoaderObj As IXmlLibLoader
+
+		Select desiredLibrary.ToLower()
+			Case "dwsim"
+				xmlLibLoaderObj = Me._xmlLibrarySelector.getXmlLibLoader(desiredLibrary)
+				Me._xmlQuantityRetrieval = new dwSimXmlQuantityRetrieval(new dwSimXmlHumanReadablePropertyList_May2022, xmlLibLoaderObj) 
+				xmlLibLoaderObj.Dispose()
+				xmlLibLoaderObj = Nothing
+		End Select
+
+	End Sub
+
+
+	Public Function getQuantityList(ByVal fluidType As String, desiredQuantityList As String) As IEnumerable (Of BaseUnit) Implements IXmlReader.getQuantityList
+
 
 
 	End Function
