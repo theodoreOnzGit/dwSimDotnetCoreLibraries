@@ -30,6 +30,10 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 
 		<Theory>
 		<InlineData("Nitrogen")>
+		<InlineData("Oxygen")>
+		<InlineData("Methane")>
+		<InlineData("Water")>
+		<InlineData("Hydrogen")>
 		Sub Sandbox_testEngineeringEnumerableIQuantityRetrieval(ByVal fluidType As String)
 			' first thing first, inject library and set fluid type
 			Dim testObjectXmlQuantityRetrieval As IXmlQuantityRetrieval
@@ -45,6 +49,7 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 			heatCapacityConstList = conversionEnumerable.getEnumerable()
 
 			Me.cout("testing engineering quantity enumerable")
+			Me.cout("for compound:  " & fluidType)
 			For Each quantity in heatCapacityConstList
 				Me.cout(quantity.ToString())
 			Next
@@ -55,7 +60,7 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 
 		<Theory>
 		<InlineData("Nitrogen")>
-		Sub Sandbox_EngineeringEnumerable(ByVal fluidType As String)
+		Sub Sandbox_EngineeringEnumerableHeatCapacity(ByVal fluidType As String)
 			'' in this sandbox, i want to try returning the molar weight
 			' and converting do the heat capacity conversion for nitrogen
 
