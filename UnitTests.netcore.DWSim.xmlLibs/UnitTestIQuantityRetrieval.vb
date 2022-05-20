@@ -30,6 +30,31 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 
 		<Theory>
 		<InlineData("Nitrogen")>
+		Sub Sandbox_testEngineeringEnumerableIQuantityRetrieval(ByVal fluidType As String)
+			' first thing first, inject library and set fluid type
+			Dim testObjectXmlQuantityRetrieval As IXmlQuantityRetrieval
+			testObjectXmlQuantityRetrieval = new dwSimXmlQuantityRetrieval(new dwSimXmlHumanReadablePropertyList_May2022, new dwSimXmlLibBruteForce)
+			testObjectXmlQuantityRetrieval.fluidType = fluidType
+
+			' second thing, let's return the engineering Enumerable
+			Dim conversionEnumerable As IEngineeringConversionEnumerable
+			conversionEnumerable = testObjectXmlQuantityRetrieval.returnEngineeringEnumerable("heatCapacity")
+
+			' third, let's return the dimensioned list
+			Dim heatCapacityConstList As IEnumerable(Of BaseUnit)
+			heatCapacityConstList = conversionEnumerable.getEnumerable()
+
+			Me.cout("testing engineering quantity enumerable")
+			For Each quantity in heatCapacityConstList
+				Me.cout(quantity.ToString())
+			Next
+
+
+
+		End Sub
+
+		<Theory>
+		<InlineData("Nitrogen")>
 		Sub Sandbox_EngineeringEnumerable(ByVal fluidType As String)
 			'' in this sandbox, i want to try returning the molar weight
 			' and converting do the heat capacity conversion for nitrogen
@@ -151,6 +176,7 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 			' At this point i should get an error if i specify a wrong fluid
 			'
 			Dim exceptionMessage As String
+			exceptionMessage = "0"
 
 			Try 
 

@@ -50,9 +50,8 @@ Implements IXmlQuantityRetrieval
 	'' these functions deal with the output
     Function returnQuantityList(ByVal desiredQuantity As String) As IEnumerable (Of Double) Implements IXmlQuantityRetrieval.returnQuantityList
 		
-		Me._desiredQuantity = desiredQuantity
 		Dim resultEnumerable As IEngineeringConversionEnumerable
-		resultEnumerable = Me.loadQuantityList(Me._xmlLibLoader)
+		resultEnumerable = Me.returnEngineeringEnumerable(desiredQuantity)
 		return resultEnumerable
 		
 	End Function
@@ -63,6 +62,7 @@ Implements IXmlQuantityRetrieval
 		Me._desiredQuantity = desiredQuantity
 		Dim resultEnumerable As IEngineeringConversionEnumerable
 		resultEnumerable = Me.loadQuantityList(Me._xmlLibLoader)
+		resultEnumerable = Me.loadConversionDelegates(Me._xmlLibLoader,resultEnumerable)
 		return resultEnumerable
 		
 	End Function
@@ -143,14 +143,26 @@ Implements IXmlQuantityRetrieval
 	
 
 
-	Private Function loadConversionDelegates(ByVal dwSimLib As dwSimXmlLibBruteForce)
+	Private Function loadConversionDelegates(ByVal dwSimLib As dwSimXmlLibBruteForce,
+		ByVal engineeringEnum As IEngineeringConversionEnumerable) As IEngineeringConversionEnumerable
 
+		'' we prepare conversion function to inject
+		' by setting the variable
+		Dim conversionFunction As EngineeringConversion
+
+		Select Me._desiredQuantity.ToLower()
+			Case "heatcapacity"
+				conversionFunction = new EngineeringConversion(AddressOf Me.convertCpDWsim)
+				engineeringEnum.setDelegate(conversionFunction)
+		End Select
+
+		return engineeringEnum
 
 	End Function
 
 	'' here is the delegate to convertCp for dwsim library
 
-	Private Function convertCpDWsim(ByVal quantityEnumerable As IEnumerable (Of Double)) As IEnumerable (Of BaseUnit)
+	Private Function convertCpDWsim(ByVal heatCapacityEnum As IEnumerable (Of Double)) As IEnumerable (Of BaseUnit)
 		'' for cp units in DWSim, the units are in J/(mol * K)
 		' however, i want it to be output in SI units
 		' J/(kg * K)
@@ -159,18 +171,10 @@ Implements IXmlQuantityRetrieval
 		' to do this i use the human readable property list
 		' and extract the value molar_weight
 
-		Dim molarUnit As UnitSystem
-		molarUnit = (MassUnit.Gram/AmountOfSubstanceUnit.SI)
-		Dim molarWeightDouble As Double
-		Dim molarWeightEnum As IEnumerable(Of Double)
-
-
-
 
 		' first i set my unit systems
-		Dim cpUnit As UnitSystem
-		cpUnit = (EnergyUnit.SI/AmountOfSubstanceUnit.SI/TemperatureUnit.SI)
-
+		Dim cpMolarUnit As UnitSystem
+		cpMolarUnit = (EnergyUnit.SI/AmountOfSubstanceUnit.SI/TemperatureUnit.SI)
 		Dim constantUnit As UnitSystem
 		Dim constantQuantity As BaseUnit
 
@@ -178,15 +182,18 @@ Implements IXmlQuantityRetrieval
 		Dim heatCapacityConstList As List (Of BaseUnit)
 		heatCapacityConstList = new List (Of BaseUnit)
 
+		Dim Molar_Weight As BaseUnit
+		Molar_Weight = Me.getMolarWt()
+
 
 		'	Next I initiate the for loop to return the list
 
-		For i As Integer = 0 To quantityEnumerable.Count - 1
-			constantUnit = cpUnit/TemperatureUnit.SI.pow(i)
-			constantQuantity = new BaseUnit(quantityEnumerable(i),constantUnit)
-
+		For i As Integer = 0 To heatCapacityEnum.Count - 1
+			constantUnit = cpMolarUnit/TemperatureUnit.SI.pow(i)
+			constantQuantity = new BaseUnit(heatCapacityEnum(i),constantUnit)
+			constantQuantity = constantQuantity / Molar_Weight / gToKg
+							
 			heatCapacityConstList.Add(constantQuantity)
-
 			constantUnit = Nothing
 			constantQuantity = Nothing
 		Next
@@ -194,6 +201,36 @@ Implements IXmlQuantityRetrieval
 		return heatCapacityConstList
 
 	End Function
+
+
+	' a lot of functions in DWSim libraries are in molar quantities
+	' eg heat capacity for dwsim library, this particular function
+	' returns molar weight for 
+	' a given compound so that we can use it for unit conversion
+	Private Function getMolarWt() As BaseUnit
+
+		Dim molarWeightList As IEnumerable(Of Double)
+		molarWeightList = Me.returnQuantityList("Molar_Weight")
+
+		Dim molarWeightDouble As Double
+
+		For Each molarWt in molarWeightList
+			molarWeightDouble = molarWt
+		Next
+
+		Dim molarWtUnit As UnitSystem
+		molarWtUnit = (MassUnit.Gram/AmountOfSubstanceUnit.SI)
+		Dim Molar_Weight As BaseUnit
+		Molar_Weight = new BaseUnit(molarWeightDouble,molarWtUnit)
+
+		return Molar_Weight
+	End Function
+
+
+	'' here are also some useful conversion constants i am going to use
+
+	Private Dim gToKg As BaseUnit = new BaseUnit(1e-3, MassUnit.SI/MassUnit.Gram)
+
 	
 	'' this set of function(s) gets the value given the name of the quantity
 
