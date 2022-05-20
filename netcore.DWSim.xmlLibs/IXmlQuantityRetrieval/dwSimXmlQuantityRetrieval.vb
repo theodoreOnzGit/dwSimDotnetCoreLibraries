@@ -249,7 +249,7 @@ Implements IXmlQuantityRetrieval
 			' same thing for C,D and E
 			' C, D and E are cases 2,3,4 respectively
 			Select i.ToString()
-				Case 0,2,3,4
+				Case 0,2,4
 					'' need to make this extra step to help with typecasting
 					' to BaseUnit
 					Dim quantity As Decimal
@@ -264,6 +264,15 @@ Implements IXmlQuantityRetrieval
 					Dim quantity As Decimal
 					quantity = viscosityEnum(i)
 					constantQuantity = 1/oneKelvin * quantity
+					liqViscosityConstList.Add(constantQuantity)
+					quantity = Nothing
+					constantQuantity = Nothing
+				Case 3 '' this is for D
+					Dim quantity As Decimal
+					quantity = viscosityEnum(i)
+					Dim E As Decimal
+					E = viscosityEnum(4)
+					constantQuantity = 1/oneKelvin.pow(E) * quantity
 					liqViscosityConstList.Add(constantQuantity)
 					quantity = Nothing
 					constantQuantity = Nothing

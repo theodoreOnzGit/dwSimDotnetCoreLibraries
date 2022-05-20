@@ -54,8 +54,9 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 			' here is the eqn
 			' result = Math.Exp(A + B / T + C * Math.Log(T) + D * T ^ E)
 
-			' hence A, C, D and E are dimensionless
+			' hence A, C, and E are dimensionless
 			' B is in 1/Temperature units
+			' D is in 1/Temperature^E units
 			' hence i kind of need a base unit in scalar
 			' so let me try base unit divide by baseunit first
 
@@ -81,7 +82,7 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 				' same thing for C,D and E
 				' C, D and E are cases 2,3,4 respectively
 				Select i.ToString()
-					Case 0,2,3,4
+					Case 0,2,4
 						'' need to make this extra step to help with typecasting
 						' to BaseUnit
 						Dim quantity As Decimal
@@ -99,6 +100,16 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 						liqViscosityConstList.Add(constantQuantity)
 						quantity = Nothing
 						constantQuantity = Nothing
+					Case 3 '' this is for D
+						Dim quantity As Decimal
+						quantity = conversionEnumerable(i)
+						Dim E As Decimal
+						E = conversionEnumerable(4)
+						constantQuantity = 1/T1.pow(E) * quantity
+						liqViscosityConstList.Add(constantQuantity)
+						quantity = Nothing
+						constantQuantity = Nothing
+
 				End Select 
 			Next
 
@@ -108,6 +119,7 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 			'' liquid viscosity units are in Pa.s
 
 			'' now let's try doing it with the conversion delegate
+
 
 			'' Act
 			Dim resultEnum As IEnumerable(Of BaseUnit)
@@ -264,6 +276,8 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 			liqViscosityConstList = new List (Of BaseUnit)
 
 
+			'' NOTE: The following code is deprecated
+			' D should not be dimensionless!
 			For i As Integer = 0 To conversionEnumerable.Count - 1
 				Me.cout(conversionEnumerable(i).ToString())
 				' A is dimensionless, so we multiply A by a dimensionless 1
