@@ -27,6 +27,131 @@ Namespace UnitTests.netcore.DWSim.xmlLibs
 
 		'' Unit Conversion All quantities...
 		' ensure that the engineeringEnumerable is able to output the correct base unit
+		<Theory>
+		<InlineData("Nitrogen")>
+		Sub Sandbox_EngineeringEnumerableViscosity(ByVal fluidType As String)
+			'' in this sandbox, i want to try returning the molar weight
+			' and converting do the heat capacity conversion for nitrogen
+
+			'' setup
+			Dim testObjectXmlQuantityRetrieval As IXmlQuantityRetrieval
+			testObjectXmlQuantityRetrieval = new dwSimXmlQuantityRetrieval(new dwSimXmlHumanReadablePropertyList_May2022, new dwSimXmlLibBruteForce)
+
+			testObjectXmlQuantityRetrieval.fluidType = fluidType
+			Dim conversionEnumerable As IEngineeringConversionEnumerable
+			conversionEnumerable = testObjectXmlQuantityRetrieval.returnEngineeringEnumerable("liquidViscosity")
+
+			'' for liquid viscosity
+			' the units are in per unit 
+			' temeperature
+			' here is the eqn
+			' result = Math.Exp(A + B / T + C * Math.Log(T) + D * T ^ E)
+
+			' hence A, C, D and E are dimensionless
+			' B is in 1/Temperature units
+			' hence i kind of need a base unit in scalar
+			' so let me try base unit divide by baseunit first
+
+			Dim T2 As Temperature = new Temperature(1, TemperatureUnit.SI)
+			Dim T1 As Temperature = new Temperature(1, TemperatureUnit.SI)
+
+			Dim const1 As BaseUnit 
+			const1 = T2/T1 *314
+
+			Me.cout(const1.ToString())
+			Me.cout(const1.GetType.ToString())
+			'' looks like this method of dimensionless constants work!
+
+			' might even make a function to replicate the dimensionless baseunits
+
+			Dim constantUnit As UnitSystem
+			Dim constantQuantity As BaseUnit
+			Dim dimensionlessOne As BaseUnit
+			dimensionlessOne = T2/T1
+
+			Dim liqViscosityConstList As IList (Of BaseUnit)
+			liqViscosityConstList = new List (Of BaseUnit)
+
+
+			For i As Integer = 0 To conversionEnumerable.Count - 1
+				Me.cout(conversionEnumerable(i).ToString())
+				' A is dimensionless, so we multiply A by a dimensionless 1
+				' same thing for C,D and E
+				' C, D and E are cases 2,3,4 respectively
+				Select i.ToString()
+					Case 0,2,3,4
+						Me.cout(i.ToString())
+						Me.cout(conversionEnumerable(i).ToString())
+						'' need to make this extra step to help with typecasting
+						' to BaseUnit
+						Dim quantity As Decimal
+						quantity = conversionEnumerable(i)
+						constantQuantity = dimensionlessOne * quantity
+						Me.cout(constantQuantity.ToString())
+						liqViscosityConstList.Add(constantQuantity)
+						quantity = Nothing
+						constantQuantity = Nothing
+					Case 1
+						Me.cout(i.ToString())
+						Me.cout(conversionEnumerable(i).ToString())
+						'' need to make this extra step to help with typecasting
+						' to BaseUnit
+						Dim quantity As Decimal
+						quantity = conversionEnumerable(i)
+						constantQuantity = 1/T1 * quantity
+						liqViscosityConstList.Add(constantQuantity)
+						Me.cout(constantQuantity.ToString())
+						quantity = Nothing
+						constantQuantity = Nothing
+				End Select 
+			Next
+
+
+
+			Me.cout("let's look at the list inside liquid viscosity: " & VbCrLf)
+
+
+			For Each quantity in liqViscosityConstList
+				Me.cout(quantity.GetType.ToString())
+				Me.cout(quantity.ToString())
+			Next 
+			
+			'' liquid viscosity units are in Pa.s
+
+
+		End Sub
+
+
+		'<Fact>
+		Sub Sandbox_testWhatHappensIfIdeleteIQuantityRetrieval()
+
+			Dim testObjectXmlQuantityRetrieval As IXmlQuantityRetrieval
+			testObjectXmlQuantityRetrieval = new dwSimXmlQuantityRetrieval(new dwSimXmlHumanReadablePropertyList_May2022, new dwSimXmlLibBruteForce)
+			testObjectXmlQuantityRetrieval.fluidType = "Ethanol"
+
+			' second thing, let's return the engineering Enumerable
+			Dim conversionEnumerable As IEngineeringConversionEnumerable
+			conversionEnumerable = testObjectXmlQuantityRetrieval.returnEngineeringEnumerable("heatCapacity")
+
+			' third, let's return the dimensioned list
+			Dim heatCapacityConstList As IEnumerable(Of BaseUnit)
+			' but before that, i delete the testObject
+			' the delegate actually uses a pointer to 
+			' point to a particular function
+			' within the object
+			' so if i delete that object, i will get 
+			' a runtime error
+			testObjectXmlQuantityRetrieval.Dispose()
+			testObjectXmlQuantityRetrieval = Nothing
+
+
+			heatCapacityConstList = conversionEnumerable.getEnumerable()
+
+			' yep, it produces the correct result as expected
+			' this means i can only use the IEngineeringConversionEnumerable so long as the 
+			' so long as the object with the function actually exists
+			' so DON'T use it outside this module
+		End Sub
 
 		<Theory>
 		<InlineData("Nitrogen")>

@@ -198,6 +198,13 @@ Implements IXmlQuantityRetrieval
 			constantQuantity = Nothing
 		Next
 
+		'' put the formula here so users know what formula it is
+
+		Console.WriteLine("Cp (J/(kg * K) = A + B*T + C*T^2 + D*T^3 + E*T^4" & VbCrLf)
+		Console.WriteLine("A is the first element of the enum, B is the second," & VbCrLf)
+		Console.WriteLine("C is the third and so forth")
+
+
 		return heatCapacityConstList
 
 	End Function
